@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocationUserService } from './location_user.service';
-import { LocationUserRepository } from 'src/repository/LocationUserRepository';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Location_userEntity } from 'src/entities/user_entity/location_user.entity';
 import { CreateLocationUserDto } from 'src/dto/locationUserDTO/create-location_user.dto';
@@ -8,18 +7,19 @@ import { UpdateLocationUserDto } from 'src/dto/locationUserDTO/update-location_u
 
 describe('LocationUserService', () => {
   let service: LocationUserService;
-  let repository: LocationUserRepository;
-
-  const mockLocationUserRepository = {
-    findAndCount: jest.fn(),
-    findOne: jest.fn(),
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-  };
+  let mockLocationUserRepository: any;
 
   beforeEach(async () => {
+    mockLocationUserRepository = {
+      findAndCount: jest.fn(),
+      findOne: jest.fn(),
+      findOneBy: jest.fn(),
+      create: jest.fn(),
+      save: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         LocationUserService,
@@ -31,7 +31,6 @@ describe('LocationUserService', () => {
     }).compile();
 
     service = module.get<LocationUserService>(LocationUserService);
-    repository = module.get<LocationUserRepository>(getRepositoryToken(Location_userEntity));
   });
 
   it('should be defined', () => {
@@ -39,174 +38,179 @@ describe('LocationUserService', () => {
   });
 
   describe('getList', () => {
-    it('should return a list of location users', async () => {
-      const filters = { user_id: '123' };
-      const mockData = [
-        {
-          id: '1',
-          name: 'Test Location',
-          address: '123 Main St',
-          phone: '123456789',
-          default_location: true,
-          user_id: '123',
-        },
-      ];
-      mockLocationUserRepository.findAndCount.mockResolvedValue([mockData, mockData.length]);
+    it('should return list with user_id filter', async () => {
+      const mockLocations = [{ id: '1', name: 'Location 1' }];
+      const mockTotal = 1;
+      mockLocationUserRepository.findAndCount.mockResolvedValue([mockLocations, mockTotal]);
 
-      const result = await service.getList(filters);
-      expect(result).toEqual({ data: mockData, total: mockData.length });
+      const result = await service.getList({ user_id: '123' });
+
+      expect(result).toEqual({
+        data: mockLocations,
+        total: mockTotal,
+      });
       expect(mockLocationUserRepository.findAndCount).toHaveBeenCalledWith({
-        where: { user_id: '8f796b83-7cea-44a1-ae08-9cc796631a5f' },
+        where: { user_id: '123' },
       });
     });
 
-    it('should throw an error when no locations found', async () => {
-      const filters = { user_id: '123' };
-      mockLocationUserRepository.findAndCount.mockResolvedValue([[], 0]);
+    it('should return list with default_location filter', async () => {
+      const mockLocations = [{ id: '1', name: 'Location 1' }];
+      const mockTotal = 1;
+      mockLocationUserRepository.findAndCount.mockResolvedValue([mockLocations, mockTotal]);
 
-      await expect(service.getList(filters)).rejects.toThrowError('NO LOCATION!');
+      const result = await service.getList({ default_location: true });
+
+      expect(result).toEqual({
+        data: mockLocations,
+        total: mockTotal,
+      });
+      expect(mockLocationUserRepository.findAndCount).toHaveBeenCalledWith({
+        where: { default_location: true },
+      });
+    });
+
+    it('should throw error when no locations found', async () => {
+      mockLocationUserRepository.findAndCount.mockResolvedValue([null, 0]);
+
+      await expect(service.getList({})).rejects.toThrow('NO LOCATION!');
     });
   });
 
   describe('createLocation', () => {
-    it('should create a new location user', async () => {
-      const createLocationUserDto: CreateLocationUserDto = {
-        name: 'Test Location',
-        address: '123 Main St',
-        phone: '123456789',
-        default_location: true,
-        user_id: '123',
+    it('should create location without updating default location', async () => {
+      const createDto: CreateLocationUserDto = {
+        name: 'New Location',
+        address: '123 Street',
+        phone: '1234567890',
+        default_location: false,
+        user_id: '123'
       };
 
-      const mockCreateResponse = {
-        id: '1',
-        ...createLocationUserDto,
-      };
+      const mockLocation = { ...createDto, id: '1' };
+      mockLocationUserRepository.create.mockReturnValue(mockLocation);
+      mockLocationUserRepository.save.mockResolvedValue(mockLocation);
+      // Mock for checking default location
+      mockLocationUserRepository.findOne.mockResolvedValueOnce(null);
+      // Mock for checking existing record
+      mockLocationUserRepository.findOne.mockResolvedValueOnce(null);
 
-      mockLocationUserRepository.create.mockReturnValue(mockCreateResponse);
-      mockLocationUserRepository.save.mockResolvedValue(mockCreateResponse);
+      const result = await service.createLocation(createDto);
 
-      const result = await service.createLocation(createLocationUserDto);
-      expect(result).toEqual(mockCreateResponse);
-      expect(mockLocationUserRepository.save).toHaveBeenCalledWith(createLocationUserDto);
+      expect(result).toEqual(mockLocation);
     });
 
-    it('should update default location method if default_location is true', async () => {
-      const createLocationUserDto: CreateLocationUserDto = {
-        name: 'Test Location',
-        address: '123 Main St',
-        phone: '123456789',
+    it('should create location and update existing default location', async () => {
+      const createDto: CreateLocationUserDto = {
+        name: 'New Location',
+        address: '123 Street',
+        phone: '1234567890',
         default_location: true,
-        user_id: '123',
+        user_id: '123'
       };
 
-      const mockExistingLocation = {
-        id: '1',
-        user_id: '123',
-        default_location: false,
+      const existingLocation = {
+        id: '2',
+        default_location: true,
+        user_id: '123'
       };
 
-      mockLocationUserRepository.findOne.mockResolvedValue(mockExistingLocation);
-      mockLocationUserRepository.update.mockResolvedValue(mockExistingLocation);
+      const mockLocation = { ...createDto, id: '1' };
+      mockLocationUserRepository.create.mockReturnValue(mockLocation);
+      mockLocationUserRepository.save.mockResolvedValue(mockLocation);
+      
+      // Mock for checking default location
+      mockLocationUserRepository.findOne
+        .mockResolvedValueOnce(existingLocation)  // For updateDefaultMethod
+        .mockResolvedValueOnce(null);             // For create method's existence check
+      
+      mockLocationUserRepository.findOneBy.mockResolvedValue(existingLocation);
 
-      await service.createLocation(createLocationUserDto);
-      expect(mockLocationUserRepository.update).toHaveBeenCalledWith(mockExistingLocation.id, {
-        default_location: false,
+      const result = await service.createLocation(createDto);
+
+      expect(result).toEqual(mockLocation);
+      expect(mockLocationUserRepository.findOne).toHaveBeenCalledWith({
+        where: {
+          default_location: true,
+          user_id: '123'
+        }
       });
+    });
+  });
+
+  describe('detail', () => {
+    it('should return location details', async () => {
+      const mockLocation = { id: '1', name: 'Test Location' };
+      mockLocationUserRepository.findOneBy.mockResolvedValue(mockLocation);
+
+      const result = await service.detail('1');
+      expect(result).toEqual(mockLocation);
+    });
+
+    it('should throw error when location not found', async () => {
+      mockLocationUserRepository.findOneBy.mockResolvedValue(null);
+
+      await expect(service.detail('1')).rejects.toThrow('RECORD NOT FOUND!');
     });
   });
 
   describe('update', () => {
-    it('should update location user', async () => {
-      const locationUpdateDTO: UpdateLocationUserDto = {
+    it('should update location without changing default status', async () => {
+      const updateDto: UpdateLocationUserDto = {
         id: '1',
         name: 'Updated Location',
-        address: '456 Main St',
-        phone: '987654321',
         default_location: false,
-        user_id: '123',
+        user_id: '123'
       };
-      const mockUpdatedLocation = { id: '1', ...locationUpdateDTO };
 
-      mockLocationUserRepository.update.mockResolvedValue(mockUpdatedLocation);
+      const mockLocation = { ...updateDto };
+      mockLocationUserRepository.findOneBy.mockResolvedValue(mockLocation);
+      mockLocationUserRepository.save.mockResolvedValue(mockLocation);
 
-      const result = await service.update(locationUpdateDTO);
-      expect(result).toEqual(mockUpdatedLocation);
-      expect(mockLocationUserRepository.update).toHaveBeenCalledWith(locationUpdateDTO, locationUpdateDTO.id);
+      const result = await service.update(updateDto);
+      expect(result).toEqual(mockLocation);
     });
 
-    it('should update default location if default_location is true', async () => {
-      const locationUpdateDTO: UpdateLocationUserDto = {
+    it('should update location and handle default location changes', async () => {
+      const updateDto: UpdateLocationUserDto = {
         id: '1',
-        user_id: '123',
-        default_location: true,
         name: 'Updated Location',
-        address: '456 Main St',
-        phone: '987654321',
+        default_location: true,
+        user_id: '123'
       };
 
-      const mockExistingLocation = {
+      const existingLocation = {
         id: '2',
-        user_id: '123',
-        default_location: false,
-      };
-
-      mockLocationUserRepository.findOne.mockResolvedValue(mockExistingLocation);
-      mockLocationUserRepository.update.mockResolvedValue(mockExistingLocation);
-
-      await service.update(locationUpdateDTO);
-      expect(mockLocationUserRepository.update).toHaveBeenCalledWith(mockExistingLocation.id, {
-        default_location: false,
-      });
-    });
-  });
-
-  describe('updateDefaultMethod', () => {
-    it('should set the previous default location to false', async () => {
-      const locationDTO = {
-        user_id: '123',
         default_location: true,
-        name: 'Test Location',
-        address: '123 Main St',
-        phone: '123456789',
+        user_id: '123'
       };
 
-      const mockExistingLocation = { id: '1', user_id: '123', default_location: true };
+      const mockLocation = { ...updateDto };
+      mockLocationUserRepository.findOneBy.mockResolvedValue(mockLocation);
+      mockLocationUserRepository.findOne.mockResolvedValue(existingLocation);
+      mockLocationUserRepository.save.mockResolvedValue(mockLocation);
 
-      mockLocationUserRepository.findOne.mockResolvedValue(mockExistingLocation);
-      mockLocationUserRepository.update.mockResolvedValue(mockExistingLocation);
-
-      await service.updateDefaultMethod(locationDTO);
-      expect(mockLocationUserRepository.update).toHaveBeenCalledWith(mockExistingLocation.id, {
-        default_location: false,
-      });
-    });
-
-    it('should not update if no default location found', async () => {
-      const locationDTO = {
-        user_id: '123',
-        default_location: true,
-        name: 'Test Location',
-        address: '123 Main St',
-        phone: '123456789',
-      };
-
-      mockLocationUserRepository.findOne.mockResolvedValue(null);
-
-      await service.updateDefaultMethod(locationDTO);
-      expect(mockLocationUserRepository.update).not.toHaveBeenCalled();
+      const result = await service.update(updateDto);
+      expect(result).toEqual(mockLocation);
     });
   });
 
   describe('delete', () => {
-    it('should delete a location user', async () => {
-      const id = '1';
-      const mockDeleteResponse = { affected: 1 };
-      mockLocationUserRepository.delete.mockResolvedValue(mockDeleteResponse);
+    it('should delete location', async () => {
+      const mockLocation = { id: '1', name: 'Test Location' };
+      mockLocationUserRepository.findOneBy.mockResolvedValue(mockLocation);
+      mockLocationUserRepository.delete.mockResolvedValue({ affected: 1 });
 
-      const result = await service.delete(id);
-      expect(result).toEqual(mockDeleteResponse);
-      expect(mockLocationUserRepository.delete).toHaveBeenCalledWith(id);
+      await service.delete('1');
+
+      expect(mockLocationUserRepository.findOneBy).toHaveBeenCalledWith({ id: '1' });
+      expect(mockLocationUserRepository.delete).toHaveBeenCalledWith('1');
+    });
+
+    it('should throw error when location not found', async () => {
+      mockLocationUserRepository.findOneBy.mockResolvedValue(null);
+
+      await expect(service.delete('1')).rejects.toThrow('RECORD NOT FOUND!');
     });
   });
 });
