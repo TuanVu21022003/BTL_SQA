@@ -1,3 +1,4 @@
+// Import các module cần thiết để tạo và test service
 import { Test, TestingModule } from '@nestjs/testing';
 import { ImportService } from './import.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -9,11 +10,13 @@ import { UpdateImpotyDTO } from 'src/dto/importDTO/import.update.dto';
 import { InternalServerErrorException } from '@nestjs/common';
 
 describe('ImportService', () => {
-  let service: ImportService;
-  let importRepo: Repository<ImportEntity>;
-  let importProductRepo: Repository<Import_productEntity>;
-  let dataSource: DataSource;
+  // Khai báo các biến sử dụng trong test
+  let service: ImportService; // Service cần test
+  let importRepo: Repository<ImportEntity>; // Repository xử lý đơn nhập hàng
+  let importProductRepo: Repository<Import_productEntity>; // Repository xử lý chi tiết đơn nhập
+  let dataSource: DataSource; // Nguồn dữ liệu
 
+  // Tạo mock object cho queryRunner để giả lập thao tác database
   const mockQueryRunner = {
     connect: jest.fn(),
     startTransaction: jest.fn(),
@@ -24,11 +27,15 @@ describe('ImportService', () => {
       save: jest.fn(),
     },
   };
-
+// Mock đối tượng DataSource
   const mockDataSource = {
     createQueryRunner: jest.fn().mockReturnValue(mockQueryRunner),
   };
 
+  /**
+   * Chuẩn bị môi trường test trước mỗi test case
+   * Khởi tạo các service và repository cần thiết
+   */
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -48,20 +55,32 @@ describe('ImportService', () => {
       ],
     }).compile();
 
+    // Khởi tạo các đối tượng cần test
     service = module.get<ImportService>(ImportService);
     importRepo = module.get<Repository<ImportEntity>>(getRepositoryToken(ImportEntity));
     importProductRepo = module.get<Repository<Import_productEntity>>(getRepositoryToken(Import_productEntity));
     dataSource = module.get<DataSource>(DataSource);
 
-    // Clear all mocks before each test
+    // Xóa tất cả mock data trước mỗi test
     jest.clearAllMocks();
   });
 
+  /**
+   * Mã: TC001
+   * Test case: Kiểm tra khởi tạo service
+   * Mục tiêu: Đảm bảo service được khởi tạo thành công
+   * Input: Không có
+   * Output mong đợi: Service được định nghĩa
+   */
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
+  /**
+   * Nhóm test cho chức năng tạo đơn nhập hàng
+   */
   describe('create', () => {
+    // Dữ liệu mẫu cho test
     const createDto: CreateImportDTO = {
       totalAmount: 1000,
       import_code: 'IMP001',
@@ -75,7 +94,15 @@ describe('ImportService', () => {
       ],
     };
 
+    /**
+     * Mã: TC002
+     * Test case: Tạo đơn nhập hàng thành công
+     * Mục tiêu: Kiểm tra luồng tạo đơn nhập hàng hoạt động đúng
+     * Input: 1 đối tượng CreateImportDTO chứa đầy đủ các trường thuộc tính
+     * Output mong đợi: Đơn nhập hàng mới được tạo thành công
+     */
     it('should successfully create an import', async () => {
+      // Tạo mock data cho test
       const mockImportEntity = {
         id: '1',
         employee_id: createDto.user_id,
@@ -91,6 +118,7 @@ describe('ImportService', () => {
         import_id: mockImportEntity.id,
       };
 
+      // Mock các hàm repository
       jest.spyOn(importRepo, 'create').mockReturnValue(mockImportEntity as any);
       jest.spyOn(importProductRepo, 'create').mockReturnValue(mockImportProduct as any);
       jest.spyOn(mockQueryRunner.manager, 'save')
@@ -99,12 +127,21 @@ describe('ImportService', () => {
 
       const result = await service.create(createDto);
 
+      // Kiểm tra kết quả
       expect(result).toEqual(mockImportEntity);
       expect(mockQueryRunner.startTransaction).toHaveBeenCalled();
       expect(mockQueryRunner.commitTransaction).toHaveBeenCalled();
       expect(mockQueryRunner.release).toHaveBeenCalled();
     });
 
+
+    /**
+     * Mã: TC003
+     * Test case: Xử lý lỗi khi tạo đơn nhập hàng thất bại
+     * Mục tiêu: Kiểm tra xử lý lỗi và rollback transaction
+     * Input: một đối tượng CreateImportDTO hợp lệ nhưng có lỗi database
+     * Output mong đợi: Throw InternalServerErrorException
+     */
     it('should rollback transaction and throw error on failure', async () => {
       jest.spyOn(importRepo, 'create').mockImplementation(() => {
         throw new Error('Database error');
@@ -118,6 +155,14 @@ describe('ImportService', () => {
       expect(mockQueryRunner.release).toHaveBeenCalled();
     });
 
+
+    /**
+     * Mã: TC004
+     * Test case: Kiểm tra release connection trong finally block
+     * Mục tiêu: Đảm bảo connection luôn được release
+     * Input: Một đối tượng CreateImportDTO gây lỗi có đầy đủ các trường thuộc tính
+     * Output mong đợi: Connection được release
+     */
     it('should handle query runner release in finally block', async () => {
       jest.spyOn(importRepo, 'create').mockImplementation(() => {
         throw new Error('Test error');
@@ -132,6 +177,13 @@ describe('ImportService', () => {
       expect(mockQueryRunner.release).toHaveBeenCalled();
     });
 
+    /**
+     * Mã: TC005
+     * Test case: Xử lý trường hợp không có sản phẩm
+     * Mục tiêu: Kiểm tra validate danh sách sản phẩm rỗng
+     * Input: một đối tượng CreateImportDTO không có sản phẩm
+     * Output mong đợi: Throw InternalServerErrorException
+     */
     it('should handle empty products array', async () => {
       const emptyProductsDto = { ...createDto, products: [] };
       
@@ -140,8 +192,17 @@ describe('ImportService', () => {
       );
     });
   });
-
+/**
+   * Nhóm test cho chức năng lấy danh sách đơn nhập hàng
+   */
   describe('findAll', () => {
+    /**
+     * Mã: TC006
+     * Test case: Lấy danh sách đơn nhập hàng có phân trang
+     * Mục tiêu: Kiểm tra chức năng phân trang
+     * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
+     * Output mong đợi: Danh sách đơn nhập và tổng số bản ghi
+     */
     it('should return paginated imports', async () => {
       const mockImports = [
         { 
@@ -180,6 +241,13 @@ describe('ImportService', () => {
       });
     });
 
+    /**
+     * Mã: TC007
+     * Test case: Xử lý kết quả rỗng
+     * Mục tiêu: Kiểm tra xử lý khi không có dữ liệu
+     * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
+     * Output mong đợi: Danh sách rỗng và tổng = 0
+     */
     it('should handle empty result', async () => {
       jest.spyOn(importRepo, 'findAndCount').mockResolvedValue([[], 0]);
 
@@ -191,6 +259,13 @@ describe('ImportService', () => {
       });
     });
 
+    /**
+     * Mã: TC008
+     * Test case: Kiểm tra tính toán phân trang
+     * Mục tiêu: Đảm bảo tính toán skip, take chính xác
+     * Input: số trang hiện tại page=2, số lượng bản ghi trên 1 trang limit=15
+     * Output mong đợi: skip=15, take=15
+     */
     it('should handle pagination parameters correctly', async () => {
       jest.spyOn(importRepo, 'findAndCount').mockResolvedValue([[], 0]);
 
@@ -203,6 +278,13 @@ describe('ImportService', () => {
       });
     });
 
+    /**
+     * Mã: TC009
+     * Test case: Xử lý lỗi database
+     * Mục tiêu: Kiểm tra xử lý khi có lỗi truy vấn
+     * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
+     * Output mong đợi: Throw error
+     */
     it('should handle findAndCount error', async () => {
       jest.spyOn(importRepo, 'findAndCount').mockRejectedValue(new Error('Database error'));
 
@@ -210,7 +292,17 @@ describe('ImportService', () => {
     });
   });
 
+  /**
+   * Nhóm test cho chức năng sinh mã đơn nhập hàng tự động
+   */
   describe('getImportCodeMax', () => {
+    /**
+     * Mã: TC010
+     * Test case: Sinh mã mới khi chưa có đơn nào
+     * Mục tiêu: Kiểm tra sinh mã đầu tiên
+     * Input: Không có đơn nhập nào
+     * Output mong đợi: Mã IPC00001
+     */
     it('should generate new code when no existing codes', async () => {
       jest.spyOn(importRepo, 'createQueryBuilder').mockReturnValue({
         select: jest.fn().mockReturnThis(),
@@ -221,6 +313,13 @@ describe('ImportService', () => {
       expect(result).toEqual({ import_code: 'IPC00001' });
     });
 
+    /**
+     * Mã: TC011
+     * Test case: Tăng mã tự động
+     * Mục tiêu: Kiểm tra tăng mã tự động
+     * Input: Mã hiện tại IPC00001
+     * Output mong đợi: Mã mới IPC00002
+     */
     it('should increment existing max code', async () => {
       jest.spyOn(importRepo, 'createQueryBuilder').mockReturnValue({
         select: jest.fn().mockReturnThis(),
@@ -231,6 +330,13 @@ describe('ImportService', () => {
       expect(result).toEqual({ import_code: 'IPC00002' });
     });
 
+    /**
+     * Mã: TC012
+     * Test case: Xử lý lỗi truy vấn
+     * Mục tiêu: Kiểm tra xử lý khi có lỗi query
+     * Input: Query lỗi
+     * Output mong đợi: Throw error
+     */
     it('should handle query builder error', async () => {
       jest.spyOn(importRepo, 'createQueryBuilder').mockImplementation(() => {
         throw new Error('Query builder error');
@@ -240,7 +346,17 @@ describe('ImportService', () => {
     });
   });
 
+  /**
+   * Nhóm test cho chức năng tìm đơn nhập hàng theo ID
+   */
   describe('findOne', () => {
+    /**
+     * Mã: TC013
+     * Test case: Tìm đơn nhập hàng thành công
+     * Mục tiêu: Kiểm tra tìm kiếm đơn theo ID
+     * Input: ID hợp lệ
+     * Output mong đợi: Thông tin đơn nhập hàng
+     */
     it('should return import by id', async () => {
       const mockImport = {
         id: '1',
@@ -254,12 +370,26 @@ describe('ImportService', () => {
       expect(result).toEqual(mockImport);
     });
 
+    /**
+     * Mã: TC014
+     * Test case: Không tìm thấy đơn nhập hàng
+     * Mục tiêu: Kiểm tra xử lý khi không tìm thấy đơn
+     * Input: ID không tồn tại
+     * Output mong đợi: Throw error
+     */
     it('should throw error when import not found', async () => {
       jest.spyOn(importRepo, 'findOne').mockResolvedValue(null);
 
       await expect(service.findOne('1')).rejects.toThrow('IMPORT.IMPORT DETAIL NOT EXISTS!');
     });
 
+    /**
+     * Mã: TC015
+     * Test case: Xử lý lỗi database
+     * Mục tiêu: Kiểm tra xử lý khi có lỗi truy vấn
+     * Input: ID hợp lệ nhưng có lỗi database
+     * Output mong đợi: Throw error
+     */
     it('should handle findOne error', async () => {
       jest.spyOn(importRepo, 'findOne').mockRejectedValue(new Error('Database error'));
 
@@ -267,8 +397,12 @@ describe('ImportService', () => {
     });
   });
 
+  /**
+   * Test các chức năng của phương thức cập nhật đơn nhập hàng
+   */
   describe('update', () => {
     /**
+     * Mã : TC016
      * Test case: Cập nhật thông tin khi sản phẩm đã tồn tại
      * Mục đích: Kiểm tra việc cập nhật thông tin sản phẩm đã có
      * Input:
@@ -310,6 +444,7 @@ describe('ImportService', () => {
     });
   
     /**
+     * Mã : TC017
      * Test case: Thêm sản phẩm mới vào đơn nhập hàng
      * Mục đích: Kiểm tra việc thêm sản phẩm mới khi cập nhật
      * Input:
@@ -348,6 +483,7 @@ describe('ImportService', () => {
     });
   
     /**
+     * Mã : TC018
      * Test case: Cập nhật đơn nhập hàng không tồn tại
      * Mục đích: Kiểm tra xử lý lỗi khi đơn hàng không tồn tại
      * Input:
@@ -369,7 +505,17 @@ describe('ImportService', () => {
     });
   });
 
+  /**
+   * Nhóm test cho chức năng xóa đơn nhập hàng
+   */
   describe('delete', () => {
+    /**
+     * Mã: TC019
+     * Test case: Xóa đơn nhập hàng thành công
+     * Mục tiêu: Kiểm tra việc xóa đơn nhập hàng
+     * Input: ID hợp lệ của đơn nhập hàng ('1')
+     * Output mong đợi: Trả về kết quả xóa thành công (affected: 1)
+     */
     it('should delete import successfully', async () => {
       const mockDeleteResult = { affected: 1 };
       jest.spyOn(importRepo, 'delete').mockResolvedValue(mockDeleteResult as any);
@@ -378,6 +524,13 @@ describe('ImportService', () => {
       expect(result).toEqual(mockDeleteResult);
     });
 
+    /**
+     * Mã: TC020
+     * Test case: Xóa đơn nhập hàng không tồn tại
+     * Mục tiêu: Kiểm tra xử lý khi xóa đơn hàng không tồn tại
+     * Input: ID không tồn tại ('999')
+     * Output mong đợi: Trả về kết quả không có bản ghi nào bị ảnh hưởng (affected: 0)
+     */
     it('should handle non-existent import deletion', async () => {
       const mockDeleteResult = { affected: 0 };
       jest.spyOn(importRepo, 'delete').mockResolvedValue(mockDeleteResult as any);
@@ -386,6 +539,13 @@ describe('ImportService', () => {
       expect(result.affected).toBe(0);
     });
 
+    /**
+     * Mã: TC021
+     * Test case: Xử lý lỗi database khi xóa đơn nhập hàng
+     * Mục tiêu: Kiểm tra xử lý khi có lỗi database trong quá trình xóa
+     * Input: ID hợp lệ ('1') nhưng có lỗi database
+     * Output mong đợi: Throw error từ database
+     */
     it('should handle delete error', async () => {
       jest.spyOn(importRepo, 'delete').mockRejectedValue(new Error('Database error'));
 

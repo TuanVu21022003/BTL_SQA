@@ -60,7 +60,10 @@ describe('ImportController', () => {
   });
 
   /**
-   * Kiểm tra controller đã được khởi tạo thành công
+   * Mã : TC001
+   * Mục đích : Kiểm tra controller đã được khởi tạo thành công
+   * Input: KHông có
+   * Ouput mong đợi : Controller được định nghĩa
    */
   it('should be defined', () => {
     expect(controller).toBeDefined();
@@ -71,6 +74,7 @@ describe('ImportController', () => {
    */
   describe('create', () => {
     /**
+     * Mã: TC002
      * Test case: Tạo mới đơn nhập hàng thành công
      * Mục đích: Kiểm tra việc tạo mới đơn nhập hàng với dữ liệu hợp lệ
      * Input : một đối tượng CreateImportDTO với các thông tin hợp lệ
@@ -107,6 +111,7 @@ describe('ImportController', () => {
     });
 
     /**
+     * Mã : TC003
      * Test case: Xử lý lỗi khi tạo đơn nhập hàng thất bại
      * Mục đích: Kiểm tra xử lý lỗi khi có vấn đề trong quá trình tạo đơn
      * Input : 
@@ -146,6 +151,7 @@ describe('ImportController', () => {
    */
   describe('getImportCodeMax', () => {
     /**
+     * Mã : TC004
      * Test case: Lấy mã nhập hàng lớn nhất thành công
      * Mục đích: Kiểm tra việc lấy mã nhập hàng tự động tăng
      * Input: Giá trị mock từ service: mã nhập hàng lớn nhất hiện tại ('IMP999')
@@ -167,6 +173,7 @@ describe('ImportController', () => {
     });
 
     /**
+     * Mã : TC005
      * Test case: Xử lý lỗi khi không lấy được mã nhập hàng
      * Mục đích: Kiểm tra xử lý lỗi khi có vấn đề với database
      * Input : Giá trị mock từ service: Error với message 'Database error'
@@ -192,6 +199,7 @@ describe('ImportController', () => {
    */
   describe('findAll', () => {
     /**
+     * Mã : TC006
      * Test case: Lấy danh sách đơn nhập hàng theo phân trang
      * Mục đích: Kiểm tra việc lấy danh sách có phân trang
      * Input : 
@@ -220,6 +228,7 @@ describe('ImportController', () => {
     });
 
     /**
+     * Mã : TC007
      * Test case: Xử lý lỗi khi không lấy được danh sách
      * Mục đích: Kiểm tra xử lý lỗi khi có vấn đề với database
      * Input : 
@@ -249,6 +258,7 @@ describe('ImportController', () => {
    */
   describe('findOne', () => {
     /**
+     * Mã : TC008
      * Test case: Lấy thông tin một đơn nhập hàng theo ID
      * Mục đích: Kiểm tra việc lấy chi tiết đơn nhập hàng
      * Input :
@@ -272,7 +282,8 @@ describe('ImportController', () => {
       });
     });
 
-    /**
+    /** 
+     * Mã : TC009
      * Test case: Xử lý lỗi khi không tìm thấy đơn nhập hàng
      * Mục đích: Kiểm tra xử lý lỗi khi ID không tồn tại
      * Input :
@@ -297,10 +308,11 @@ describe('ImportController', () => {
   });
 
   /**
-   * Test các chức năng của phương thức update
+   * Test các chức năng của phương thức cập nhật đơn nhập hàng
    */
   describe('update', () => {
     /**
+     * Mã : TC010
      * Test case: Cập nhật thông tin đơn nhập hàng
      * Mục đích: Kiểm tra việc cập nhật thông tin đơn nhập hàng
      * Input : 
@@ -349,6 +361,7 @@ describe('ImportController', () => {
     });
 
     /**
+     * Mã :  TC011
      * Test case: Xử lý lỗi khi cập nhật đơn nhập hàng thất bại
      * Mục đích: Kiểm tra xử lý lỗi khi có vấn đề trong quá trình cập nhật
      * Input: 
@@ -388,8 +401,12 @@ describe('ImportController', () => {
     });
   });
 
+  /**
+   * Test các chức năng của phương thức xoá đơn nhập hàng
+   */
   describe('delete', () => {
     /**
+     * Mã : TC012
      * Test case: Xóa đơn nhập hàng thành công
      * Mục đích: Kiểm tra việc xóa đơn nhập hàng hoạt động bình thường
      * Input: ID của đơn nhập hàng cần xóa
@@ -418,6 +435,7 @@ describe('ImportController', () => {
     });
 
     /**
+     * Mã: TC013
      * Test case: Xử lý lỗi khi xóa đơn nhập hàng thất bại
      * Mục đích: Kiểm tra xử lý lỗi khi có vấn đề trong quá trình xóa
      * Input: ID của đơn nhập hàng cần xóa
