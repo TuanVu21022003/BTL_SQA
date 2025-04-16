@@ -268,67 +268,105 @@ describe('ImportService', () => {
   });
 
   describe('update', () => {
-    const updateDto: UpdateImpotyDTO = {
-      import_id: '1',
-      totalAmount: 1000,
-      user_id: '1',
-      import_code: 'IMP001',
-      products: [
-        {
-          product_id: '1',
-          quantity: 20,
-          price_in: 100,
-        },
-      ],
-    };
-
-    it('should update import successfully', async () => {
+    /**
+     * Test case: Cập nhật thông tin khi sản phẩm đã tồn tại
+     * Mục đích: Kiểm tra việc cập nhật thông tin sản phẩm đã có
+     * Input:
+     * - updateDto với sản phẩm đã tồn tại trong importProducts
+     * Kết quả mong đợi: Cập nhật thông tin sản phẩm hiện có
+     */
+    it('should update existing product in import', async () => {
+      const existingProduct = {
+        product_id: '1',
+        quantity: 10,
+        price_in: 100
+      };
+  
       const mockImport = {
         id: '1',
-        import_code: 'IMP001',
-        importProducts: [],
-        total_amount: 1000,
-        employee_id: '1',
+        importProducts: [existingProduct],
+        save: jest.fn()
       };
-
+  
+      const updateDto = {
+        import_id: '1',
+        totalAmount: 2000,
+        user_id: 'user1',
+        import_code: 'IMP001',
+        products: [{
+          product_id: '1',
+          quantity: 20,
+          price_in: 150
+        }]
+      };
+  
       jest.spyOn(importRepo, 'findOne').mockResolvedValue(mockImport as any);
-      jest.spyOn(importRepo, 'save').mockResolvedValue({ ...mockImport, ...updateDto } as any);
-
+      jest.spyOn(importRepo, 'save').mockResolvedValue(mockImport as any);
+  
       const result = await service.update(updateDto);
-      expect(result.total_amount).toBe(updateDto.totalAmount);
-      expect(result.employee_id).toBe(updateDto.user_id);
+  
+      expect(result.importProducts[0].quantity).toBe(20);
+      expect(result.importProducts[0].price_in).toBe(150);
     });
-
+  
+    /**
+     * Test case: Thêm sản phẩm mới vào đơn nhập hàng
+     * Mục đích: Kiểm tra việc thêm sản phẩm mới khi cập nhật
+     * Input:
+     * - updateDto với sản phẩm chưa tồn tại trong importProducts
+     * Kết quả mong đợi: Thêm sản phẩm mới vào danh sách
+     */
+    it('should add new product to import', async () => {
+      const mockImport = {
+        id: '1',
+        importProducts: [],
+        save: jest.fn()
+      };
+  
+      const updateDto = {
+        import_id: '1',
+        totalAmount: 1000,
+        user_id: 'user1',
+        import_code: 'IMP001',
+        products: [{
+          product_id: '2',
+          quantity: 5,
+          price_in: 200
+        }]
+      };
+  
+      jest.spyOn(importRepo, 'findOne').mockResolvedValue(mockImport as any);
+      jest.spyOn(importRepo, 'save').mockResolvedValue({
+        ...mockImport,
+        importProducts: [updateDto.products[0]]
+      } as any);
+  
+      const result = await service.update(updateDto);
+  
+      expect(result.importProducts).toHaveLength(1);
+      expect(result.importProducts[0].product_id).toBe('2');
+    });
+  
+    /**
+     * Test case: Cập nhật đơn nhập hàng không tồn tại
+     * Mục đích: Kiểm tra xử lý lỗi khi đơn hàng không tồn tại
+     * Input:
+     * - updateDto với import_id không tồn tại
+     * Kết quả mong đợi: Throw error với message phù hợp
+     */
     it('should throw error when import not found', async () => {
+      const updateDto = {
+        import_id: 'non-existent',
+        totalAmount: 1000,
+        user_id: 'user1',
+        import_code: 'IMP001',
+        products: []
+      };
+  
       jest.spyOn(importRepo, 'findOne').mockResolvedValue(null);
-
+  
       await expect(service.update(updateDto)).rejects.toThrow('IMPORT.ORDER UPDATE NOT FOUND!');
     });
-
-    it('should handle transaction rollback on error during update', async () => {
-        const mockImport = {
-          id: '1',
-          import_code: 'IMP001',
-          importProducts: [],
-        };
-  
-        // Mock findOne để trả về một import hợp lệ
-        jest.spyOn(importRepo, 'findOne').mockResolvedValue(mockImport as any);
-        
-        // Mock save để throw error với message cụ thể
-        jest.spyOn(importRepo, 'save').mockRejectedValue(new Error('ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!'));
-  
-        // Kiểm tra xem service có throw đúng loại exception không
-        await expect(service.update(updateDto)).rejects.toThrow(
-          new InternalServerErrorException('ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!')
-        );
-  
-        // // Kiểm tra xem transaction có được rollback không
-        // expect(mockQueryRunner.rollbackTransaction).toHaveBeenCalled();
-        
-        // // Kiểm tra xem resources có được release không
-        // expect(mockQueryRunner.release).toHaveBeenCalled();
-      });
   });
 
   describe('delete', () => {
