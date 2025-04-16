@@ -4,7 +4,7 @@ import { MomoService } from './momo.service';
 import { OrderService } from 'src/backend/order/order.service';
 import { CreateMomoDto } from './dto/create-momo.dto';
 import { OrderStatus, PaymentMethod, PaymentStatus } from 'src/share/Enum/Enum';
-import { HttpException } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('MomoController', () => {
   let controller: MomoController;
@@ -39,10 +39,14 @@ describe('MomoController', () => {
     controller = module.get<MomoController>(MomoController);
     momoService = module.get<MomoService>(MomoService);
     orderService = module.get<OrderService>(OrderService);
-  });
 
-  afterEach(() => {
+    // Reset all mock implementations
     jest.clearAllMocks();
+
+    // Reset mock defaults
+    mockOrderService.createOrder.mockReset();
+    mockOrderService.updateOrder.mockReset();
+    mockMomoService.createPayment.mockReset();
   });
 
   it('should be defined', () => {
@@ -74,13 +78,11 @@ describe('MomoController', () => {
     const mockOrder = {
       id: 'order123',
       user_id: 'user123',
-      // Add other order properties
     };
 
     const mockPaymentResponse = {
       payUrl: 'http://momo.payment.url',
       orderId: 'order123',
-      // Add other payment response properties
     };
 
     it('should successfully create payment', async () => {
@@ -97,9 +99,7 @@ describe('MomoController', () => {
         },
       });
 
-      expect(orderService.createOrder).toHaveBeenCalledWith(
-        mockCreateMomoDto.order,
-      );
+      expect(orderService.createOrder).toHaveBeenCalledWith(mockCreateMomoDto.order);
       expect(momoService.createPayment).toHaveBeenCalledWith(
         mockCreateMomoDto.amount,
         mockCreateMomoDto.redirectUrl,
@@ -127,7 +127,6 @@ describe('MomoController', () => {
       resultCode: 0,
       orderId: 'order123',
       extraData: 'user123',
-      // Add other necessary payload properties
     };
 
     const mockFailedPayload = {
@@ -159,6 +158,7 @@ describe('MomoController', () => {
         success: false,
         message: 'Thanh toán chưa thành công!',
       });
+
       expect(orderService.updateOrder).not.toHaveBeenCalled();
     });
 
@@ -174,19 +174,21 @@ describe('MomoController', () => {
     });
 
     it('should handle unexpected errors', async () => {
-      mockOrderService.updateOrder.mockRejectedValue(
-        new Error('Database error'),
-      );
+      mockOrderService.updateOrder.mockRejectedValue(new Error('Database error'));
+
+      let thrownError: HttpException | null = null;
 
       try {
         await controller.callbackPayment(mockSuccessPayload);
-        fail('Expected an error to be thrown');
       } catch (error) {
-        expect(error).toBeInstanceOf(HttpException);
-        if (error instanceof Error) {
-          expect(error.message).toContain('Database error');
+        if (error instanceof HttpException) {
+          thrownError = error;
         }
       }
+
+      expect(thrownError).toBeInstanceOf(HttpException);
+      expect(thrownError?.getStatus()).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
+      expect(thrownError?.message).toBe('Database error');
     });
   });
 });

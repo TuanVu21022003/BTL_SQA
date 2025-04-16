@@ -10,7 +10,10 @@ import { UserService } from '../user/user.service';
 import { AuthGuard } from 'src/guards/JwtAuth.guard';
 import { RolesGuard } from 'src/guards/Roles.guard';
 
-// Bỏ qua xác thực bằng cách mock AuthGuard
+/**
+ * Mock các Guard xác thực và phân quyền
+ * Bỏ qua việc xác thực để tập trung vào test logic
+ */
 jest.mock('src/guards/JwtAuth.guard', () => ({
   AuthGuard: jest.fn().mockImplementation(() => ({
     canActivate: () => true,
@@ -24,13 +27,17 @@ jest.mock('src/guards/Roles.guard', () => ({
   })),
 }));
 
-// Khởi tạo test suite cho LocationUserController
+
 describe('LocationUserController', () => {
+  // Khai báo các biến sử dụng trong test
   let controller: LocationUserController;
   let service: LocationUserService;
   let jwtService: JwtService;
 
-  // Mock các service sử dụng trong controller
+  /**
+   * Mock các service được sử dụng trong controller
+   * Định nghĩa các phương thức giả lập
+   */
   const mockLocationUserService = {
     getList: jest.fn(),
     createLocation: jest.fn(),
@@ -51,7 +58,10 @@ describe('LocationUserController', () => {
     findOne: jest.fn(),
   };
 
-  // Cấu hình module test trước mỗi test case
+  /**
+   * Cấu hình và khởi tạo module test trước mỗi test case
+   * Inject các dependency và override các guard
+   */
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LocationUserController],
@@ -73,21 +83,38 @@ describe('LocationUserController', () => {
     jwtService = module.get<JwtService>(JwtService);
   });
 
-  // Dọn dẹp mock sau mỗi test case
+  /**
+   * Dọn dẹp mock sau mỗi test case
+   * Đảm bảo không có dữ liệu tồn đọng giữa các test
+   */
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  // Kiểm tra controller và các service đã được khởi tạo hay chưa
+  /**
+   * Mã: TC001
+   * Test case: Kiểm tra khởi tạo controller
+   * Mục tiêu: Đảm bảo controller và các dependency được khởi tạo đúng
+   * Input: Không có
+   * Output mong đợi: Các instance được định nghĩa
+   */
   it('should be defined', () => {
     expect(controller).toBeDefined(); // Đảm bảo controller đã được tạo thành công
     expect(service).toBeDefined(); // Đảm bảo service đã được inject đúng
     expect(jwtService).toBeDefined(); // Đảm bảo jwtService đã được inject đúng
   });
 
-  // Test cho phương thức getAllLocation
+  /**
+  * Nhóm test cho chức năng lấy danh sách địa chỉ
+  */
   describe('getAllLocation', () => {
-    // Kiểm tra khi lấy danh sách location theo user thành công
+    /**
+     * Mã: TC002
+     * Test case: Lấy danh sách địa chỉ của người dùng thành công
+     * Mục tiêu: Kiểm tra việc lấy danh sách địa chỉ theo user_id
+     * Input: user_id hợp lệ
+     * Output mong đợi: Danh sách địa chỉ và thông tin tổng số bản ghi
+     */
     it('should return locations for a user', async () => {
       const user_id = 'test-user-id';
       const mockLocations = [
@@ -107,7 +134,6 @@ describe('LocationUserController', () => {
       // Kiểm tra gọi đúng tham số
       expect(service.getList).toHaveBeenCalledWith({ user_id });
 
-      // Kiểm tra response format
       expect(result).toEqual({
         status: 200,
         message: 'SUCCESS!',
@@ -116,18 +142,25 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Kiểm tra khi có lỗi xảy ra trong quá trình getAllLocation
+    /**
+     * Mã: TC003
+     * Test case: Xử lý lỗi khi lấy danh sách địa chỉ
+     * Mục tiêu: Kiểm tra xử lý lỗi khi có vấn đề với database
+     * Input: user_id hợp lệ
+     * Output mong đợi: Thông báo lỗi với status 500
+     * Ghi chú: Error path - trường hợp thất bại
+     */
     it('should handle errors in getAllLocation', async () => {
       const user_id = 'test-user-id';
 
-      // Giả lập lỗi xảy ra
+      
       mockLocationUserService.getList.mockRejectedValue(
         new Error('Database error'),
       );
 
       const result = await controller.getAllLocation(user_id);
 
-      // Kiểm tra response khi lỗi
+      
       expect(result).toEqual({
         status: 500,
         message: 'Database error',
@@ -136,10 +169,19 @@ describe('LocationUserController', () => {
     });
   });
 
-  // Test cho phương thức getAllLocationAdmin
+  /**
+   * Nhóm test cho chức năng lấy danh sách địa chỉ (Admin view)
+   */
   describe('getAllLocationAdmin', () => {
-    // Kiểm tra khi admin lấy danh sách location thành công
+    /**
+     * Mã: TC004
+     * Test case: Admin lấy danh sách địa chỉ thành công
+     * Mục tiêu: Kiểm tra chức năng xem danh sách địa chỉ dành cho admin
+     * Input: user_id của admin
+     * Output mong đợi: Danh sách địa chỉ và tổng số bản ghi
+     */
     it('should return locations for admin view', async () => {
+      // Dữ liệu mẫu cho test
       const user_id = 'admin-user-id';
       const mockLocations = [
         { id: '1', name: 'Location 1', user_id },
@@ -163,8 +205,17 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Kiểm tra khi xảy ra lỗi trong quá trình admin lấy danh sách location
+    /**
+     * Mã: TC005
+     * Test case: Xử lý lỗi khi admin lấy danh sách
+     * Mục tiêu: Kiểm tra xử lý lỗi trong view admin
+     * Input: 
+     * - tham số user_id của admin
+     * - Giá trị mock từ service : Error với message 'Admin access error'
+     * Output mong đợi: Thông báo lỗi với status 500, message : Admin access error
+     */
     it('should handle errors in getAllLocationAdmin', async () => {
+      // Dữ liệu mẫu cho test
       const user_id = 'admin-user-id';
       mockLocationUserService.getList.mockRejectedValue(
         new Error('Admin access error'),
@@ -180,10 +231,19 @@ describe('LocationUserController', () => {
     });
   });
 
-  // Test cho phương thức create
+  /**
+   * Nhóm test cho chức năng tạo mới địa chỉ
+   */
   describe('create', () => {
-    // Kiểm tra tạo mới location thành công
+    /**
+     * Mã: TC006
+     * Test case: Tạo mới địa chỉ thành công
+     * Mục tiêu: Kiểm tra việc tạo mới địa chỉ với dữ liệu hợp lệ
+     * Input: 1 đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
+     * Output mong đợi: Thông tin địa chỉ mới được tạo
+     */
     it('should create a new location', async () => {
+      // Dữ liệu mẫu cho test
       const createDto: CreateLocationUserDto = {
         name: 'New Location',
         address: '123 Street',
@@ -200,10 +260,10 @@ describe('LocationUserController', () => {
 
       const result = await controller.create(createDto);
 
-      // Đảm bảo gọi service với đúng DTO
+      
       expect(service.createLocation).toHaveBeenCalledWith(createDto);
 
-      // Kiểm tra phản hồi đúng định dạng và dữ liệu
+      
       expect(result).toEqual({
         status: 200,
         message: 'SUCCESS!',
@@ -212,8 +272,15 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Kiểm tra khi tạo location bị lỗi
+    /**
+     * Mã: TC007
+     * Test case: Xử lý lỗi khi tạo địa chỉ
+     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình tạo địa chỉ
+     * Input: một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
+     * Output mong đợi: Thông báo lỗi với status 500, message Creation failed
+     */
     it('should handle errors in create', async () => {
+      // Dữ liệu mẫu cho test
       const createDto: CreateLocationUserDto = {
         name: 'New Location',
         address: '123 Street',
@@ -236,10 +303,20 @@ describe('LocationUserController', () => {
     });
   });
 
-  // Test cho phương thức update
+   /**
+   * Nhóm test cho chức năng cập nhật địa chỉ
+   */
   describe('update', () => {
-    // Kiểm tra update location thành công
+    
+    /**
+     * Mã: TC008
+     * Test case: Cập nhật địa chỉ thành công
+     * Mục tiêu: Kiểm tra việc cập nhật thông tin địa chỉ
+     * Input: một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
+     * Output mong đợi: Thông tin địa chỉ sau khi cập nhật
+     */
     it('should update a location', async () => {
+      // Dữ liệu mẫu cho test
       const updateDto: UpdateLocationUserDto = {
         id: '1',
         name: 'Updated Location',
@@ -264,8 +341,16 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Kiểm tra khi update location bị lỗi
+    
+    /**
+     * Mã: TC009
+     * Test case: Xử lý lỗi khi cập nhật địa chỉ
+     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình cập nhật
+     * Input: một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
+     * Output mong đợi: Thông báo lỗi với status 500, message Update failed
+     */
     it('should handle errors in update', async () => {
+      // Dữ liệu mẫu cho test
       const updateDto: UpdateLocationUserDto = {
         id: '1',
         name: 'Updated Location',
@@ -289,10 +374,20 @@ describe('LocationUserController', () => {
     });
   });
 
-  // Test cho phương thức remove
+  /**
+   * Nhóm test cho chức năng xóa địa chỉ
+   */
   describe('remove', () => {
-    // Kiểm tra xóa location thành công
+    
+    /**
+     * Mã: TC010
+     * Test case: Xóa địa chỉ thành công
+     * Mục tiêu: Kiểm tra việc xóa địa chỉ
+     * Input: ID địa chỉ cần xóa
+     * Output mong đợi: Kết quả xóa thành công
+     */
     it('should delete a location', async () => {
+      // Dữ liệu mẫu cho test
       const locationId = 'test-location-id';
       const mockDeleteResult = { affected: 1 };
 
@@ -309,8 +404,17 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Kiểm tra khi xóa location bị lỗi
+   /**
+     * Mã: TC011
+     * Test case: Xử lý lỗi khi xóa địa chỉ
+     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình xóa
+     * Input: 
+     * - ID địa chỉ cần xóa
+     * - Giá trị mock từ service : Error với message 'Delete failed'
+     * Output mong đợi: Thông báo lỗi với status 500, message Delete failed
+     */
     it('should handle errors in delete', async () => {
+      // Dữ liệu mẫu cho test
       const locationId = 'test-location-id';
       mockLocationUserService.delete.mockRejectedValue(
         new Error('Delete failed'),

@@ -3,18 +3,22 @@ import { NotificationService } from './notification.service';
 import { 
   NotificationStatus, 
   NotificationType,
-  OrderStatus,        // Thêm OrderStatus
-  PaymentStatus,      // Thêm PaymentStatus
-  PaymentMethod      // Thêm PaymentMethod
+  OrderStatus,
+  PaymentStatus,
+  PaymentMethod
 } from 'src/share/Enum/Enum';
 import * as admin from 'firebase-admin';
 import { OrderEntity } from 'src/entities/order_entity/oder.entity';
 
-// Mock firebase-admin
+// Khai báo biến toàn cục để kiểm soát độ dài của apps
+let appsLength = 0;
+
+// Mock path
 jest.mock('path', () => ({
   resolve: jest.fn().mockReturnValue('./mock-service-account.json')
 }));
 
+// Mock firebase-admin
 jest.mock('firebase-admin', () => {
   const mockDatabase = {
     ref: jest.fn().mockReturnValue({
@@ -22,6 +26,7 @@ jest.mock('firebase-admin', () => {
     }),
   };
   const mockCert = jest.fn().mockReturnValue('mock-credential');
+  
   jest.mock('./mock-service-account.json', () => ({
     type: "service_account",
     project_id: "mock-project",
@@ -36,10 +41,12 @@ jest.mock('firebase-admin', () => {
   }), { virtual: true });
   
   return {
-    apps: [],
+    get apps() {
+      return new Array(appsLength).fill({});
+    },
     initializeApp: jest.fn(),
     credential: {
-      cert: jest.fn(),
+      cert: mockCert,
     },
     database: jest.fn().mockReturnValue(mockDatabase),
   };
@@ -57,6 +64,7 @@ describe('NotificationService', () => {
   beforeEach(async () => {
     // Reset all mocks
     jest.clearAllMocks();
+    appsLength = 0;
 
     // Setup mock ref
     mockRef = {
@@ -88,18 +96,23 @@ describe('NotificationService', () => {
 
   describe('constructor', () => {
     it('should initialize Firebase Admin SDK if not already initialized', () => {
+      // Đảm bảo apps là mảng rỗng
+      appsLength = 0;
+      
+      new NotificationService();
+      
       expect(admin.initializeApp).toHaveBeenCalledWith({
-        credential: undefined,
+        credential: admin.credential.cert('mock-credential'),
         databaseURL: process.env.FIREBASE_SERVICE_DATABASE,
       });
     });
 
     it('should not initialize Firebase Admin SDK if already initialized', () => {
-      // Mock apps.length to simulate Firebase already being initialized
+      // Reset mocks
       jest.clearAllMocks();
       
-      // Set apps array to simulate initialized state
-      (admin as any).apps = ([{}]);
+      // Giả lập Firebase đã được khởi tạo
+      appsLength = 1;
       
       new NotificationService();
       expect(admin.initializeApp).not.toHaveBeenCalled();
@@ -124,9 +137,9 @@ describe('NotificationService', () => {
       orderProducts: [],
       user: null,
       employee: null,
-      location: null,        // Thêm trường location
+      location: null,
       location_user: null
-} as OrderEntity;
+    } as OrderEntity;
 
     const mockMessage = 'Test notification message';
 
