@@ -1,14 +1,26 @@
 
 import { responseHandler } from '../responseUtil';
 
-
 describe('responseHandler() responseHandler method', () => {
-  // Happy Path Tests
+  // Test các trường hợp thành công
   describe('Happy Paths', () => {
+    /**
+     * Test Case ID: TC001
+     * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu hợp lệ
+     * Input: data = { id: 1, name: 'Test' }
+     * Expected Output: Object response với:
+     * - success: true
+     * - data: { id: 1, name: 'Test' }
+     * - status: 200
+     * - message: 'SUCCESS!'
+     * Ghi chú: Happy path - Trường hợp thành công cơ bản
+     */
     it('should return a successful response with data for ok()', () => {
-      // Test the ok() method with valid data
+      // Arrange: Chuẩn bị dữ liệu test
       const data = { id: 1, name: 'Test' };
+      // Act: Thực thi phương thức cần test
       const result = responseHandler.ok(data);
+      // Assert: Kiểm tra kết quả
       expect(result).toEqual({
         success: true,
         data,
@@ -17,8 +29,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC002
+     * Mục tiêu: Kiểm tra phương thức notFound()
+     * Input: Không có
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 404
+     * - message: 'CANNOT FIND RESOURCES!'
+     * Ghi chú: Happy path - Trường hợp không tìm thấy tài nguyên
+     */
     it('should return a not found response for notFound()', () => {
-      // Test the notFound() method
       const result = responseHandler.notFound();
       expect(result).toEqual({
         success: false,
@@ -27,8 +48,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC003
+     * Mục tiêu: Kiểm tra phương thức error() với message mặc định
+     * Input: Không có
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 500
+     * - message: 'Internal server error'
+     * Ghi chú: Happy path - Trường hợp lỗi server mặc định
+     */
     it('should return an error response with default message for error()', () => {
-      // Test the error() method without a custom message
       const result = responseHandler.error();
       expect(result).toEqual({
         success: false,
@@ -37,8 +67,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC004
+     * Mục tiêu: Kiểm tra phương thức unauthorized() với message mặc định
+     * Input: Không có
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 401
+     * - message: 'Unauthorized'
+     * Ghi chú: Happy path - Trường hợp không có quyền truy cập
+     */
     it('should return an unauthorized response with default message for unauthorized()', () => {
-      // Test the unauthorized() method without a custom message
       const result = responseHandler.unauthorized();
       expect(result).toEqual({
         success: false,
@@ -47,8 +86,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC005
+     * Mục tiêu: Kiểm tra phương thức invalidated() với dữ liệu lỗi
+     * Input: errors = { field: 'name', error: 'Required' }
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 422
+     * - data: { field: 'name', error: 'Required' }
+     * Ghi chú: Happy path - Trường hợp dữ liệu không hợp lệ
+     */
     it('should return an invalidated response with errors for invalidated()', () => {
-      // Test the invalidated() method with error data
       const errors = { field: 'name', error: 'Required' };
       const result = responseHandler.invalidated(errors);
       expect(result).toEqual({
@@ -59,10 +107,19 @@ describe('responseHandler() responseHandler method', () => {
     });
   });
 
-  // Edge Case Tests
+  // Test các trường hợp đặc biệt
   describe('Edge Cases', () => {
+    /**
+     * Test Case ID: TC006
+     * Mục tiêu: Kiểm tra phương thức error() với message tùy chỉnh
+     * Input: message = 'Custom error message'
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 500
+     * - message: 'Custom error message'
+     * Ghi chú: Edge case - Trường hợp tùy chỉnh thông báo lỗi
+     */
     it('should return an error response with a custom message for error()', () => {
-      // Test the error() method with a custom message
       const customMessage = 'Custom error message';
       const result = responseHandler.error(customMessage);
       expect(result).toEqual({
@@ -72,8 +129,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC007
+     * Mục tiêu: Kiểm tra phương thức unauthorized() với message tùy chỉnh
+     * Input: message = 'Custom unauthorized message'
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 401
+     * - message: 'Custom unauthorized message'
+     * Ghi chú: Edge case - Trường hợp tùy chỉnh thông báo unauthorized
+     */
     it('should return an unauthorized response with a custom message for unauthorized()', () => {
-      // Test the unauthorized() method with a custom message
       const customMessage = 'Custom unauthorized message';
       const result = responseHandler.unauthorized(customMessage);
       expect(result).toEqual({
@@ -83,8 +149,17 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC008
+     * Mục tiêu: Kiểm tra phương thức invalidated() với object errors rỗng
+     * Input: errors = {}
+     * Expected Output: Object response với:
+     * - success: false
+     * - status: 422
+     * - data: {}
+     * Ghi chú: Edge case - Trường hợp không có chi tiết lỗi
+     */
     it('should handle invalidated() with empty errors object', () => {
-      // Test the invalidated() method with an empty errors object
       const errors = {};
       const result = responseHandler.invalidated(errors);
       expect(result).toEqual({
@@ -94,8 +169,18 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC009
+     * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu null
+     * Input: data = null
+     * Expected Output: Object response với:
+     * - success: true
+     * - data: null
+     * - status: 200
+     * - message: 'SUCCESS!'
+     * Ghi chú: Edge case - Trường hợp dữ liệu null
+     */
     it('should handle ok() with null data', () => {
-      // Test the ok() method with null data
       const result = responseHandler.ok(null);
       expect(result).toEqual({
         success: true,
@@ -105,8 +190,18 @@ describe('responseHandler() responseHandler method', () => {
       });
     });
 
+    /**
+     * Test Case ID: TC010
+     * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu undefined
+     * Input: data = undefined
+     * Expected Output: Object response với:
+     * - success: true
+     * - data: undefined
+     * - status: 200
+     * - message: 'SUCCESS!'
+     * Ghi chú: Edge case - Trường hợp dữ liệu undefined
+     */
     it('should handle ok() with undefined data', () => {
-      // Test the ok() method with undefined data
       const result = responseHandler.ok(undefined);
       expect(result).toEqual({
         success: true,
