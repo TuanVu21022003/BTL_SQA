@@ -16,7 +16,7 @@ import { OrderStatus } from 'src/share/Enum/Enum';
  */
 describe('DashboardService.getManageUserDashBoard() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -53,23 +53,23 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: 'OrderRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
-    
+
     // Reset mocks
     jest.clearAllMocks();
-    
+
     // Setup mocks
     mockUserRepo.createQueryBuilder.mockReturnValue(mockUserQueryBuilder);
     mockOrderRepo.createQueryBuilder.mockReturnValue(mockOrderQueryBuilder);
-    
+
     // Mock Date để có kết quả kiểm thử nhất quán
     jest.spyOn(global, 'Date').mockImplementation(() => new Date('2023-04-15T12:00:00Z'));
   });
@@ -97,12 +97,12 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
         .mockResolvedValueOnce(100) // totalUsers
         .mockResolvedValueOnce(15)  // usersThisWeek
         .mockResolvedValueOnce(10); // usersLastWeek
-      
+
       mockOrderQueryBuilder.getRawOne
         .mockResolvedValueOnce({ userCount: 50 })  // userBoughtCount
         .mockResolvedValueOnce({ userCount: 8 })   // usersBoughtThisWeek
         .mockResolvedValueOnce({ userCount: 5 });  // usersBoughtLastWeek
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getManageUserDashBoard();
 
@@ -110,7 +110,7 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
       // Kiểm tra các truy vấn được gọi đúng cách
       expect(mockUserRepo.createQueryBuilder).toHaveBeenCalledTimes(3);
       expect(mockOrderRepo.createQueryBuilder).toHaveBeenCalledTimes(3);
-      
+
       // Kiểm tra kết quả
       expect(result).toEqual({
         totalUsers: 100,
@@ -138,10 +138,10 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Database connection error';
       mockUserQueryBuilder.getCount.mockRejectedValue(new Error(errorMessage));
-      
+
       // Spy console.error để kiểm tra log lỗi
       jest.spyOn(console, 'error').mockImplementation();
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getManageUserDashBoard();
 
@@ -164,12 +164,12 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
         .mockResolvedValueOnce(null) // totalUsers
         .mockResolvedValueOnce(null) // usersThisWeek
         .mockResolvedValueOnce(null); // usersLastWeek
-      
+
       mockOrderQueryBuilder.getRawOne
         .mockResolvedValueOnce(null) // userBoughtCount
         .mockResolvedValueOnce(null) // usersBoughtThisWeek
         .mockResolvedValueOnce(null); // usersBoughtLastWeek
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getManageUserDashBoard();
 
@@ -194,10 +194,10 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'Database error' };
       mockUserQueryBuilder.getCount.mockRejectedValue(errorObject);
-      
+
       // Spy console.error để kiểm tra log lỗi
       jest.spyOn(console, 'error').mockImplementation();
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getManageUserDashBoard();
 

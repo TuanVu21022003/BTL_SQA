@@ -16,7 +16,7 @@ import { TimeFilter } from 'src/share/Enum/Enum';
  */
 describe('DashboardService.getTopCustomersByRevenue() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -37,16 +37,16 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: 'OrderRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
-    
+
     // Spy các phương thức helper để kiểm tra chúng được gọi đúng cách
     jest.spyOn(dashboardService, 'timeFilterCreate');
     jest.spyOn(dashboardService, 'lastTimeFilterCreate');
@@ -75,26 +75,26 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       const mockEndDate = new Date('2023-04-16');
       const mockLastStartDate = new Date('2023-04-03');
       const mockLastEndDate = new Date('2023-04-09');
-      
+
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-      
+
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-      
+
       // Mock getTopCustomersByRevenue
       const mockTopCustomers = [
         { user_id: 'U001', user_name: 'Nguyễn Văn A', total_revenue: 8000000, order_count: 5 },
         { user_id: 'U002', user_name: 'Trần Thị B', total_revenue: 6000000, order_count: 4 }
       ];
-      
+
       mockOrderRepo.getTopCustomersByRevenue.mockResolvedValue(mockTopCustomers);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getTopCustomersByRevenue(timeFilter);
 
@@ -102,7 +102,7 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       expect(dashboardService.timeFilterCreate).toHaveBeenCalledWith(timeFilter);
       expect(dashboardService.lastTimeFilterCreate).toHaveBeenCalledWith(mockStartDate, mockEndDate, timeFilter);
       expect(mockOrderRepo.getTopCustomersByRevenue).toHaveBeenCalledWith(mockStartDate, mockEndDate);
-      
+
       // Kiểm tra kết quả
       expect(result).toEqual(mockTopCustomers);
     });
@@ -121,26 +121,26 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       const mockEndDate = new Date('2023-04-30');
       const mockLastStartDate = new Date('2023-03-01');
       const mockLastEndDate = new Date('2023-03-31');
-      
+
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-      
+
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-      
+
       // Mock getTopCustomersByRevenue
       const mockTopCustomers = [
         { user_id: 'U003', user_name: 'Lê Văn C', total_revenue: 25000000, order_count: 15 },
         { user_id: 'U001', user_name: 'Nguyễn Văn A', total_revenue: 20000000, order_count: 12 }
       ];
-      
+
       mockOrderRepo.getTopCustomersByRevenue.mockResolvedValue(mockTopCustomers);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getTopCustomersByRevenue(timeFilter);
 
@@ -148,7 +148,7 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       expect(dashboardService.timeFilterCreate).toHaveBeenCalledWith(timeFilter);
       expect(dashboardService.lastTimeFilterCreate).toHaveBeenCalledWith(mockStartDate, mockEndDate, timeFilter);
       expect(mockOrderRepo.getTopCustomersByRevenue).toHaveBeenCalledWith(mockStartDate, mockEndDate);
-      
+
       // Kiểm tra kết quả
       expect(result).toEqual(mockTopCustomers);
     });
@@ -173,21 +173,21 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       const mockEndDate = new Date('2023-06-30');
       const mockLastStartDate = new Date('2023-01-01');
       const mockLastEndDate = new Date('2023-03-31');
-      
+
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-      
+
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-      
+
       // Mock getTopCustomersByRevenue trả về mảng rỗng
       mockOrderRepo.getTopCustomersByRevenue.mockResolvedValue([]);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getTopCustomersByRevenue(timeFilter);
 
@@ -212,26 +212,26 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
       const mockEndDate = new Date('2023-12-31');
       const mockLastStartDate = new Date('2022-01-01');
       const mockLastEndDate = new Date('2022-12-31');
-      
+
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-      
+
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-      
+
       // Mock getTopCustomersByRevenue để ném ra lỗi
       const errorMessage = 'User repository error';
       mockOrderRepo.getTopCustomersByRevenue.mockRejectedValue(new Error(errorMessage));
-      
+
       // Thực thi & Kiểm tra (Act & Assert)
       await expect(dashboardService.getTopCustomersByRevenue(timeFilter))
         .rejects.toThrow(errorMessage);
-      
+
       expect(dashboardService.timeFilterCreate).toHaveBeenCalledWith(timeFilter);
       expect(dashboardService.lastTimeFilterCreate).toHaveBeenCalledWith(mockStartDate, mockEndDate, timeFilter);
       expect(mockOrderRepo.getTopCustomersByRevenue).toHaveBeenCalledWith(mockStartDate, mockEndDate);

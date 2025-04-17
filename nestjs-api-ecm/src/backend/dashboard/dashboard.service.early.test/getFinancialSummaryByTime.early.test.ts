@@ -16,7 +16,7 @@ import { TimeFilter } from 'src/share/Enum/Enum';
  */
 describe('DashboardService.getFinancialSummaryByTime() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -37,11 +37,11 @@ describe('DashboardService.getFinancialSummaryByTime() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: 'OrderRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
@@ -67,21 +67,21 @@ describe('DashboardService.getFinancialSummaryByTime() method', () => {
     it('TC_DASHBOARD_SERVICE_FINANCIAL_001 - Nên trả về thống kê tài chính đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
-      
+
       // Mock getFinancialSummary
       const mockFinancialData = [
         { time_period: '2023-W15', total_revenue: '1000000', total_cost: '700000', profit: '300000' },
         { time_period: '2023-W16', total_revenue: '1200000', total_cost: '800000', profit: '400000' }
       ];
-      
+
       mockOrderRepo.getFinancialSummary.mockResolvedValue(mockFinancialData);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFinancialSummaryByTime(timeFilter);
 
       // Kiểm tra (Assert)
       expect(mockOrderRepo.getFinancialSummary).toHaveBeenCalledWith(timeFilter);
-      
+
       // Kiểm tra kết quả
       expect(result).toEqual([
         { time_period: '2023-W15', total_revenue: 1000000, total_cost: 700000, profit: 300000 },
@@ -99,21 +99,21 @@ describe('DashboardService.getFinancialSummaryByTime() method', () => {
     it('TC_DASHBOARD_SERVICE_FINANCIAL_002 - Nên xử lý đúng khi có giá trị null hoặc undefined', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
-      
+
       // Mock getFinancialSummary với dữ liệu có giá trị null/undefined
       const mockFinancialData = [
         { time_period: '2023-04', total_revenue: null, total_cost: '700000', profit: '300000' },
         { time_period: '2023-05', total_revenue: '1200000', total_cost: undefined, profit: null }
       ];
-      
+
       mockOrderRepo.getFinancialSummary.mockResolvedValue(mockFinancialData);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFinancialSummaryByTime(timeFilter);
 
       // Kiểm tra (Assert)
       expect(mockOrderRepo.getFinancialSummary).toHaveBeenCalledWith(timeFilter);
-      
+
       // Kiểm tra kết quả
       expect(result).toEqual([
         { time_period: '2023-04', total_revenue: 0, total_cost: 700000, profit: 300000 },
@@ -137,10 +137,10 @@ describe('DashboardService.getFinancialSummaryByTime() method', () => {
     it('TC_DASHBOARD_SERVICE_FINANCIAL_003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
-      
+
       // Mock getFinancialSummary trả về mảng rỗng
       mockOrderRepo.getFinancialSummary.mockResolvedValue([]);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFinancialSummaryByTime(timeFilter);
 
@@ -159,15 +159,15 @@ describe('DashboardService.getFinancialSummaryByTime() method', () => {
     it('TC_DASHBOARD_SERVICE_FINANCIAL_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
-      
+
       // Mock getFinancialSummary để ném ra lỗi
       const errorMessage = 'Database connection error';
       mockOrderRepo.getFinancialSummary.mockRejectedValue(new Error(errorMessage));
-      
+
       // Thực thi & Kiểm tra (Act & Assert)
       await expect(dashboardService.getFinancialSummaryByTime(timeFilter))
         .rejects.toThrow(errorMessage);
-      
+
       expect(mockOrderRepo.getFinancialSummary).toHaveBeenCalledWith(timeFilter);
     });
   });

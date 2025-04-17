@@ -17,7 +17,7 @@ import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYea
  */
 describe('DashboardService.timeFilterCreate() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -36,16 +36,16 @@ describe('DashboardService.timeFilterCreate() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: 'OrderRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
-    
+
     // Mock Date.now để có kết quả kiểm thử nhất quán
     jest.spyOn(global, 'Date').mockImplementation(() => new Date('2023-04-15T12:00:00Z'));
   });

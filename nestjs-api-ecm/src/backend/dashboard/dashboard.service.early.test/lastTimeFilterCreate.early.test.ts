@@ -16,7 +16,7 @@ import { TimeFilter } from 'src/share/Enum/Enum';
  */
 describe('DashboardService.lastTimeFilterCreate() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -35,16 +35,16 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: 'OrderRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
-    
+
     // Spy các phương thức helper để kiểm tra chúng được gọi đúng cách
     jest.spyOn(dashboardService, 'addDays');
     jest.spyOn(dashboardService, 'addMonths');
@@ -72,22 +72,22 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
       const startDate = new Date('2023-04-10'); // Thứ Hai
       const endDate = new Date('2023-04-16'); // Chủ Nhật
       const timeFilter = TimeFilter.Week;
-      
+
       // Thực thi (Act)
       const result = dashboardService.lastTimeFilterCreate(startDate, endDate, timeFilter);
 
       // Kiểm tra (Assert)
       expect(dashboardService.addDays).toHaveBeenCalledWith(startDate, -7);
       expect(dashboardService.addDays).toHaveBeenCalledWith(endDate, -7);
-      
+
       // Kiểm tra kết quả
       const expectedLastStartDate = new Date('2023-04-03'); // Thứ Hai tuần trước
       const expectedLastEndDate = new Date('2023-04-09'); // Chủ Nhật tuần trước
-      
+
       expect(result.lastStartDate.getFullYear()).toBe(expectedLastStartDate.getFullYear());
       expect(result.lastStartDate.getMonth()).toBe(expectedLastStartDate.getMonth());
       expect(result.lastStartDate.getDate()).toBe(expectedLastStartDate.getDate());
-      
+
       expect(result.lastEndDate.getFullYear()).toBe(expectedLastEndDate.getFullYear());
       expect(result.lastEndDate.getMonth()).toBe(expectedLastEndDate.getMonth());
       expect(result.lastEndDate.getDate()).toBe(expectedLastEndDate.getDate());
@@ -105,22 +105,22 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
       const startDate = new Date('2023-04-01'); // Ngày đầu tháng 4
       const endDate = new Date('2023-04-30'); // Ngày cuối tháng 4
       const timeFilter = TimeFilter.Month;
-      
+
       // Thực thi (Act)
       const result = dashboardService.lastTimeFilterCreate(startDate, endDate, timeFilter);
 
       // Kiểm tra (Assert)
       expect(dashboardService.addMonths).toHaveBeenCalledWith(startDate, -1);
       expect(dashboardService.addMonths).toHaveBeenCalledWith(endDate, -1);
-      
+
       // Kiểm tra kết quả
       const expectedLastStartDate = new Date('2023-03-01'); // Ngày đầu tháng 3
       const expectedLastEndDate = new Date('2023-03-31'); // Ngày cuối tháng 3
-      
+
       expect(result.lastStartDate.getFullYear()).toBe(expectedLastStartDate.getFullYear());
       expect(result.lastStartDate.getMonth()).toBe(expectedLastStartDate.getMonth());
       expect(result.lastStartDate.getDate()).toBe(expectedLastStartDate.getDate());
-      
+
       expect(result.lastEndDate.getFullYear()).toBe(expectedLastEndDate.getFullYear());
       expect(result.lastEndDate.getMonth()).toBe(expectedLastEndDate.getMonth());
       expect(result.lastEndDate.getDate()).toBe(expectedLastEndDate.getDate());
@@ -138,22 +138,22 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
       const startDate = new Date('2023-04-01'); // Ngày đầu Q2
       const endDate = new Date('2023-06-30'); // Ngày cuối Q2
       const timeFilter = TimeFilter.Quarter;
-      
+
       // Thực thi (Act)
       const result = dashboardService.lastTimeFilterCreate(startDate, endDate, timeFilter);
 
       // Kiểm tra (Assert)
       expect(dashboardService.addMonths).toHaveBeenCalledWith(startDate, -3);
       expect(dashboardService.addMonths).toHaveBeenCalledWith(endDate, -3);
-      
+
       // Kiểm tra kết quả
       const expectedLastStartDate = new Date('2023-01-01'); // Ngày đầu Q1
       const expectedLastEndDate = new Date('2023-03-31'); // Ngày cuối Q1
-      
+
       expect(result.lastStartDate.getFullYear()).toBe(expectedLastStartDate.getFullYear());
       expect(result.lastStartDate.getMonth()).toBe(expectedLastStartDate.getMonth());
       expect(result.lastStartDate.getDate()).toBe(expectedLastStartDate.getDate());
-      
+
       expect(result.lastEndDate.getFullYear()).toBe(expectedLastEndDate.getFullYear());
       expect(result.lastEndDate.getMonth()).toBe(expectedLastEndDate.getMonth());
       expect(result.lastEndDate.getDate()).toBe(expectedLastEndDate.getDate());
@@ -171,22 +171,22 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
       const startDate = new Date('2023-01-01'); // Ngày đầu năm 2023
       const endDate = new Date('2023-12-31'); // Ngày cuối năm 2023
       const timeFilter = TimeFilter.Year;
-      
+
       // Thực thi (Act)
       const result = dashboardService.lastTimeFilterCreate(startDate, endDate, timeFilter);
 
       // Kiểm tra (Assert)
       expect(dashboardService.addYears).toHaveBeenCalledWith(startDate, -1);
       expect(dashboardService.addYears).toHaveBeenCalledWith(endDate, -1);
-      
+
       // Kiểm tra kết quả
       const expectedLastStartDate = new Date('2022-01-01'); // Ngày đầu năm 2022
       const expectedLastEndDate = new Date('2022-12-31'); // Ngày cuối năm 2022
-      
+
       expect(result.lastStartDate.getFullYear()).toBe(expectedLastStartDate.getFullYear());
       expect(result.lastStartDate.getMonth()).toBe(expectedLastStartDate.getMonth());
       expect(result.lastStartDate.getDate()).toBe(expectedLastStartDate.getDate());
-      
+
       expect(result.lastEndDate.getFullYear()).toBe(expectedLastEndDate.getFullYear());
       expect(result.lastEndDate.getMonth()).toBe(expectedLastEndDate.getMonth());
       expect(result.lastEndDate.getDate()).toBe(expectedLastEndDate.getDate());
