@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,60 +91,60 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Controller, Post, Body, Patch } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import { RegisterModuleService } from './register-service/register-module.service';</span>
-<span class="cstat-no" title="statement not covered" >import { CreateUserDto } from 'src/dto/userDTO/user.create.dto';</span>
-<span class="cstat-no" title="statement not covered" >import { responseHandler } from 'src/Until/responseUtil';</span>
-<span class="cstat-no" title="statement not covered" >import { VerifyDto } from 'src/dto/userDTO/user.verify.dto';</span>
-<span class="cstat-no" title="statement not covered" >import { ApiTags } from '@nestjs/swagger';</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Controller, Post, Body, Patch } from '@nestjs/common';
+import { RegisterModuleService } from './register-service/register-module.service';
+import { CreateUserDto } from 'src/dto/userDTO/user.create.dto';
+import { responseHandler } from 'src/Until/responseUtil';
+import { VerifyDto } from 'src/dto/userDTO/user.verify.dto';
+import { ApiTags } from '@nestjs/swagger';
 &nbsp;
 @Controller('register')
 @ApiTags('Regiter')
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >RegisterModuleController </span>{</span></span>
-<span class="fstat-no" title="function not covered" >  constructor(private readonly <span class="cstat-no" title="statement not covered" >r</span>egisterModuleService: R</span>egisterModuleService) {}
+export class RegisterModuleController {
+  constructor(private readonly registerModuleService: RegisterModuleService) {}
 &nbsp;
   @Post()
-<span class="fstat-no" title="function not covered" >  async <span class="cstat-no" title="statement not covered" ></span>create(@Body() createUserDTO: CreateUserDto) {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const email = <span class="cstat-no" title="statement not covered" >await this.registerModuleService.create(createUserDTO);</span>
-<span class="cstat-no" title="statement not covered" >      return responseHandler.ok(email);</span>
+  async create(@Body() createUserDTO: CreateUserDto) {
+    try {
+      const email = await this.registerModuleService.create(createUserDTO);
+      return responseHandler.ok(email);
     } catch (e) {
-      const errorMessage = <span class="cstat-no" title="statement not covered" >e instanceof Error ? e.message : JSON.stringify(e);</span>
-<span class="cstat-no" title="statement not covered" >      return responseHandler.error(errorMessage);</span>
+      const errorMessage = e instanceof Error ? e.message : JSON.stringify(e);
+      return responseHandler.error(errorMessage);
     }
   }
 &nbsp;
   @Patch()
-<span class="fstat-no" title="function not covered" >  async <span class="cstat-no" title="statement not covered" ></span>update(@Body() verifyDTO: VerifyDto) {</span>
-<span class="cstat-no" title="statement not covered" >    return this.registerModuleService.update(verifyDTO);</span>
+  async update(@Body() verifyDTO: VerifyDto) {
+    return this.registerModuleService.update(verifyDTO);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -154,7 +154,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-16T13:04:31.850Z
+                at 2025-04-17T17:15:07.985Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

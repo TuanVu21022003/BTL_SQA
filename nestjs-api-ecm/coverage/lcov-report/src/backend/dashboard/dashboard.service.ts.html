@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">12.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/98</span>
+                <span class='fraction'>12/98</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">10.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/95</span>
+                <span class='fraction'>10/95</span>
             </div>
         
             
@@ -323,22 +323,22 @@
 <a name='L258'></a><a href='#L258'>258</a>
 <a name='L259'></a><a href='#L259'>259</a>
 <a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -583,22 +583,22 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Injectable } from '@nestjs/common';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@nestjs/common';
 import {OrderAllOrderDto} from "src/dto/orderDTO/order.allOrder.dto";
-<span class="cstat-no" title="statement not covered" >import {InjectRepository} from "@nestjs/typeorm";</span>
+import {InjectRepository} from "@nestjs/typeorm";
 import {OrderEntity} from "src/entities/order_entity/oder.entity";
-<span class="cstat-no" title="statement not covered" >import {OrderRepository} from "src/repository/OrderRepository";</span>
+import {OrderRepository} from "src/repository/OrderRepository";
 import {Order_productEntity} from "src/entities/order_entity/order_product.entity";
 import {DataSource, Repository} from "typeorm";
-<span class="cstat-no" title="statement not covered" >import {OrderStatus, TimeFilter} from "src/share/Enum/Enum";</span>
-<span class="cstat-no" title="statement not covered" >import {endOfMonth, endOfWeek, endOfYear, startOfMonth, startOfWeek, startOfYear} from "date-fns";</span>
-<span class="cstat-no" title="statement not covered" >import {OrderProductRepository} from "src/repository/OrderProductRepository";</span>
-<span class="cstat-no" title="statement not covered" >import {ImportRepository} from "src/repository/ImportRepository";</span>
-<span class="cstat-no" title="statement not covered" >import {ImportProductRepository} from "src/repository/ImportProductRepository";</span>
-<span class="cstat-no" title="statement not covered" >import {UserRepository} from "src/repository/UserRepository";</span>
+import {OrderStatus, TimeFilter} from "src/share/Enum/Enum";
+import {endOfMonth, endOfWeek, endOfYear, startOfMonth, startOfWeek, startOfYear} from "date-fns";
+import {OrderProductRepository} from "src/repository/OrderProductRepository";
+import {ImportRepository} from "src/repository/ImportRepository";
+import {ImportProductRepository} from "src/repository/ImportProductRepository";
+import {UserRepository} from "src/repository/UserRepository";
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >DashboardService </span>{</span></span>
+export class DashboardService {
 <span class="fstat-no" title="function not covered" >    constructor(</span>
         @InjectRepository(OrderRepository)
         private readonly <span class="cstat-no" title="statement not covered" >orderRepo: O</span>rderRepository,
@@ -850,7 +850,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-16T13:04:31.850Z
+                at 2025-04-17T17:15:07.985Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

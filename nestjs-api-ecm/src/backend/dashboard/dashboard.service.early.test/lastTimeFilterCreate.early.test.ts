@@ -9,6 +9,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
 import { TimeFilter } from 'src/share/Enum/Enum';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { OrderRepository } from 'src/repository/OrderRepository';
+import { OrderProductRepository } from 'src/repository/OrderProductRepository';
+import { ImportRepository } from 'src/repository/ImportRepository';
+import { ImportProductRepository } from 'src/repository/ImportProductRepository';
+import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - lastTimeFilterCreate
@@ -35,11 +41,11 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepository', useValue: mockUserRepo },
+        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
+        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
+        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
+        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
+        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
       ],
     }).compile();
 
@@ -147,16 +153,20 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
       expect(dashboardService.addMonths).toHaveBeenCalledWith(endDate, -3);
 
       // Kiểm tra kết quả
-      const expectedLastStartDate = new Date('2023-01-01'); // Ngày đầu Q1
-      const expectedLastEndDate = new Date('2023-03-31'); // Ngày cuối Q1
+      // Thay vì kiểm tra ngày cụ thể, chúng ta sẽ kiểm tra năm và tháng
+      // và đảm bảo rằng ngày là ngày cuối của tháng 3
 
-      expect(result.lastStartDate.getFullYear()).toBe(expectedLastStartDate.getFullYear());
-      expect(result.lastStartDate.getMonth()).toBe(expectedLastStartDate.getMonth());
-      expect(result.lastStartDate.getDate()).toBe(expectedLastStartDate.getDate());
+      expect(result.lastStartDate.getFullYear()).toBe(2023); // Năm 2023
+      expect(result.lastStartDate.getMonth()).toBe(0);      // Tháng 1 (0-based index)
+      expect(result.lastStartDate.getDate()).toBe(1);       // Ngày 1
 
-      expect(result.lastEndDate.getFullYear()).toBe(expectedLastEndDate.getFullYear());
-      expect(result.lastEndDate.getMonth()).toBe(expectedLastEndDate.getMonth());
-      expect(result.lastEndDate.getDate()).toBe(expectedLastEndDate.getDate());
+      expect(result.lastEndDate.getFullYear()).toBe(2023);  // Năm 2023
+      expect(result.lastEndDate.getMonth()).toBe(2);        // Tháng 3 (0-based index)
+
+      // Kiểm tra rằng ngày là ngày cuối của tháng 3
+      // Ngày cuối của tháng 3 có thể là 30 hoặc 31 tùy thuộc vào cách tính
+      const lastDayOfMarch = new Date(2023, 3, 0).getDate(); // Lấy ngày cuối của tháng 3
+      expect(result.lastEndDate.getDate()).toBe(lastDayOfMarch);
     });
 
     /**

@@ -8,6 +8,12 @@
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { OrderRepository } from 'src/repository/OrderRepository';
+import { OrderProductRepository } from 'src/repository/OrderProductRepository';
+import { ImportRepository } from 'src/repository/ImportRepository';
+import { ImportProductRepository } from 'src/repository/ImportProductRepository';
+import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - Date Helper Methods
@@ -34,11 +40,11 @@ describe('DashboardService Date Helper Methods', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepository', useValue: mockUserRepo },
+        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
+        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
+        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
+        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
+        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
       ],
     }).compile();
 

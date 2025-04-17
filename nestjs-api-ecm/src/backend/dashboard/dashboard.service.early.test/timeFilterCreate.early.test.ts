@@ -10,6 +10,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
 import { TimeFilter } from 'src/share/Enum/Enum';
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } from 'date-fns';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { OrderRepository } from 'src/repository/OrderRepository';
+import { OrderProductRepository } from 'src/repository/OrderProductRepository';
+import { ImportRepository } from 'src/repository/ImportRepository';
+import { ImportProductRepository } from 'src/repository/ImportProductRepository';
+import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - timeFilterCreate
@@ -36,18 +42,26 @@ describe('DashboardService.timeFilterCreate() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepository', useValue: mockUserRepo },
+        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
+        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
+        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
+        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
+        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
 
-    // Mock Date.now để có kết quả kiểm thử nhất quán
-    jest.spyOn(global, 'Date').mockImplementation(() => new Date('2023-04-15T12:00:00Z'));
+    // Mock Date constructor để có kết quả kiểm thử nhất quán
+    const RealDate = global.Date;
+    jest.spyOn(global, 'Date').mockImplementation((arg) => {
+      if (arg) {
+        // Nếu có tham số, sử dụng Date thật
+        return new RealDate(arg);
+      }
+      // Nếu không có tham số, trả về ngày cố định
+      return new RealDate('2023-04-15T12:00:00Z');
+    });
   });
 
   afterEach(() => {
@@ -69,9 +83,10 @@ describe('DashboardService.timeFilterCreate() method', () => {
     it('TC_DASHBOARD_SERVICE_TIME_FILTER_001 - Nên trả về khoảng thời gian đúng với bộ lọc "Tuần"', () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
-      const mockDate = new Date('2023-04-15T12:00:00Z');
-      const expectedStartDate = startOfWeek(mockDate, { weekStartsOn: 1 });
-      const expectedEndDate = endOfWeek(mockDate, { weekStartsOn: 1 });
+      // Sử dụng mockDate đã được thiết lập trong beforeEach
+      const fixedDate = new Date('2023-04-15T12:00:00Z');
+      const expectedStartDate = startOfWeek(fixedDate, { weekStartsOn: 1 });
+      const expectedEndDate = endOfWeek(fixedDate, { weekStartsOn: 1 });
 
       // Thực thi (Act)
       const result = dashboardService.timeFilterCreate(timeFilter);
@@ -91,9 +106,10 @@ describe('DashboardService.timeFilterCreate() method', () => {
     it('TC_DASHBOARD_SERVICE_TIME_FILTER_002 - Nên trả về khoảng thời gian đúng với bộ lọc "Tháng"', () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
-      const mockDate = new Date('2023-04-15T12:00:00Z');
-      const expectedStartDate = startOfMonth(mockDate);
-      const expectedEndDate = endOfMonth(mockDate);
+      // Sử dụng mockDate đã được thiết lập trong beforeEach
+      const fixedDate = new Date('2023-04-15T12:00:00Z');
+      const expectedStartDate = startOfMonth(fixedDate);
+      const expectedEndDate = endOfMonth(fixedDate);
 
       // Thực thi (Act)
       const result = dashboardService.timeFilterCreate(timeFilter);
@@ -113,9 +129,10 @@ describe('DashboardService.timeFilterCreate() method', () => {
     it('TC_DASHBOARD_SERVICE_TIME_FILTER_003 - Nên trả về khoảng thời gian đúng với bộ lọc "Năm"', () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
-      const mockDate = new Date('2023-04-15T12:00:00Z');
-      const expectedStartDate = startOfYear(mockDate);
-      const expectedEndDate = endOfYear(mockDate);
+      // Sử dụng mockDate đã được thiết lập trong beforeEach
+      const fixedDate = new Date('2023-04-15T12:00:00Z');
+      const expectedStartDate = startOfYear(fixedDate);
+      const expectedEndDate = endOfYear(fixedDate);
 
       // Thực thi (Act)
       const result = dashboardService.timeFilterCreate(timeFilter);
@@ -135,7 +152,7 @@ describe('DashboardService.timeFilterCreate() method', () => {
     it('TC_DASHBOARD_SERVICE_TIME_FILTER_004 - Nên trả về khoảng thời gian đúng với bộ lọc "Quý"', () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
-      const mockDate = new Date('2023-04-15T12:00:00Z'); // Q2 (Apr-Jun)
+      // Sử dụng mockDate đã được thiết lập trong beforeEach
       const expectedStartDate = new Date(2023, 3, 1); // Apr 1, 2023
       const expectedEndDate = new Date(2023, 6, 0); // Jun 30, 2023
 
