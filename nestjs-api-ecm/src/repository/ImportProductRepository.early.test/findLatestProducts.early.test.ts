@@ -119,4 +119,38 @@ describe('ImportProductRepository.findLatestProducts() findLatestProducts method
       await expect(importProductRepository.findLatestProducts()).rejects.toThrow('Database error');
     });
   });
+
+  describe('Happy paths', () => {
+    /**
+     * Test Case ID: TC004
+     * Mục tiêu: Kiểm tra giới hạn số lượng sản phẩm trả về đúng là 8 khi có nhiều hơn 8 sản phẩm
+     * Input: Không có (phương thức không nhận tham số)
+     * Expected Output: Mảng chứa đúng 8 sản phẩm mới nhất, không nhiều hơn
+     * Ghi chú: Happy path - Kiểm tra ràng buộc limit(8) hoạt động đúng
+     */
+    it('should return only 8 products even when database has more', async () => {
+      // Arrange: Chuẩn bị dữ liệu mẫu với 9 sản phẩm
+      const mockProducts = Array.from({ length: 9 }, (_, i) => ({
+        productId: i + 1,
+        productName: `Product ${i + 1}`,
+        productImages: `image${i + 1}.jpg`,
+        priceOut: (i + 1) * 100,
+        productWeight: i + 1,
+        categoryName: `Category ${i + 1}`
+      }));
+      
+      // Quan trọng: Mock getRawMany để chỉ trả về 8 sản phẩm đầu tiên như trong thực tế bên dev
+      mockQueryBuilder.getRawMany.mockResolvedValue(mockProducts.slice(0, 8));
+    
+      // Act: Gọi phương thức cần test
+      const result = await importProductRepository.findLatestProducts();
+    
+      // Assert: Kiểm tra số lượng sản phẩm trả về đúng là 8
+      expect(result.length).toBe(8);
+      // Kiểm tra limit(8) được gọi
+      expect(mockQueryBuilder.limit).toHaveBeenCalledWith(8);
+      // Kiểm tra orderBy để đảm bảo lấy 8 sản phẩm mới nhất
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('import.createdAt', 'DESC');
+    });
+  });
 });

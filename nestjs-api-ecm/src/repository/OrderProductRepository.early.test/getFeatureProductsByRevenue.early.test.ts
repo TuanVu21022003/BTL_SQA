@@ -107,6 +107,47 @@ describe('OrderProductRepository.getFeatureProductsByRevenue() getFeatureProduct
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith('order.paymentStatus = :status', { status: PaymentStatus.Paid });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith('order.orderStatus = :orderStatus', { orderStatus: OrderStatus.Delivered });
     });
+
+    /**
+     * Test Case ID: TC004
+     * Mục tiêu: Kiểm tra giới hạn số lượng sản phẩm trả về đúng là 5 khi có nhiều hơn 5 sản phẩm
+     * Input: Không có (phương thức không nhận tham số)
+     * Expected Output: Mảng chứa đúng 5 sản phẩm nổi bật, không nhiều hơn
+     * Ghi chú: Happy path - Kiểm tra ràng buộc limit(5) hoạt động đúng
+     */
+    it('should return only 5 products even when database has more', async () => {
+      // Arrange: Chuẩn bị dữ liệu mẫu với 6 sản phẩm
+      const mockProducts = Array.from({ length: 6 }, (_, i) => ({
+        productId: i + 1,
+        productName: `Product ${i + 1}`,
+        productImage: `image${i + 1}.jpg`,
+        priceout: (i + 1) * 100,
+        categoryName: `Category ${i + 1}`,
+        totalRevenue: (6 - i) * 1000 // Doanh thu giảm dần để test orderBy
+      }));
+      
+      // Mock getRawMany để chỉ trả về 5 sản phẩm đầu tiên như trong thực tế
+      mockQueryBuilder.getRawMany.mockResolvedValue(mockProducts.slice(0, 5));
+
+      // Act: Gọi phương thức cần test
+      const result = await repository.getFeatureProductsByRevenue();
+
+      // Assert: Kiểm tra số lượng sản phẩm trả về đúng là 5
+      expect(result.length).toBe(5);
+      // Kiểm tra limit(5) được gọi
+      expect(mockQueryBuilder.limit).toHaveBeenCalledWith(5);
+      // Kiểm tra orderBy để đảm bảo sắp xếp theo doanh thu
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('totalRevenue', 'DESC');
+      
+      // Kiểm tra cấu trúc dữ liệu trả về của từng sản phẩm
+      result.forEach(product => {
+        expect(product).toHaveProperty('productId');
+        expect(product).toHaveProperty('productName');
+        expect(product).toHaveProperty('productImage');
+        expect(product).toHaveProperty('priceout');
+        expect(product).toHaveProperty('categoryName');
+      });
+    });
   });
 
   describe('Edge cases', () => {
