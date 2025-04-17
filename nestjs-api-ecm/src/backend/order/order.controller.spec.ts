@@ -73,10 +73,10 @@ describe('OrderController', () => {
      * Mã: TC002
      * Test case: Lấy danh sách đơn hàng thành công
      * Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng của người dùng
-     * Input: 
+     * Input:
      * - userId: ID người dùng (user123)
      * - orderDto: {page: 1, limit: 10}
-     * Output mong đợi: 
+     * Output mong đợi:
      * - status: 200
      * - message: 'SUCCESS!'
      * - success: true
@@ -87,21 +87,25 @@ describe('OrderController', () => {
       const userId = 'user123';
       const orderDto: OrderAllOrderDto = {
         page: 1,
-        limit: 10
+        limit: 10,
       };
-      const mockOrders = [{
-        id: '1',
-        user_id: 'user123',
-        products: [{
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100
-        }],
-        totalAmount: 200,
-        paymentStatus: PaymentStatus.Unpaid,
-        orderStatus: OrderStatus.Checking
-      }];
-      
+      const mockOrders = [
+        {
+          id: '1',
+          user_id: 'user123',
+          products: [
+            {
+              product_id: 'prod1',
+              quantity: 2,
+              priceout: 100,
+            },
+          ],
+          totalAmount: 200,
+          paymentStatus: PaymentStatus.Unpaid,
+          orderStatus: OrderStatus.Checking,
+        },
+      ];
+
       mockOrderService.getAllOrder.mockResolvedValue(mockOrders);
 
       // Thực thi test
@@ -113,18 +117,34 @@ describe('OrderController', () => {
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockOrders
+        data: mockOrders,
       });
     });
 
+    // Test case cho xử lý lỗi getAllOrder
+    it('should handle service error in getAllOrder', async () => {
+      const userId = 'user123';
+      const orderDto = { page: 1, limit: 10 };
+      const error = new Error('Database error');
+
+      mockOrderService.getAllOrder.mockRejectedValue(error);
+
+      const result = await controller.getAllOrder(userId, orderDto);
+
+      expect(result).toEqual({
+        status: 500,
+        message: error.message,
+        success: false,
+      });
+    });
     /**
      * Mã: TC003
      * Test case: Xử lý lỗi khi lấy danh sách đơn hàng
      * Mục tiêu: Kiểm tra xử lý khi service trả về lỗi
-     * Input: 
+     * Input:
      * - userId: ID người dùng
      * - orderDto: {page: 1, limit: 10}
-     * Output mong đợi: 
+     * Output mong đợi:
      * - status: 500
      * - message: 'Test error'
      * - success: false
@@ -133,9 +153,9 @@ describe('OrderController', () => {
       const userId = 'user123';
       const orderDto: OrderAllOrderDto = {
         page: 1,
-        limit: 10
+        limit: 10,
       };
-      
+
       mockOrderService.getAllOrder.mockRejectedValue(new Error('Test error'));
 
       const result = await controller.getAllOrder(userId, orderDto);
@@ -171,18 +191,22 @@ describe('OrderController', () => {
       const orderStatus = OrderStatus.Checking;
       const paymentStatus = PaymentStatus.Paid;
       const includeExcluded = false;
-      const mockOrders = [{
-        id: '1',
-        user_id: 'user123',
-        products: [{
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100
-        }],
-        totalAmount: 200,
-        paymentStatus: PaymentStatus.Paid,
-        orderStatus: OrderStatus.Checking
-      }];
+      const mockOrders = [
+        {
+          id: '1',
+          user_id: 'user123',
+          products: [
+            {
+              product_id: 'prod1',
+              quantity: 2,
+              priceout: 100,
+            },
+          ],
+          totalAmount: 200,
+          paymentStatus: PaymentStatus.Paid,
+          orderStatus: OrderStatus.Checking,
+        },
+      ];
 
       mockOrderService.getOrderManagement.mockResolvedValue(mockOrders);
 
@@ -192,28 +216,51 @@ describe('OrderController', () => {
         limit,
         orderStatus,
         paymentStatus,
-        includeExcluded
+        includeExcluded,
       );
 
       const expectedFilters = {
         orderStatus: orderStatus || '',
         paymentStatus: paymentStatus || '',
-        excludedStatuses: !orderStatus ? [OrderStatus.Delivered, OrderStatus.Canceled] : [],
-        includedStatuses: []
+        excludedStatuses: !orderStatus
+          ? [OrderStatus.Delivered, OrderStatus.Canceled]
+          : [],
+        includedStatuses: [],
       };
 
       // Kiểm tra kết quả
       expect(service.getOrderManagement).toHaveBeenCalledWith(
         page,
         limit,
-        expectedFilters
+        expectedFilters,
       );
 
       expect(result).toEqual({
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockOrders
+        data: mockOrders,
+      });
+    });
+
+    it('should handle invalid input in getOrderManagement', async () => {
+      // Mock service để trả về lỗi khi nhận được input không hợp lệ
+      mockOrderService.getOrderManagement.mockRejectedValue(
+        new Error('Invalid page or limit')
+      );
+    
+      const result = await controller.getOrderManagement(
+        -1, // invalid page
+        0,  // invalid limit
+        undefined,
+        undefined,
+        false
+      );
+      
+      expect(result).toEqual({
+        status: 500,
+        message: 'Invalid page or limit',
+        success: false,
       });
     });
 
@@ -235,13 +282,15 @@ describe('OrderController', () => {
       const orderStatus = undefined; // Quan trọng: orderStatus phải là undefined
       const paymentStatus = PaymentStatus.Paid;
       const includeExcluded = true;
-      
-      const mockOrders = [{
-        id: '1',
-        user_id: 'user123',
-        orderStatus: OrderStatus.Checking,
-        paymentStatus: PaymentStatus.Paid
-      }];
+
+      const mockOrders = [
+        {
+          id: '1',
+          user_id: 'user123',
+          orderStatus: OrderStatus.Checking,
+          paymentStatus: PaymentStatus.Paid,
+        },
+      ];
 
       mockOrderService.getOrderManagement.mockResolvedValue(mockOrders);
 
@@ -250,32 +299,35 @@ describe('OrderController', () => {
         limit,
         orderStatus,
         paymentStatus,
-        includeExcluded
+        includeExcluded,
       );
 
       const expectedFilters = {
         orderStatus: '',
         paymentStatus: paymentStatus || '',
         excludedStatuses: [],
-        includedStatuses: includeExcluded && !orderStatus ? [OrderStatus.Delivered, OrderStatus.Canceled] : []
+        includedStatuses:
+          includeExcluded && !orderStatus
+            ? [OrderStatus.Delivered, OrderStatus.Canceled]
+            : [],
       };
 
       expect(service.getOrderManagement).toHaveBeenCalledWith(
         page,
         limit,
-        expectedFilters
+        expectedFilters,
       );
 
       expect(result).toEqual({
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockOrders
+        data: mockOrders,
       });
     });
-});
+  });
 
-/**
+  /**
    * Nhóm test cho chức năng tạo đơn hàng mới
    */
   describe('createOrder', () => {
@@ -293,20 +345,22 @@ describe('OrderController', () => {
       const orderDto: CreateOrderDto = {
         totalPrice: 200,
         orderStatus: OrderStatus.Checking,
-        products: [{
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100
-        }],
+        products: [
+          {
+            product_id: 'prod1',
+            quantity: 2,
+            priceout: 100,
+          },
+        ],
         paymentStatus: PaymentStatus.Unpaid,
         paymentMethod: PaymentMethod.CashOnDelivery,
         location_id: 'loc123',
-        user_id: userId
+        user_id: userId,
       };
-      
-      const mockOrder = { 
-        id: '1', 
-        ...orderDto
+
+      const mockOrder = {
+        id: '1',
+        ...orderDto,
       };
 
       mockOrderService.createOrder.mockResolvedValue(mockOrder);
@@ -318,12 +372,32 @@ describe('OrderController', () => {
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockOrder
+        data: mockOrder,
       });
     });
-});
 
-/**
+    it('should validate order data before creation', async () => {
+      const userId = 'user123';
+      const invalidOrderDto: CreateOrderDto = {
+        totalPrice: -100, // giá trị không hợp lệ
+        products: [], // mảng sản phẩm rỗng
+        paymentMethod: PaymentMethod.CashOnDelivery,
+        user_id: userId,
+        location_id: 'loc123',
+        orderStatus: OrderStatus.Checking,
+        paymentStatus: PaymentStatus.Unpaid
+      };
+      
+      mockOrderService.createOrder.mockRejectedValue(new Error('Invalid order data'));
+      
+      const result = await controller.createOrder(userId, invalidOrderDto);
+      
+      expect(result.success).toBeFalsy();
+      expect(result.status).toBe(500);
+    });
+  });
+
+  /**
    * Nhóm test cho chức năng xem chi tiết đơn hàng
    */
   describe('getDetailOrder', () => {
@@ -342,14 +416,16 @@ describe('OrderController', () => {
       const mockOrderDetail = {
         id: orderId,
         user_id: userId,
-        products: [{
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100
-        }],
+        products: [
+          {
+            product_id: 'prod1',
+            quantity: 2,
+            priceout: 100,
+          },
+        ],
         totalAmount: 200,
         paymentStatus: PaymentStatus.Unpaid,
-        orderStatus: OrderStatus.Checking
+        orderStatus: OrderStatus.Checking,
       };
 
       mockOrderService.getDetail.mockResolvedValue(mockOrderDetail);
@@ -361,7 +437,24 @@ describe('OrderController', () => {
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockOrderDetail
+        data: mockOrderDetail,
+      });
+    });
+    it('should handle non-existent order in getDetailOrder', async () => {
+      const userId = 'user123';
+      const nonExistentOrderId = 'invalid_id';
+      
+      // Mock service để throw error khi đơn hàng không tồn tại
+      mockOrderService.getDetail.mockRejectedValue(
+        new Error('ORDER.ORDER DETAIL NOT EXSIST!')
+      );
+      
+      const result = await controller.getDetailOrder(userId, nonExistentOrderId);
+      
+      expect(result).toEqual({
+        status: 500,
+        message: 'ORDER.ORDER DETAIL NOT EXSIST!',
+        success: false,
       });
     });
   });
@@ -386,7 +479,7 @@ describe('OrderController', () => {
         orderStatus: OrderStatus.Checking, // Sử dụng giá trị hợp lệ từ enum OrderStatus
         user_id: userId,
         employee_id: 'emp123',
-        paymentStatus: PaymentStatus.Paid
+        paymentStatus: PaymentStatus.Paid,
       };
 
       const mockUpdatedOrder = {
@@ -395,12 +488,14 @@ describe('OrderController', () => {
         employee_id: 'emp123',
         orderStatus: OrderStatus.Checking,
         paymentStatus: PaymentStatus.Paid,
-        products: [{
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100
-        }],
-        totalAmount: 200
+        products: [
+          {
+            product_id: 'prod1',
+            quantity: 2,
+            priceout: 100,
+          },
+        ],
+        totalAmount: 200,
       };
 
       mockOrderService.updateOrder.mockResolvedValue(mockUpdatedOrder);
@@ -412,12 +507,12 @@ describe('OrderController', () => {
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockUpdatedOrder
+        data: mockUpdatedOrder,
       });
     });
-});
+  });
 
-/**
+  /**
    * Nhóm test cho chức năng xem tổng quan đơn hàng của người dùng
    */
   describe('getOrderUserDashboard', () => {
@@ -433,21 +528,27 @@ describe('OrderController', () => {
       const userId = 'user123';
       const mockDashboardData = {
         totalOrders: 5,
-        recentOrders: [{
-          id: 'order123',
-          user_id: userId,
-          products: [{
-            product_id: 'prod1',
-            quantity: 2,
-            priceout: 100
-          }],
-          totalAmount: 200,
-          paymentStatus: PaymentStatus.Unpaid,
-          orderStatus: OrderStatus.Checking
-        }]
+        recentOrders: [
+          {
+            id: 'order123',
+            user_id: userId,
+            products: [
+              {
+                product_id: 'prod1',
+                quantity: 2,
+                priceout: 100,
+              },
+            ],
+            totalAmount: 200,
+            paymentStatus: PaymentStatus.Unpaid,
+            orderStatus: OrderStatus.Checking,
+          },
+        ],
       };
 
-      mockOrderService.getOrderUserDashboard.mockResolvedValue(mockDashboardData);
+      mockOrderService.getOrderUserDashboard.mockResolvedValue(
+        mockDashboardData,
+      );
 
       const result = await controller.getOrderUserDashboard(userId);
 
@@ -456,7 +557,7 @@ describe('OrderController', () => {
         status: 200,
         message: 'SUCCESS!',
         success: true,
-        data: mockDashboardData
+        data: mockDashboardData,
       });
     });
   });
