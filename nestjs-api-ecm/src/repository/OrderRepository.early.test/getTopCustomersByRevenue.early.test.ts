@@ -5,7 +5,7 @@
  * Method: getTopCustomersByRevenue
  * 
  * Mô tả: Test suite cho phương thức getTopCustomersByRevenue của OrderRepository
- * Chức năng: Lấy danh sách top khách hàng có doanh thu cao nhất trong khoảng thời gian
+ * Chức năng: Lấy danh sách top khách hàng có giá trị mua hàng cao nhất trong khoảng thời gian
  */
 
 import { OrderStatus, PaymentStatus } from "src/share/Enum/Enum";
@@ -89,6 +89,74 @@ describe('OrderRepository.getTopCustomersByRevenue() getTopCustomersByRevenue me
       expect((orderRepository as any).groupBy).toHaveBeenCalledWith('orders.user_id');
       expect((orderRepository as any).orderBy).toHaveBeenCalledWith('totalRevenue', 'DESC');
       expect((orderRepository as any).limit).toHaveBeenCalledWith(5);
+    });
+    /**
+     * Test Case ID: TC004
+     * Mục tiêu: Kiểm tra giới hạn số lượng khách hàng trả về đúng là 5 khi có nhiều hơn 5 khách hàng
+     * Input: 
+     * - startDate: 2023-01-01
+     * - endDate: 2023-12-31
+     * - Danh sách 7 khách hàng 
+     * Expected Output: Mảng chứa đúng 5 khách hàng có tiền mua cao nhất, sắp xếp giảm dần
+     * Ghi chú: Happy path - Kiểm tra ràng buộc limit(5) hoạt động đúng
+     */
+    it('should return only top 5 customers when there are more than 5 customers', async () => {
+      // Arrange: Chuẩn bị dữ liệu mẫu với 7 khách hàng, doanh thu tăng dần
+      const startDate = new Date('2023-01-01');
+      const endDate = new Date('2023-12-31');
+      
+      // Tạo mock data với 7 khách hàng
+      const allCustomers = Array.from({ length: 7 }, (_, i) => ({
+        userId: i + 1,
+        userName: `Customer ${i + 1}`,
+        totalRevenue: `${(i + 1) * 1000}.00` // Doanh thu: 1000, 2000, 3000, 4000, 5000, 6000, 7000
+      }));
+
+      // Giả lập database query trả về 5 khách hàng có doanh thu cao nhất
+      const queryBuilder = {
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        innerJoin: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue(
+          allCustomers
+            .sort((a, b) => parseFloat(b.totalRevenue) - parseFloat(a.totalRevenue))
+            .slice(0, 5)
+        )
+      };
+
+      // Mock createQueryBuilder để sử dụng queryBuilder tùy chỉnh
+      (orderRepository as any).createQueryBuilder = jest.fn().mockReturnValue(queryBuilder);
+
+      // Act: Gọi phương thức cần test
+      const result = await orderRepository.getTopCustomersByRevenue(startDate, endDate);
+
+      // Assert: Kiểm tra số lượng khách hàng trả về đúng là 5
+      expect(result.length).toBe(5);
+
+      // Kiểm tra danh sách trả về chỉ chứa 5 khách hàng có doanh thu cao nhất
+      expect(result).toEqual([
+        { userId: 7, userName: 'Customer 7', revenue: 7000.00 },
+        { userId: 6, userName: 'Customer 6', revenue: 6000.00 },
+        { userId: 5, userName: 'Customer 5', revenue: 5000.00 },
+        { userId: 4, userName: 'Customer 4', revenue: 4000.00 },
+        { userId: 3, userName: 'Customer 3', revenue: 3000.00 }
+      ]);
+
+      // Kiểm tra limit(5) được gọi
+      expect(queryBuilder.limit).toHaveBeenCalledWith(5);
+
+      // Kiểm tra orderBy để đảm bảo sắp xếp theo doanh thu
+      expect(queryBuilder.orderBy).toHaveBeenCalledWith('totalRevenue', 'DESC');
+
+      // Kiểm tra thứ tự sắp xếp giảm dần theo doanh thu
+      for (let i = 0; i < result.length - 1; i++) {
+        expect(result[i].revenue).toBeGreaterThan(result[i + 1].revenue);
+      }
     });
   });
 

@@ -61,23 +61,9 @@ describe('ParseBooleanPipe.transform() transform method', () => {
       expect(() => pipe.transform('notABoolean')).toThrow(BadRequestException);
     });
 
-    /**
-     * Test Case ID: TC005
-     * Mục tiêu: Kiểm tra thông báo lỗi khi input không hợp lệ
-     * Input: value = "notABoolean"
-     * Expected Output: BadRequestException với message phù hợp
-     * Ghi chú: Error case - Kiểm tra nội dung thông báo lỗi
-     */
-    it('should throw a BadRequestException with a specific message when the input is a non-boolean string', () => {
-      try {
-        pipe.transform('notABoolean');
-      } catch (e) {
-        // expect(e.message).toBe('Validation failed: notABoolean is not a boolean');
-      }
-    });
 
     /**
-     * Test Case ID: TC006
+     * Test Case ID: TC005
      * Mục tiêu: Kiểm tra xử lý chuỗi rỗng
      * Input: value = ""
      * Expected Output: Ném ra BadRequestException
@@ -87,23 +73,10 @@ describe('ParseBooleanPipe.transform() transform method', () => {
       expect(() => pipe.transform('')).toThrow(BadRequestException);
     });
 
-    /**
-     * Test Case ID: TC007
-     * Mục tiêu: Kiểm tra thông báo lỗi khi input là chuỗi rỗng
-     * Input: value = ""
-     * Expected Output: BadRequestException với message phù hợp
-     * Ghi chú: Error case - Kiểm tra nội dung thông báo lỗi cho chuỗi rỗng
-     */
-    it('should throw a BadRequestException with a specific message when the input is an empty string', () => {
-      try {
-        pipe.transform('');
-      } catch (e) {
-        // expect(e.message).toBe('Validation failed:  is not a boolean');
-      }
-    });
+    
 
     /**
-     * Test Case ID: TC008
+     * Test Case ID: TC006
      * Mục tiêu: Kiểm tra xử lý chuỗi số
      * Input: value = "123"
      * Expected Output: Ném ra BadRequestException
@@ -114,22 +87,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC009
-     * Mục tiêu: Kiểm tra thông báo lỗi khi input là chuỗi số
-     * Input: value = "123"
-     * Expected Output: BadRequestException với message phù hợp
-     * Ghi chú: Error case - Kiểm tra nội dung thông báo lỗi cho chuỗi số
-     */
-    it('should throw a BadRequestException with a specific message when the input is a numeric string', () => {
-      try {
-        pipe.transform('123');
-      } catch (e) {
-        // expect(e.message).toBe('Validation failed: 123 is not a boolean');
-      }
-    });
-
-    /**
-     * Test Case ID: TC010
+     * Test Case ID: TC007
      * Mục tiêu: Kiểm tra xử lý khi input là boolean true
      * Input: value = true
      * Expected Output: Ném ra BadRequestException
@@ -140,7 +98,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC011
+     * Test Case ID: TC008
      * Mục tiêu: Kiểm tra xử lý khi input là boolean false
      * Input: value = false
      * Expected Output: Ném ra BadRequestException
