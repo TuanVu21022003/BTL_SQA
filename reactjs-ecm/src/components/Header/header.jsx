@@ -30,10 +30,17 @@ function Header() {
   };
 
   useEffect(() => {
+    console.log("Header component mounted");
     const fetchUser = async () => {
+      const token = getToken();
+      if (!token) {
+        setUser(null);
+        return;
+      }
       try {
         const response = await getUser();
         setUser(response.data);
+        console.log("User data:", response.data);
       } catch (error) {
         console.error("Failed to fetch user", error);
       }
@@ -55,16 +62,19 @@ function Header() {
       // Gọi hàm logoutUser với userId
       await logoutUser();
 
+      console.log("Logout successful");
+
       // Xóa token khỏi localStorage và đặt lại state user
       localStorage.clear();
       setUser(null); // Đặt lại user state sau khi đăng xuất
-
+      console.log("User state reset after logout");
       // Hiển thị thông báo đăng xuất thành công
       showNotification(
         "Bạn đã đăng xuất thành công.",
         notificationTypes.INFO,
         setNotifications,
       );
+      window.location.href = "/home-page";
     } catch (error) {
       // Xử lý lỗi khi đăng xuất
       console.error("Error logging out:", error);
@@ -116,7 +126,7 @@ function Header() {
                   to="/product/search/1/8"
                   className={({ isActive }) =>
                     isActive ||
-                    window.location.pathname.includes("/product/search")
+                      window.location.pathname.includes("/product/search")
                       ? "border-b-2 border-b-[#006532] text-[15px] font-bold text-[#006532] transition-colors duration-300 ease-in-out"
                       : "text-[15px] font-bold text-[#006532] transition-colors duration-300 ease-in-out hover:text-[#80c9a4]"
                   }

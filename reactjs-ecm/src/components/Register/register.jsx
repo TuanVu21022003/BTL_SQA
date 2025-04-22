@@ -45,9 +45,11 @@ function RegisterForm() {
   const { mutate } = useMutation({
     mutationFn: async (data) => {
       const response = await apiClient.post("/register", data);
+      console.log("response", response);
       return response.data;
     },
     onSuccess: (response) => {
+      console.log("response", response);
       if (response && response.success === true) {
         alert("Vui lòng kiểm tra Email nhận OTP");
         navigate("/otp", { state: { email } });

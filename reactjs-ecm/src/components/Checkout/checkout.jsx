@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { apiClient } from "../../services/custom-auth-api";
-import {paymentMOMO} from '../../services/payment-service'
+import { paymentMOMO } from '../../services/payment-service'
 import React, { useState, useEffect } from "react";
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
@@ -193,58 +193,59 @@ const Checkout = () => {
 
   const handleOrder = async () => {
     if (paymentMethod === "Thanh toán khi nhận hàng") {
-    let userId = getUserId();
-
-    const orderData = {
-      totalPrice: totalCost,
-      paymentMethod:
-        paymentMethod === PaymentMethod.CashOnDelivery
-          ? PaymentMethod.CashOnDelivery
-          : PaymentMethod.BankTransfer,
-      user_id: userId,
-      location_id: selectedLocationId,
-      orderStatus: OrderStatus.Checking,
-      paymentStatus: PaymentStatus.Unpaid,
-      products: selectedCartItems.map((cart) => ({
-        product_id: cart.product.id,
-        quantity: cart.quantity,
-        priceout: cart.product.priceout,
-      })),
-    };
-
-    try {
-      const res = await createOrder(orderData);
-
-      if (res.data.data.total_price > 0) {
-        // Lấy danh sách cart_ids từ sản phẩm đã chọn
-        const cartIds = selectedCartItems.map((cart) => cart.id);
-
-        // Gọi API để xóa sản phẩm trong giỏ hàng
-        await deleteCartItems(cartIds);
-
-        const response = await getCarts();
-        const cartData = response.data.data.cart;
-
-        setCarts(cartData);
-        const quantity = response.data.data.total;
-        setTotalQuantity(quantity);
-        console.log("response.orderId", res.data.data.id);
-        navigate("/order-success", {
-          state: { orderId: res.data.data.id },
-        });
-      } else {
-        showNotification(
-          "Lỗi thanh toán! Vui lòng thử lại.",
-          notificationTypes.ERROR,
-          setNotifications,
-        );
-      }
-    } catch (error) {
-      console.error("Lỗi khi đặt hàng:", error);
-    }}
-     else if (paymentMethod === "Thanh toán qua MOMO"){
       let userId = getUserId();
-      const paymentData={
+
+      const orderData = {
+        totalPrice: totalCost,
+        paymentMethod:
+          paymentMethod === PaymentMethod.CashOnDelivery
+            ? PaymentMethod.CashOnDelivery
+            : PaymentMethod.BankTransfer,
+        user_id: userId,
+        location_id: selectedLocationId,
+        orderStatus: OrderStatus.Checking,
+        paymentStatus: PaymentStatus.Unpaid,
+        products: selectedCartItems.map((cart) => ({
+          product_id: cart.product.id,
+          quantity: cart.quantity,
+          priceout: cart.product.priceout,
+        })),
+      };
+
+      try {
+        const res = await createOrder(orderData);
+        console.log("res", res);
+        if (res.data.data.total_price > 0) {
+          // Lấy danh sách cart_ids từ sản phẩm đã chọn
+          const cartIds = selectedCartItems.map((cart) => cart.id);
+
+          // Gọi API để xóa sản phẩm trong giỏ hàng
+          await deleteCartItems(cartIds);
+
+          const response = await getCarts();
+          const cartData = response.data.data.cart;
+
+          setCarts(cartData);
+          const quantity = response.data.data.total;
+          setTotalQuantity(quantity);
+          console.log("response.orderId", res.data.data.id);
+          navigate("/order-success", {
+            state: { orderId: res.data.data.id },
+          });
+        } else {
+          showNotification(
+            "Lỗi thanh toán! Vui lòng thử lại.",
+            notificationTypes.ERROR,
+            setNotifications,
+          );
+        }
+      } catch (error) {
+        console.error("Lỗi khi đặt hàng:", error);
+      }
+    }
+    else if (paymentMethod === "Thanh toán qua MOMO") {
+      let userId = getUserId();
+      const paymentData = {
         order: {
           totalPrice: totalCost,
           paymentMethod:
@@ -259,7 +260,7 @@ const Checkout = () => {
             product_id: cart.product.id,
             quantity: cart.quantity,
             priceout: cart.product.priceout,
-      })),
+          })),
         },
         amount: totalCost,
         redirectUrl: "http://localhost:5173/order-success",
@@ -286,7 +287,7 @@ const Checkout = () => {
       }
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
@@ -441,11 +442,10 @@ const Checkout = () => {
                     <button
                       key={method}
                       onClick={() => handlePaymentChange(method)}
-                      className={`rounded border-2 border-[#006532] px-4 py-2 transition hover:bg-[#006532] hover:text-white ${
-                        paymentMethod === method
+                      className={`rounded border-2 border-[#006532] px-4 py-2 transition hover:bg-[#006532] hover:text-white ${paymentMethod === method
                           ? "bg-[#006532] text-white"
                           : "bg-white text-gray-700 hover:bg-[#006532ca] hover:text-white"
-                      }`}
+                        }`}
                     >
                       {method === "Thanh toán khi nhận hàng"
                         ? "Thanh toán khi nhận hàng"

@@ -63,12 +63,14 @@ export const createNewAddress = async (data) => {
 };
 
 export const createOrder = async (orderData) => {
+  console.log("orderData", orderData);
   try {
     const res = await axios.post(`${BASE_URL}/order/${userId}`, orderData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("res", res);
     return res;
   } catch (error) {
     console.error("Error creating order", error);

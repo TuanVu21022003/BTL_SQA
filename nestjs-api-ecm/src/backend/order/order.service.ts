@@ -77,7 +77,7 @@ export class OrderService extends BaseService<OrderEntity> {
       await queryRunner.commitTransaction();
 
       //Tạo thông báo có order mới
-      await this.createNotificationOrderSuccess(order);
+      // await this.createNotificationOrderSuccess(order);
       return orderData;
     } catch (e) {
       // Rollback transaction on error

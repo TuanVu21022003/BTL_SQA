@@ -14,8 +14,10 @@ export class RegisterModuleController {
   async create(@Body() createUserDTO: CreateUserDto) {
     try {
       const email = await this.registerModuleService.create(createUserDTO);
+      console.log('Email sent successfully:', email);
       return responseHandler.ok(email);
     } catch (e) {
+      console.error('Error sending email:', e);
       const errorMessage = e instanceof Error ? e.message : JSON.stringify(e);
       return responseHandler.error(errorMessage);
     }

@@ -57,15 +57,19 @@ export class RegisterModuleService {
     });
 
     if (existingUser?.isActive) {
+      console.log('existingUser', existingUser);
       throw new Error('REGISTER.ACCOUNT EXISTS!');
     }
 
     if (existingUser && !existingUser.isActive) {
+      const otp = authenticator.generate(existingUser.email);
+      console.log('OTP1:', otp);
       await this.sendEmail(
         existingUser.email,
-        authenticator.generate(existingUser.email),
+        otp
       );
-      throw new Error('REGISTER.ACCOUNT NOT VERIFY! PLEASE ENTER OTP VERIFY!');
+      return { email: existingUser.email };
+      // throw new Error('REGISTER.ACCOUNT NOT VERIFY! PLEASE ENTER OTP VERIFY!');
     }
 
     // Start transaction
@@ -105,6 +109,8 @@ export class RegisterModuleService {
       await queryRunner.commitTransaction();
       console.log('2222');
       // Send OTP email
+      const otp = authenticator.generate(savedUser.email);
+      console.log('OTP1:', otp);
       await this.sendEmail(
         savedUser.email,
         authenticator.generate(savedUser.email),
