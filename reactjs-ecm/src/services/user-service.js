@@ -92,6 +92,7 @@ export const createUser = async (userData) => {
         Authorization: `Bearer ${token}`, // Truyền token ở đây
       },
     });
+    console.log(res.data.data);
     return res.data;
   } catch (error) {
     console.error("Error creating user:", error);

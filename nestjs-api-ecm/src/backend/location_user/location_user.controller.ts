@@ -55,7 +55,7 @@ export class LocationUserController {
   }
 
   @Post(':user_id')
-  @Roles('user')
+  // @Roles('user')
   async create(@Body() createLocationUserDto: CreateLocationUserDto) {
     try {
       const data = await this.locationUserService.createLocation(

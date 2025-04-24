@@ -33,8 +33,11 @@ export class UserService {
     if (!check) {
       throw new Error('OCCUR ERROR WHEN SAVE USER TO DB!');
     }
+
+    console.log('check', check);
     return {
-      email: check.email,
+      id: check.id,
+      // email: check.email,
     };
   }
 

@@ -74,9 +74,10 @@ export class UserController {
 
   @Post()
   @Roles('admin')
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     try {
-      const user = this.usersService.create(createUserDto);
+      const user = await this.usersService.create(createUserDto);
+      console.log('user', user);
       return responseHandler.ok(user);
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : JSON.stringify(e);

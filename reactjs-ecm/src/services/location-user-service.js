@@ -39,7 +39,10 @@ export async function getLocationUserByAdmin(userIdGet) {
 export async function createLocationUser(locationData) {
   try {
     const userId = getUserId();
+    // const userId = locationData.user_id;
     const token = getToken(); // Lấy token
+    console.log("token", token);
+    console.log("userId", userId);
     const res = await axios.post(`${BASE_URL}/location-user/${userId}`, locationData, {
       headers: {
         'Authorization': `Bearer ${token}`, // Truyền token ở đây

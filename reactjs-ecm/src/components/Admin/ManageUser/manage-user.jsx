@@ -17,7 +17,7 @@ import {
   createUser,
   getSearchUsers,
 } from "../../../services/user-service.js";
-import { getLocationUserByAdmin } from "../../../services/location-user-service.js";
+import { getLocationUserByAdmin, createLocationUser } from "../../../services/location-user-service.js";
 import {
   showNotification,
   notificationTypes,
@@ -267,7 +267,7 @@ const ManageUser = () => {
         console.log("User Created:", createUserResponse);
 
         // Lấy user_id từ phản hồi của createUser
-        const newUserId = createUserResponse.id;
+        const newUserId = createUserResponse.data.id;
         console.log("Userid", newUserId);
 
         // Cập nhật user_id trong locationAddData
@@ -278,6 +278,8 @@ const ManageUser = () => {
           default_location: currentUser.locationdefault || false,
           user_id: newUserId, // Sử dụng newUserId từ phản hồi của createUser
         };
+
+        console.log("Location Data:", locationAddData);
 
         const createLocationResponse =
           await createLocationUser(locationAddData);

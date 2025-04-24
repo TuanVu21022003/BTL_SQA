@@ -31,6 +31,7 @@ export class LocationUserService extends BaseService<Location_userEntity> {
 
   // @ts-ignore
   async createLocation(createLocationUserDto: CreateLocationUserDto) {
+    console.log('createLocationUserDto', createLocationUserDto);
     if (createLocationUserDto.default_location) {
       await this.updateDefaultMethod(createLocationUserDto);
     }
