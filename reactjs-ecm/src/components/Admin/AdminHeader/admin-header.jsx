@@ -113,21 +113,21 @@ function HeaderAdmin() {
     }
   }, [activeIndex]);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await getUser();
-  //       console.log("admin", response.data);
-  //       setUser(response.data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch user", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUser();
+        console.log("admin", response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+      }
+    };
 
-  //   fetchUser();
-  // }, []);
+    fetchUser();
+  }, []);
 
-  // const formattedLastName = user?.lastName ? user.lastName.toUpperCase() : "";
+  const formattedLastName = user?.lastName ? user.firstName.toUpperCase() + " " + user.lastName.toUpperCase() : "Admin";
 
   const handleLogoutAdmin = async () => {
     try {
@@ -289,8 +289,8 @@ function HeaderAdmin() {
             </div>
             <p className="mt-3 font-semibold text-[#006532]">
               {" "}
-              {/* {formattedLastName} */}
-              Trần Bình An
+              {formattedLastName}
+              {/* Trần Bình An */}
             </p>
           </div>
 

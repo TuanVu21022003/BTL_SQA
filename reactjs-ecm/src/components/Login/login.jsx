@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../../services/auth-api";
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   NotificationList,
   notificationTypes,
@@ -18,7 +19,7 @@ const schema = z.object({
 
 function LoginForm() {
   const [notifications, setNotifications] = useState([]);
-
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -128,18 +129,29 @@ function LoginForm() {
               )}
             </div>
 
-            <div className="mb-3 w-full">
+            <div className="mb-3 w-full relative">
               <label htmlFor="password" className="mb-1 block font-medium">
                 Mật khẩu
                 <span className="text-red-500">*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Nhập mật khẩu của bạn"
                 {...register("password")}
-                className="duration-120 shadow-sm focus:shadow-lg h-11 w-full rounded-md border-none bg-gray-100 pl-3 text-base outline-none transition-all ease-out focus:ring-2 focus:ring-[#006532]"
+                className="duration-120 shadow-sm focus:shadow-lg h-11 w-full rounded-md border-none bg-gray-100 pl-3 pr-10 text-base outline-none transition-all ease-out focus:ring-2 focus:ring-[#006532]"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-12 transform -translate-y-1/2 flex items-center text-gray-500"
+              >
+                {showPassword ? (
+                  <FaEyeSlash className="h-5 w-5" />
+                ) : (
+                  <FaEye className="h-5 w-5" />
+                )}
+              </button>
               {errors.password && (
                 <span className="text-red-500">{errors.password.message}</span>
               )}

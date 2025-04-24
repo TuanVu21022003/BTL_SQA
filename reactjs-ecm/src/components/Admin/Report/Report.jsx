@@ -27,6 +27,7 @@ import {
   getTopCustomers,
   getTopProducts,
 } from "../../../services/report-service.js";
+import { getUser } from "../../../services/user-service.js";
 
 const Report = () => {
   const [timeFilter, setTimeFilter] = useState("Tuần");
@@ -42,6 +43,7 @@ const Report = () => {
   const [topCustomers, setTopCustomers] = useState([]);
   const [salesByCategory, setSalesByCategory] = useState([]);
   const [salesBySupplier, setSalesBySupplier] = useState([]);
+  const [user, setUser] = useState(null);
 
   // Fetch dữ liệu dashboard tổng quan
   const fetchDashboardData = async (filter) => {
@@ -57,6 +59,22 @@ const Report = () => {
       console.error("Error fetching dashboard data:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUser();
+        console.log("admin", response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const formattedLastName = user?.lastName ? user.firstName.toUpperCase() + " " + user.lastName.toUpperCase() : "Admin";
 
   // Fetch dữ liệu Doanh thu Ngân Sách Lãi
   const fetchDataLineChart = async (dataLineChartFilter) => {
@@ -226,7 +244,7 @@ const Report = () => {
                 >
                   <div className="flex h-full w-full flex-col items-start justify-center bg-[rgba(8,28,14,0.4)] text-center">
                     <h2 className="ml-5 w-2/4 text-2xl font-bold text-white">
-                      Chào mừng bạn trở lại, Bình An !!
+                      Chào mừng bạn trở lại, {formattedLastName}
                     </h2>
                   </div>
                 </div>
