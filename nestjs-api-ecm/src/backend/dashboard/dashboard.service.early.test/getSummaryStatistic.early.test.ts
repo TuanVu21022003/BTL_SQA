@@ -68,13 +68,13 @@ describe('DashboardService.getSummaryStatistic() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_SUMMARY_001
+     * Test case: TC-SV-DASHBOARD-SUMMARY-001
      * Mục tiêu: Kiểm tra phương thức getSummaryStatistic trả về kết quả thống kê đúng
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Đối tượng chứa thống kê cho khoảng thời gian hiện tại và trước đó
+     * Expected Output: { thisTime: { revenue: 1000000, product: 50, customer: 20, order: 30 }, lastTime: { revenue: 800000, product: 40, customer: 15, order: 25 } }
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_SUMMARY_001 - Nên trả về thống kê tổng quan đúng', async () => {
+    it('TC-SV-DASHBOARD-SUMMARY-001 - Nên trả về thống kê tổng quan đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');
@@ -135,13 +135,13 @@ describe('DashboardService.getSummaryStatistic() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_SUMMARY_002
+     * Test case: TC-SV-DASHBOARD-SUMMARY-002
      * Mục tiêu: Kiểm tra phương thức getSummaryStatistic hoạt động đúng với các bộ lọc thời gian khác nhau
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Đối tượng chứa thống kê cho khoảng thời gian hiện tại và trước đó
+     * Expected Output: { thisTime: { revenue: 5000000, product: 200, customer: 80, order: 120 }, lastTime: { revenue: 4500000, product: 180, customer: 70, order: 100 } }
      * Ghi chú: Kiểm tra với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_SUMMARY_002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
+    it('TC-SV-DASHBOARD-SUMMARY-002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
       const mockStartDate = new Date('2023-04-01');
@@ -208,13 +208,13 @@ describe('DashboardService.getSummaryStatistic() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_SUMMARY_003
+     * Test case: TC-SV-DASHBOARD-SUMMARY-003
      * Mục tiêu: Kiểm tra phương thức getSummaryStatistic xử lý lỗi khi timeFilterCreate ném ra lỗi
      * Input: timeFilter = 'InvalidFilter' (không hợp lệ)
-     * Expected Output: Ném ra lỗi từ timeFilterCreate
+     * Expected Output: Error('Invalid time filter')
      * Ghi chú: Kiểm tra xử lý lỗi với bộ lọc không hợp lệ
      */
-    it('TC_DASHBOARD_SERVICE_SUMMARY_003 - Nên ném ra lỗi khi timeFilterCreate gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-SUMMARY-003 - Nên ném ra lỗi khi timeFilterCreate gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const invalidTimeFilter = 'InvalidFilter' as TimeFilter;
 
@@ -233,13 +233,13 @@ describe('DashboardService.getSummaryStatistic() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_SUMMARY_004
+     * Test case: TC-SV-DASHBOARD-SUMMARY-004
      * Mục tiêu: Kiểm tra phương thức getSummaryStatistic xử lý lỗi khi calculateStatsForTwoPeriods ném ra lỗi
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Ném ra lỗi từ calculateStatsForTwoPeriods
+     * Expected Output: Error('Database connection error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_SUMMARY_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-SUMMARY-004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');

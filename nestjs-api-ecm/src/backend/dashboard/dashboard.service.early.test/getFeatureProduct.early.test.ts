@@ -63,13 +63,13 @@ describe('DashboardService.getFeatureProduct() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_001
+     * Test case: TC-SV-DASHBOARD-FEATUREPRODUCT-001
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct trả về danh sách sản phẩm nổi bật đúng
      * Input: Không có tham số đầu vào
-     * Expected Output: Mảng các đối tượng sản phẩm nổi bật
+     * Expected Output: [{ product_id: 'P001', product_name: 'Sản phẩm nổi bật 1', total_sold: 150, rating: 4.8 }, { product_id: 'P002', product_name: 'Sản phẩm nổi bật 2', total_sold: 120, rating: 4.7 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_001 - Nên trả về danh sách sản phẩm nổi bật đúng', async () => {
+    it('TC-SV-DASHBOARD-FEATUREPRODUCT-001 - Nên trả về danh sách sản phẩm nổi bật đúng', async () => {
       // Sắp xếp (Arrange)
       const mockFeatureProducts = [
         { product_id: 'P001', product_name: 'Sản phẩm nổi bật 1', total_sold: 150, rating: 4.8 },
@@ -87,13 +87,13 @@ describe('DashboardService.getFeatureProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_002
+     * Test case: TC-SV-DASHBOARD-FEATUREPRODUCT-002
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct xử lý đúng khi repository trả về mảng rỗng
      * Input: Không có tham số đầu vào
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_002 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-FEATUREPRODUCT-002 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       mockOrderProductRepo.getFeatureProductsByRevenue.mockResolvedValue([]);
 
@@ -112,13 +112,13 @@ describe('DashboardService.getFeatureProduct() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_003
+     * Test case: TC-SV-DASHBOARD-FEATUREPRODUCT-003
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct xử lý lỗi khi repository ném ra lỗi
      * Input: Không có tham số đầu vào
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('Product repository error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_003 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-FEATUREPRODUCT-003 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Product repository error';
       mockOrderProductRepo.getFeatureProductsByRevenue.mockRejectedValue(new Error(errorMessage));
@@ -131,13 +131,13 @@ describe('DashboardService.getFeatureProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_004
+     * Test case: TC-SV-DASHBOARD-FEATUREPRODUCT-004
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct xử lý đúng khi repository trả về null
      * Input: Không có tham số đầu vào
-     * Expected Output: Ném ra lỗi
+     * Expected Output: null
      * Ghi chú: Kiểm tra xử lý giá trị null
      */
-    it('TC_DASHBOARD_SERVICE_FEATURE_PRODUCT_004 - Nên xử lý đúng khi repository trả về null', async () => {
+    it('TC-SV-DASHBOARD-FEATUREPRODUCT-004 - Nên xử lý đúng khi repository trả về null', async () => {
       // Sắp xếp (Arrange)
       mockOrderProductRepo.getFeatureProductsByRevenue.mockResolvedValue(null);
 

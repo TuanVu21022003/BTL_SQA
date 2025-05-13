@@ -45,13 +45,13 @@ describe('DashboardController.getFeatureProduct() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_FEATURE_PRODUCT_001
+     * Test case: TC-CT-DASHBOARD-FEATUREPRODUCT-001
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct trả về kết quả thành công
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response thành công với danh sách sản phẩm nổi bật
+     * Expected Output: { status: 200, data: [{ product_id: 'P001', product_name: 'Sản phẩm nổi bật 1', total_sold: 150, rating: 4.8 }, { product_id: 'P002', product_name: 'Sản phẩm nổi bật 2', total_sold: 120, rating: 4.7 }] }
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_FEATURE_PRODUCT_001 - Nên trả về danh sách sản phẩm nổi bật', async () => {
+    it('TC-CT-DASHBOARD-FEATUREPRODUCT-001 - Nên trả về danh sách sản phẩm nổi bật', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [
         { product_id: 'P001', product_name: 'Sản phẩm nổi bật 1', total_sold: 150, rating: 4.8 },
@@ -69,13 +69,13 @@ describe('DashboardController.getFeatureProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_FEATURE_PRODUCT_002
+     * Test case: TC-CT-DASHBOARD-FEATUREPRODUCT-002
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct trả về danh sách rỗng khi không có sản phẩm nổi bật
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response thành công với danh sách rỗng
+     * Expected Output: { status: 200, data: [] }
      * Ghi chú: Kiểm tra trường hợp không có sản phẩm nổi bật
      */
-    it('TC_DASHBOARD_FEATURE_PRODUCT_002 - Nên trả về danh sách rỗng khi không có sản phẩm nổi bật', async () => {
+    it('TC-CT-DASHBOARD-FEATUREPRODUCT-002 - Nên trả về danh sách rỗng khi không có sản phẩm nổi bật', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [];
       mockDashboardService.getFeatureProduct.mockResolvedValue(mockResult as any as never);
@@ -96,13 +96,13 @@ describe('DashboardController.getFeatureProduct() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_FEATURE_PRODUCT_003
+     * Test case: TC-CT-DASHBOARD-FEATUREPRODUCT-003
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct xử lý lỗi khi service gặp lỗi
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi từ service
+     * Expected Output: { status: 500, message: 'Lỗi khi lấy danh sách sản phẩm nổi bật' }
      * Ghi chú: Kiểm tra xử lý lỗi kiểu Error
      */
-    it('TC_DASHBOARD_FEATURE_PRODUCT_003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
+    it('TC-CT-DASHBOARD-FEATUREPRODUCT-003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Lỗi khi lấy danh sách sản phẩm nổi bật';
       mockDashboardService.getFeatureProduct.mockRejectedValue(new Error(errorMessage) as never);
@@ -117,13 +117,13 @@ describe('DashboardController.getFeatureProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_FEATURE_PRODUCT_004
+     * Test case: TC-CT-DASHBOARD-FEATUREPRODUCT-004
      * Mục tiêu: Kiểm tra phương thức getFeatureProduct xử lý lỗi không phải Error
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi dạng chuỗi JSON
+     * Expected Output: { status: 500, message: '{"code":500,"message":"Product repository error"}' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_FEATURE_PRODUCT_004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
+    it('TC-CT-DASHBOARD-FEATUREPRODUCT-004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'Product repository error' };
       mockDashboardService.getFeatureProduct.mockRejectedValue(errorObject as never);

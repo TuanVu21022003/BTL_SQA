@@ -58,7 +58,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
 
   describe('Happy Paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-FINANCIALSUM-001
      * Mục tiêu: Kiểm tra lấy báo cáo tài chính theo tuần thành công
      * Input: TimeFilter.Week
      * Expected Output: Mảng chứa báo cáo tài chính của tuần hiện tại
@@ -84,7 +84,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
     });
 
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-FINANCIALSUM-002
      * Mục tiêu: Kiểm tra lấy báo cáo tài chính theo tháng thành công
      * Input: TimeFilter.Month
      * Expected Output: Mảng chứa báo cáo tài chính của 12 tháng
@@ -110,7 +110,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-FINANCIALSUM-003
      * Mục tiêu: Kiểm tra lấy báo cáo tài chính theo quý thành công
      * Input: TimeFilter.Quarter
      * Expected Output: Mảng chứa báo cáo tài chính của 4 quý
@@ -136,7 +136,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
     });
 
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-RP-FINANCIALSUM-004
      * Mục tiêu: Kiểm tra lấy báo cáo tài chính theo năm thành công
      * Input: TimeFilter.Year
      * Expected Output: Mảng chứa báo cáo tài chính của 4 năm gần nhất
@@ -164,7 +164,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
 
   describe('Edge Cases', () => {
     /**
-     * Test Case ID: TC005
+     * Test Case ID: TC-RP-FINANCIALSUM-005
      * Mục tiêu: Kiểm tra xử lý khi không có dữ liệu từ database
      * Input: TimeFilter.Month và database trả về mảng rỗng
      * Expected Output: Mảng chứa 12 tháng với tất cả giá trị bằng 0
@@ -186,7 +186,7 @@ describe('OrderRepository.getFinancialSummary() getFinancialSummary method', () 
     });
 
     /**
-     * Test Case ID: TC006
+     * Test Case ID: TC-RP-FINANCIALSUM-006
      * Mục tiêu: Kiểm tra xử lý khi TimeFilter không hợp lệ
      * Input: TimeFilter không hợp lệ
      * Expected Output: Throw error với message 'Invalid TimeFilter'

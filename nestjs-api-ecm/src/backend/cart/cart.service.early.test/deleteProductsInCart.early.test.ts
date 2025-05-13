@@ -41,7 +41,7 @@ describe('CartService.deleteProductsInCart() deleteProductsInCart method', () =>
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-DEL-SRV-001
+     * Test Case ID: TC-SV-CART-DEL-001
      * Mục tiêu: Kiểm tra việc xóa sản phẩm khỏi giỏ hàng thành công
      * Input:
      *   - userId: "user123" - ID của người dùng
@@ -77,7 +77,7 @@ describe('CartService.deleteProductsInCart() deleteProductsInCart method', () =>
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-DEL-SRV-002
+     * Test Case ID: TC-SV-CART-DEL-002
      * Mục tiêu: Kiểm tra xử lý khi danh sách cart_ids rỗng
      * Input:
      *   - userId: "user123" - ID của người dùng
@@ -96,7 +96,7 @@ describe('CartService.deleteProductsInCart() deleteProductsInCart method', () =>
     });
 
     /**
-     * Test Case ID: TC-CART-DEL-SRV-003
+     * Test Case ID: TC-SV-CART-DEL-003
      * Mục tiêu: Kiểm tra xử lý khi không có bản ghi nào bị xóa
      * Input:
      *   - userId: "user123" - ID của người dùng
@@ -118,7 +118,7 @@ describe('CartService.deleteProductsInCart() deleteProductsInCart method', () =>
     });
 
     /**
-     * Test Case ID: TC-CART-DEL-SRV-004
+     * Test Case ID: TC-SV-CART-DEL-004
      * Mục tiêu: Kiểm tra xử lý khi thao tác xóa gặp lỗi
      * Input:
      *   - userId: "user123" - ID của người dùng

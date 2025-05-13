@@ -101,7 +101,7 @@ describe('LoginModuleService.login() login method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Đăng nhập thành công với thông tin hợp lệ
-     * Mã test case: TC-LS-001
+     * Mã test case: TC-SV-AUTH-LS-001
      * Mục tiêu: Kiểm tra quá trình đăng nhập diễn ra đúng khi thông tin đăng nhập hợp lệ
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }
@@ -141,7 +141,7 @@ describe('LoginModuleService.login() login method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Không tìm thấy người dùng
-     * Mã test case: TC-LS-002
+     * Mã test case: TC-SV-AUTH-LS-002
      * Mục tiêu: Kiểm tra xử lý lỗi khi không tìm thấy người dùng với email đã cho
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }
@@ -162,7 +162,7 @@ describe('LoginModuleService.login() login method', () => {
 
     /**
      * Test case 3: Mật khẩu không đúng
-     * Mã test case: TC-LS-003
+     * Mã test case: TC-SV-AUTH-LS-003
      * Mục tiêu: Kiểm tra xử lý lỗi khi người dùng nhập sai mật khẩu
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' (sai) }
@@ -185,7 +185,7 @@ describe('LoginModuleService.login() login method', () => {
 
     /**
      * Test case 4: Lỗi khi tạo JWT token
-     * Mã test case: TC-LS-004
+     * Mã test case: TC-SV-AUTH-LS-004
      * Mục tiêu: Kiểm tra xử lý lỗi khi không thể tạo JWT token
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }

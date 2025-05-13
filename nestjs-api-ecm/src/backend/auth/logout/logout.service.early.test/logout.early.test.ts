@@ -69,7 +69,7 @@ describe('LogoutService.logout() logout method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Đăng xuất thành công với thông tin hợp lệ
-     * Mã test case: TC-LS-001
+     * Mã test case: TC-SV-AUTH-LS-001
      * Mục tiêu: Kiểm tra quá trình đăng xuất diễn ra đúng khi thông tin đăng xuất hợp lệ
      * Input:
      *   - userId: '123'
@@ -103,7 +103,7 @@ describe('LogoutService.logout() logout method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Không tìm thấy người dùng hoặc token không hợp lệ
-     * Mã test case: TC-LS-002
+     * Mã test case: TC-SV-AUTH-LS-002
      * Mục tiêu: Kiểm tra xử lý lỗi khi không tìm thấy người dùng với ID và token đã cho
      * Input:
      *   - userId: '123'
@@ -125,7 +125,7 @@ describe('LogoutService.logout() logout method', () => {
 
     /**
      * Test case 3: Lỗi khi lưu thông tin người dùng
-     * Mã test case: TC-LS-003
+     * Mã test case: TC-SV-AUTH-LS-003
      * Mục tiêu: Kiểm tra xử lý lỗi khi không thể lưu thông tin người dùng sau khi đăng xuất
      * Input:
      *   - userId: '123'
@@ -146,7 +146,7 @@ describe('LogoutService.logout() logout method', () => {
 
     /**
      * Test case 4: Đăng xuất với userId không hợp lệ
-     * Mã test case: TC-LS-004
+     * Mã test case: TC-SV-AUTH-LS-004
      * Mục tiêu: Kiểm tra xử lý khi userId không hợp lệ (rỗng hoặc null)
      * Input:
      *   - userId: '' (rỗng)

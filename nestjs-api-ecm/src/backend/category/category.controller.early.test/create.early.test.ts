@@ -101,7 +101,7 @@ describe('CategoryController.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-001
+     * Test Case ID: TC-CT-CATEGORY-CREATE-001
      * Mục tiêu: Kiểm tra việc tạo danh mục mới thành công
      * Input:
      *   - categoryCreateDTO:
@@ -134,7 +134,7 @@ describe('CategoryController.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-002
+     * Test Case ID: TC-CT-CATEGORY-CREATE-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - categoryCreateDTO:
@@ -161,7 +161,7 @@ describe('CategoryController.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-003
+     * Test Case ID: TC-CT-CATEGORY-CREATE-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - categoryCreateDTO:

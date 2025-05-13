@@ -12,7 +12,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
   describe('transform', () => {
     // Test các trường hợp thành công
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-TRANSFORM-001
      * Mục tiêu: Kiểm tra chuyển đổi chuỗi "true" thành boolean true
      * Input: value = "true"
      * Expected Output: true
@@ -26,7 +26,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-TRANSFORM-002
      * Mục tiêu: Kiểm tra chuyển đổi chuỗi "false" thành boolean false
      * Input: value = "false"
      * Expected Output: false
@@ -38,7 +38,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-TRANSFORM-003
      * Mục tiêu: Kiểm tra xử lý giá trị undefined
      * Input: value = undefined
      * Expected Output: undefined
@@ -51,7 +51,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
 
     // Test các trường hợp lỗi
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-TRANSFORM-004
      * Mục tiêu: Kiểm tra xử lý chuỗi không phải boolean
      * Input: value = "notABoolean"
      * Expected Output: Ném ra BadRequestException
@@ -63,7 +63,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
 
 
     /**
-     * Test Case ID: TC005
+     * Test Case ID: TC-TRANSFORM-005
      * Mục tiêu: Kiểm tra xử lý chuỗi rỗng
      * Input: value = ""
      * Expected Output: Ném ra BadRequestException
@@ -76,7 +76,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     
 
     /**
-     * Test Case ID: TC006
+     * Test Case ID: TC-TRANSFORM-006
      * Mục tiêu: Kiểm tra xử lý chuỗi số
      * Input: value = "123"
      * Expected Output: Ném ra BadRequestException
@@ -87,7 +87,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC007
+     * Test Case ID: TC-TRANSFORM-007
      * Mục tiêu: Kiểm tra xử lý khi input là boolean true
      * Input: value = true
      * Expected Output: Ném ra BadRequestException
@@ -98,7 +98,7 @@ describe('ParseBooleanPipe.transform() transform method', () => {
     });
 
     /**
-     * Test Case ID: TC008
+     * Test Case ID: TC-TRANSFORM-008
      * Mục tiêu: Kiểm tra xử lý khi input là boolean false
      * Input: value = false
      * Expected Output: Ném ra BadRequestException

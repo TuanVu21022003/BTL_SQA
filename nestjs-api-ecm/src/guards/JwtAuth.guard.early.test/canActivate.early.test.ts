@@ -50,7 +50,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-JWT-GUARD-001
      * Mục tiêu: Kiểm tra xác thực thành công với token hợp lệ
      * Input: 
      * - Token: 'validToken'
@@ -88,7 +88,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-JWT-GUARD-002
      * Mục tiêu: Kiểm tra trường hợp thiếu header authorization
      * Input: Request không có authorization header
      * Expected Output: Response error với message 'GUARD.PLEASE PROVIDE AUTHORIZATIONHEADER!'
@@ -111,7 +111,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-JWT-GUARD-003
      * Mục tiêu: Kiểm tra trường hợp thiếu token
      * Input: Authorization header không có token
      * Expected Output: Response error với message 'GUARD.PLEASE PROVIDE TOKEN!'
@@ -134,7 +134,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
     });
 
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-JWT-GUARD-004
      * Mục tiêu: Kiểm tra trường hợp token không hợp lệ
      * Input: Token không hợp lệ 'invalidToken'
      * Expected Output: UnauthorizedException
@@ -157,7 +157,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
     });
 
     /**
-     * Test Case ID: TC005
+     * Test Case ID: TC-JWT-GUARD-005
      * Mục tiêu: Kiểm tra trường hợp user không active
      * Input: User data với isActive: false
      * Expected Output: false
@@ -185,7 +185,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
     });
 
     /**
-     * Test Case ID: TC006
+     * Test Case ID: TC-JWT-GUARD-006
      * Mục tiêu: Kiểm tra trường hợp user không có token
      * Input: User data với token: null
      * Expected Output: false
@@ -213,7 +213,7 @@ describe('AuthGuard.canActivate() canActivate method', () => {
     });
 
     /**
-     * Test Case ID: TC007
+     * Test Case ID: TC-JWT-GUARD-007
      * Mục tiêu: Kiểm tra trường hợp user không có quyền admin và user_id không khớp
      * Input: 
      * - User role: 'user'

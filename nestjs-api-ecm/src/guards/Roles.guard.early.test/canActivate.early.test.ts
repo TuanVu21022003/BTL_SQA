@@ -8,11 +8,11 @@
  * Chức năng: Kiểm tra quyền truy cập của người dùng dựa trên role
  * 
  * Bộ test case:
- * TC001: Kiểm tra quyền truy cập khi user có role phù hợp
- * TC002: Kiểm tra quyền truy cập khi không yêu cầu role
- * TC003: Kiểm tra quyền truy cập khi user không có role yêu cầu
- * TC004: Kiểm tra quyền truy cập khi không có thông tin user
- * TC005: Kiểm tra quyền truy cập khi role user không nằm trong danh sách role được phép
+ * TC-ROLE-GUARD-001: Kiểm tra quyền truy cập khi user có role phù hợp
+ * TC-ROLE-GUARD-002: Kiểm tra quyền truy cập khi không yêu cầu role
+ * TC-ROLE-GUARD-003: Kiểm tra quyền truy cập khi user không có role yêu cầu
+ * TC-ROLE-GUARD-004: Kiểm tra quyền truy cập khi không có thông tin user
+ * TC-ROLE-GUARD-005: Kiểm tra quyền truy cập khi role user không nằm trong danh sách role được phép
  */
 
 import {
@@ -70,7 +70,7 @@ describe('RolesGuard.canActivate() canActivate method', () => {
   });
 
   /**
-   * Test Case ID: TC001
+   * Test Case ID: TC-ROLE-GUARD-001
    * Mục tiêu: Kiểm tra xử lý khi user có role phù hợp với yêu cầu
    * Input: 
    * - User role: 'admin'
@@ -92,7 +92,7 @@ describe('RolesGuard.canActivate() canActivate method', () => {
   });
 
   /**
-   * Test Case ID: TC002
+   * Test Case ID: TC-ROLE-GUARD-002
    * Mục tiêu: Kiểm tra xử lý khi không có role nào được yêu cầu
    * Input: Required roles: undefined
    * Expected Output: true (cho phép truy cập)
@@ -110,7 +110,7 @@ describe('RolesGuard.canActivate() canActivate method', () => {
   });
 
   /**
-   * Test Case ID: TC003
+   * Test Case ID: TC-ROLE-GUARD-003
    * Mục tiêu: Kiểm tra xử lý khi user không có role yêu cầu
    * Input:
    * - User role: 'user'
@@ -130,7 +130,7 @@ describe('RolesGuard.canActivate() canActivate method', () => {
   });
 
   /**
-   * Test Case ID: TC004
+   * Test Case ID: TC-ROLE-GUARD-004
    * Mục tiêu: Kiểm tra xử lý khi không có thông tin user trong request
    * Input:
    * - User: undefined
@@ -150,7 +150,7 @@ describe('RolesGuard.canActivate() canActivate method', () => {
   });
 
   /**
-   * Test Case ID: TC005
+   * Test Case ID: TC-ROLE-GUARD-005
    * Mục tiêu: Kiểm tra xử lý khi role của user không nằm trong danh sách được phép
    * Input:
    * - User role: 'guest'

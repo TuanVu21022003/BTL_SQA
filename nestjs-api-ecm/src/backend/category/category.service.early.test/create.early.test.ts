@@ -55,7 +55,7 @@ describe('CategoryService.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-SRV-001
+     * Test Case ID: TC-SV-CATEGORY-CREATE-001
      * Mục tiêu: Kiểm tra việc tạo danh mục thành công khi trạng thái là ApplyStatus.True
      * Input:
      *   - categoryCreateDTO:
@@ -82,7 +82,7 @@ describe('CategoryService.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-SRV-002
+     * Test Case ID: TC-SV-CATEGORY-CREATE-002
      * Mục tiêu: Kiểm tra việc tạo danh mục thành công khi trạng thái là ApplyStatus.False
      * Input:
      *   - categoryCreateDTO:
@@ -115,7 +115,7 @@ describe('CategoryService.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-SRV-003
+     * Test Case ID: TC-SV-CATEGORY-CREATE-003
      * Mục tiêu: Kiểm tra xử lý khi trạng thái không hợp lệ
      * Input:
      *   - categoryCreateDTO:

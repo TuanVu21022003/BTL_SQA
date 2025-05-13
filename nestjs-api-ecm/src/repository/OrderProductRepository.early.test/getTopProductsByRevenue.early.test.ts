@@ -40,7 +40,7 @@ describe('OrderProductRepository.getTopProductsByRevenue() getTopProductsByReven
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-TOPPROD-001
      * Mục tiêu: Kiểm tra lấy danh sách sản phẩm có doanh thu cao nhất trong khoảng thời gian
      * Input: 
      * - startDate: 2023-01-01
@@ -95,7 +95,7 @@ describe('OrderProductRepository.getTopProductsByRevenue() getTopProductsByReven
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-TOPPROD-002
      * Mục tiêu: Kiểm tra xử lý khi không có sản phẩm nào trong khoảng thời gian
      * Input:
      * - startDate: 2023-01-01
@@ -117,7 +117,7 @@ describe('OrderProductRepository.getTopProductsByRevenue() getTopProductsByReven
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-TOPPROD-003
      * Mục tiêu: Kiểm tra xử lý khi dữ liệu doanh thu không phải số hợp lệ
      * Input:
      * - startDate: 2023-01-01

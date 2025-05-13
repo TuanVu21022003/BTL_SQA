@@ -55,7 +55,7 @@ describe('CartService.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-SRV-001
+     * Test Case ID: TC-SV-CART-CREATE-001
      * Mục tiêu: Kiểm tra việc cập nhật số lượng khi sản phẩm đã tồn tại trong giỏ hàng
      * Input:
      *   - createCartDto:
@@ -87,7 +87,7 @@ describe('CartService.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-SRV-002
+     * Test Case ID: TC-SV-CART-CREATE-002
      * Mục tiêu: Kiểm tra việc tạo mới sản phẩm trong giỏ hàng khi sản phẩm chưa tồn tại
      * Input:
      *   - createCartDto:
@@ -128,7 +128,7 @@ describe('CartService.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-SRV-003
+     * Test Case ID: TC-SV-CART-CREATE-003
      * Mục tiêu: Kiểm tra xử lý khi gặp lỗi trong quá trình cập nhật sản phẩm đã tồn tại
      * Input:
      *   - createCartDto:
@@ -152,7 +152,7 @@ describe('CartService.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-SRV-004
+     * Test Case ID: TC-SV-CART-CREATE-004
      * Mục tiêu: Kiểm tra xử lý khi gặp lỗi trong quá trình tạo mới sản phẩm
      * Input:
      *   - createCartDto:

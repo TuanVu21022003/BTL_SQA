@@ -53,7 +53,7 @@ describe('EmailService', () => {
   });
 
   /**
-   * Test case: TC-01 - Kiểm tra service đã được định nghĩa
+   * Test case: TC-SV-EMAIL-001 - Kiểm tra service đã được định nghĩa
    * Mục tiêu: Xác nhận EmailService đã được khởi tạo thành công
    * Input:
    *   - service: Instance của EmailService được tạo từ TestingModule
@@ -71,7 +71,7 @@ describe('EmailService', () => {
    */
   describe('constructor', () => {
     /**
-     * Test case: TC-02 - Kiểm tra cấu hình của nodemailer transporter
+     * Test case: TC-SV-EMAIL-002 - Kiểm tra cấu hình của nodemailer transporter
      * Mục tiêu: Xác nhận transporter được tạo với cấu hình SMTP chính xác
      * Input:
      *   - EmailService constructor được gọi tự động trong beforeEach
@@ -104,7 +104,7 @@ describe('EmailService', () => {
    */
   describe('sendNotificationEmail', () => {
     /**
-     * Test case: TC-03 - Kiểm tra trường hợp mảng emailEntities rỗng
+     * Test case: TC-SV-EMAIL-003 - Kiểm tra trường hợp mảng emailEntities rỗng
      * Mục tiêu: Xác nhận hàm kết thúc sớm khi không có email nào để gửi
      * Input:
      *   - emailEntities: [] - Mảng rỗng không có phần tử nào
@@ -129,7 +129,7 @@ describe('EmailService', () => {
     });
 
     /**
-     * Test case: TC-04 - Kiểm tra gửi email đến tất cả người nhận trong mảng emailEntities
+     * Test case: TC-SV-EMAIL-004 - Kiểm tra gửi email đến tất cả người nhận trong mảng emailEntities
      * Mục tiêu: Xác nhận email được gửi đến tất cả người nhận với nội dung chính xác
      * Input:
      *   - emailEntities: Mảng chứa 2 đối tượng Email_entity:
@@ -187,7 +187,7 @@ describe('EmailService', () => {
     });
 
     /**
-     * Test case: TC-05 - Kiểm tra xử lý lỗi khi gửi email thất bại
+     * Test case: TC-SV-EMAIL-005 - Kiểm tra xử lý lỗi khi gửi email thất bại
      * Mục tiêu: Xác nhận hàm ném ra lỗi khi gửi email thất bại
      * Input:
      *   - emailEntities: Mảng chứa 1 đối tượng Email_entity:

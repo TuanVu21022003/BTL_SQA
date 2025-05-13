@@ -55,7 +55,7 @@ describe('RegisterModuleController.create() create method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Đăng ký người dùng thành công
-     * Mã test case: TC-RG-001
+     * Mã test case: TC-CT-AUTH-CREATE-001
      * Mục tiêu: Kiểm tra controller trả về kết quả thành công khi service đăng ký thành công
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }
@@ -84,7 +84,7 @@ describe('RegisterModuleController.create() create method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Xử lý lỗi từ service đăng ký
-     * Mã test case: TC-RG-002
+     * Mã test case: TC-CT-AUTH-CREATE-002
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng ký ném lỗi
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }
@@ -108,7 +108,7 @@ describe('RegisterModuleController.create() create method', () => {
 
     /**
      * Test case 3: Xử lý lỗi không phải Error object
-     * Mã test case: TC-RG-003
+     * Mã test case: TC-CT-AUTH-CREATE-003
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng ký ném lỗi không phải Error object
      * Input:
      *   - DTO: { email: 'test@example.com', password: 'password123' }
@@ -132,7 +132,7 @@ describe('RegisterModuleController.create() create method', () => {
 
     /**
      * Test case 4: Xử lý khi DTO không hợp lệ
-     * Mã test case: TC-RG-004
+     * Mã test case: TC-CT-AUTH-CREATE-004
      * Mục tiêu: Kiểm tra controller xử lý đúng khi DTO không hợp lệ
      * Input:
      *   - DTO: {} (rỗng)

@@ -50,7 +50,7 @@ describe('CategoryController.delete() delete method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DEL-001
+     * Test Case ID: TC-CT-CATEGORY-DEL-001
      * Mục tiêu: Kiểm tra việc xóa danh mục thành công
      * Input:
      *   - categoryId: "123" - ID của danh mục cần xóa
@@ -81,7 +81,7 @@ describe('CategoryController.delete() delete method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DEL-002
+     * Test Case ID: TC-CT-CATEGORY-DEL-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - categoryId: "123" - ID của danh mục cần xóa
@@ -107,7 +107,7 @@ describe('CategoryController.delete() delete method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-DEL-003
+     * Test Case ID: TC-CT-CATEGORY-DEL-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - categoryId: "123" - ID của danh mục cần xóa

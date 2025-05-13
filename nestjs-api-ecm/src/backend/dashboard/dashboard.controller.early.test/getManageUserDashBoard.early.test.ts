@@ -45,13 +45,13 @@ describe('DashboardController.getManageUserDashBoard() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_MANAGE_USER_001
+     * Test case: TC-CT-DASHBOARD-MANAGEUSER-001
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard trả về kết quả thành công
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê người dùng
+     * Expected Output: { status: 200, data: { totalUsers: 100, usersThisWeek: 15, usersLastWeek: 10, usersBoughtThisWeek: 8, usersBoughtLastWeek: 5 } }
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_MANAGE_USER_001 - Nên trả về thống kê quản lý người dùng', async () => {
+    it('TC-CT-DASHBOARD-MANAGEUSER-001 - Nên trả về thống kê quản lý người dùng', async () => {
       // Sắp xếp (Arrange)
       const mockResult = {
         totalUsers: 100,
@@ -72,13 +72,13 @@ describe('DashboardController.getManageUserDashBoard() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_MANAGE_USER_002
+     * Test case: TC-CT-DASHBOARD-MANAGEUSER-002
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard trả về kết quả với số liệu bằng 0
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê người dùng có giá trị bằng 0
+     * Expected Output: { status: 200, data: { totalUsers: 50, usersThisWeek: 0, usersLastWeek: 0, usersBoughtThisWeek: 0, usersBoughtLastWeek: 0 } }
      * Ghi chú: Kiểm tra trường hợp không có người dùng mới
      */
-    it('TC_DASHBOARD_MANAGE_USER_002 - Nên trả về thống kê quản lý người dùng với số liệu bằng 0', async () => {
+    it('TC-CT-DASHBOARD-MANAGEUSER-002 - Nên trả về thống kê quản lý người dùng với số liệu bằng 0', async () => {
       // Sắp xếp (Arrange)
       const mockResult = {
         totalUsers: 50,
@@ -105,13 +105,13 @@ describe('DashboardController.getManageUserDashBoard() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_MANAGE_USER_003
+     * Test case: TC-CT-DASHBOARD-MANAGEUSER-003
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard xử lý lỗi khi service gặp lỗi
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi từ service
+     * Expected Output: { status: 500, message: 'Lỗi khi lấy thống kê quản lý người dùng' }
      * Ghi chú: Kiểm tra xử lý lỗi kiểu Error
      */
-    it('TC_DASHBOARD_MANAGE_USER_003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
+    it('TC-CT-DASHBOARD-MANAGEUSER-003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Lỗi khi lấy thống kê quản lý người dùng';
       mockDashboardService.getManageUserDashBoard.mockRejectedValue(new Error(errorMessage) as never);
@@ -126,13 +126,13 @@ describe('DashboardController.getManageUserDashBoard() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_MANAGE_USER_004
+     * Test case: TC-CT-DASHBOARD-MANAGEUSER-004
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard xử lý lỗi không phải Error
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi dạng chuỗi JSON
+     * Expected Output: { status: 500, message: '{"code":500,"message":"User repository error"}' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_MANAGE_USER_004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
+    it('TC-CT-DASHBOARD-MANAGEUSER-004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'User repository error' };
       mockDashboardService.getManageUserDashBoard.mockRejectedValue(errorObject as never);

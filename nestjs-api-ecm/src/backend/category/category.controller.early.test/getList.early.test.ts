@@ -53,7 +53,7 @@ describe('CategoryController.getList() getList method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-LIST-001
+     * Test Case ID: TC-CT-CATEGORY-GETLIST-001
      * Mục tiêu: Kiểm tra việc lấy danh sách danh mục với các tham số hợp lệ
      * Input:
      *   - page: 1 - Số trang cần lấy
@@ -80,7 +80,7 @@ describe('CategoryController.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-LIST-002
+     * Test Case ID: TC-CT-CATEGORY-GETLIST-002
      * Mục tiêu: Kiểm tra việc lấy danh sách danh mục với các tham số mặc định
      * Input:
      *   - page: 1 - Số trang cần lấy
@@ -113,7 +113,7 @@ describe('CategoryController.getList() getList method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-LIST-003
+     * Test Case ID: TC-CT-CATEGORY-GETLIST-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - page: 1 - Số trang cần lấy
@@ -138,7 +138,7 @@ describe('CategoryController.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-LIST-004
+     * Test Case ID: TC-CT-CATEGORY-GETLIST-004
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - page: 1 - Số trang cần lấy

@@ -68,7 +68,7 @@ describe('CategoryService.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-SRV-001
+     * Test Case ID: TC-SV-CATEGORY-UPDATE-001
      * Mục tiêu: Kiểm tra việc cập nhật danh mục thành công
      * Input:
      *   - id: "123" - ID của danh mục cần cập nhật
@@ -100,7 +100,7 @@ describe('CategoryService.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-SRV-002
+     * Test Case ID: TC-SV-CATEGORY-UPDATE-002
      * Mục tiêu: Kiểm tra xử lý khi cập nhật danh mục không tồn tại
      * Input:
      *   - id: "non-existent-id" - ID của danh mục không tồn tại
@@ -126,7 +126,7 @@ describe('CategoryService.update() update method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-SRV-003
+     * Test Case ID: TC-SV-CATEGORY-UPDATE-003
      * Mục tiêu: Kiểm tra xử lý khi cập nhật với dữ liệu không hợp lệ
      * Input:
      *   - id: "123" - ID của danh mục cần cập nhật

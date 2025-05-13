@@ -68,13 +68,13 @@ describe('DashboardService.getTopProductsByRevenue() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_PRODUCTS_001
+     * Test case: TC-SV-DASHBOARD-TOPPRODUCTS-001
      * Mục tiêu: Kiểm tra phương thức getTopProductsByRevenue trả về danh sách sản phẩm bán chạy đúng
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Mảng các đối tượng sản phẩm bán chạy
+     * Expected Output: [{ product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 5000000, quantity_sold: 50 }, { product_id: 'P002', product_name: 'Sản phẩm 2', total_revenue: 3000000, quantity_sold: 30 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_TOP_PRODUCTS_001 - Nên trả về danh sách sản phẩm bán chạy đúng', async () => {
+    it('TC-SV-DASHBOARD-TOPPRODUCTS-001 - Nên trả về danh sách sản phẩm bán chạy đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');
@@ -114,13 +114,13 @@ describe('DashboardService.getTopProductsByRevenue() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_PRODUCTS_002
+     * Test case: TC-SV-DASHBOARD-TOPPRODUCTS-002
      * Mục tiêu: Kiểm tra phương thức getTopProductsByRevenue hoạt động đúng với các bộ lọc thời gian khác nhau
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Mảng các đối tượng sản phẩm bán chạy
+     * Expected Output: [{ product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 15000000, quantity_sold: 150 }, { product_id: 'P003', product_name: 'Sản phẩm 3', total_revenue: 12000000, quantity_sold: 120 }]
      * Ghi chú: Kiểm tra với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_TOP_PRODUCTS_002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
+    it('TC-SV-DASHBOARD-TOPPRODUCTS-002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
       const mockStartDate = new Date('2023-04-01');
@@ -166,13 +166,13 @@ describe('DashboardService.getTopProductsByRevenue() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_PRODUCTS_003
+     * Test case: TC-SV-DASHBOARD-TOPPRODUCTS-003
      * Mục tiêu: Kiểm tra phương thức getTopProductsByRevenue xử lý đúng khi repository trả về mảng rỗng
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_TOP_PRODUCTS_003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-TOPPRODUCTS-003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
       const mockStartDate = new Date('2023-04-01');
@@ -205,13 +205,13 @@ describe('DashboardService.getTopProductsByRevenue() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_PRODUCTS_004
+     * Test case: TC-SV-DASHBOARD-TOPPRODUCTS-004
      * Mục tiêu: Kiểm tra phương thức getTopProductsByRevenue xử lý lỗi khi repository ném ra lỗi
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('Database query failed')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_TOP_PRODUCTS_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-TOPPRODUCTS-004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
       const mockStartDate = new Date('2023-01-01');

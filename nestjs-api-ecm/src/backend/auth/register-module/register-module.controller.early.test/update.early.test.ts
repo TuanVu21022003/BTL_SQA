@@ -55,7 +55,7 @@ describe('RegisterModuleController.update() update method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Xác thực đăng ký thành công
-     * Mã test case: TC-RU-001
+     * Mã test case: TC-CT-AUTH-UD-001
      * Mục tiêu: Kiểm tra controller trả về kết quả thành công khi service xác thực thành công
      * Input:
      *   - DTO:
@@ -89,7 +89,7 @@ describe('RegisterModuleController.update() update method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Xử lý lỗi từ service xác thực
-     * Mã test case: TC-RU-002
+     * Mã test case: TC-CT-AUTH-UD-002
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service xác thực ném lỗi
      * Input:
      *   - DTO:
@@ -118,7 +118,7 @@ describe('RegisterModuleController.update() update method', () => {
 
     /**
      * Test case 3: Xử lý khi dữ liệu đầu vào rỗng
-     * Mã test case: TC-RU-003
+     * Mã test case: TC-CT-AUTH-UD-003
      * Mục tiêu: Kiểm tra controller xử lý đúng khi dữ liệu đầu vào rỗng
      * Input:
      *   - DTO: {} (object rỗng không có thuộc tính email và otp)
@@ -144,7 +144,7 @@ describe('RegisterModuleController.update() update method', () => {
 
     /**
      * Test case 4: Xử lý khi mã OTP không hợp lệ
-     * Mã test case: TC-RU-004
+     * Mã test case: TC-CT-AUTH-UD-004
      * Mục tiêu: Kiểm tra controller xử lý đúng khi mã OTP không hợp lệ
      * Input:
      *   - DTO:

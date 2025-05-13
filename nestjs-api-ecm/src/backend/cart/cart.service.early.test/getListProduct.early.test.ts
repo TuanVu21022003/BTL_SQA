@@ -40,7 +40,7 @@ describe('CartService.getListProduct() getListProduct method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-PROD-SRV-001
+     * Test Case ID: TC-SV-CART-GETLISTPROD-001
      * Mục tiêu: Kiểm tra việc lấy danh sách sản phẩm trong giỏ hàng theo user_id thành công
      * Input:
      *   - filters: { user_id: '123' } - Điều kiện tìm kiếm theo ID người dùng
@@ -75,7 +75,7 @@ describe('CartService.getListProduct() getListProduct method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-PROD-SRV-002
+     * Test Case ID: TC-SV-CART-GETLISTPROD-002
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy sản phẩm nào trong giỏ hàng
      * Input:
      *   - filters: { user_id: '123' } - Điều kiện tìm kiếm theo ID người dùng
@@ -94,7 +94,7 @@ describe('CartService.getListProduct() getListProduct method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-PROD-SRV-003
+     * Test Case ID: TC-SV-CART-GETLISTPROD-003
      * Mục tiêu: Kiểm tra xử lý khi không cung cấp điều kiện tìm kiếm
      * Input:
      *   - filters: {} - Điều kiện tìm kiếm rỗng
@@ -123,7 +123,7 @@ describe('CartService.getListProduct() getListProduct method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-PROD-SRV-004
+     * Test Case ID: TC-SV-CART-GETLISTPROD-004
      * Mục tiêu: Kiểm tra xử lý khi gặp lỗi không mong muốn từ repository
      * Input:
      *   - filters: { user_id: '123' } - Điều kiện tìm kiếm theo ID người dùng

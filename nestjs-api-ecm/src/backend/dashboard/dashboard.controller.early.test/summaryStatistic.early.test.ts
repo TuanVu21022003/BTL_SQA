@@ -47,13 +47,13 @@ describe('DashboardController.summaryStatistic() summaryStatistic method', () =>
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SUMMARY_001
+     * Test case: TC-CT-DASHBOARD-SUMMARY-001
      * Mục tiêu: Kiểm tra phương thức summaryStatistic trả về kết quả thành công với TimeFilter.Week
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê
+     * Expected Output: { status: 200, data: { thisTime: { revenue: 1000, product: 50, customer: 20, order: 10 }, lastTime: { revenue: 800, product: 40, customer: 15, order: 8 } } }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tuần
      */
-    it('TC_DASHBOARD_SUMMARY_001 - Nên trả về thống kê tổng quan với bộ lọc "Tuần"', async () => {
+    it('TC-CT-DASHBOARD-SUMMARY-001 - Nên trả về thống kê tổng quan với bộ lọc "Tuần"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = {
         thisTime: { revenue: 1000, product: 50, customer: 20, order: 10 },
@@ -71,13 +71,13 @@ describe('DashboardController.summaryStatistic() summaryStatistic method', () =>
     });
 
     /**
-     * Test case: TC_DASHBOARD_SUMMARY_002
+     * Test case: TC-CT-DASHBOARD-SUMMARY-002
      * Mục tiêu: Kiểm tra phương thức summaryStatistic trả về kết quả thành công với TimeFilter.Month
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê
+     * Expected Output: { status: 200, data: { thisTime: { revenue: 2000, product: 100, customer: 40, order: 20 }, lastTime: { revenue: 1800, product: 90, customer: 35, order: 18 } } }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SUMMARY_002 - Nên trả về thống kê tổng quan với bộ lọc "Tháng"', async () => {
+    it('TC-CT-DASHBOARD-SUMMARY-002 - Nên trả về thống kê tổng quan với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = {
         thisTime: { revenue: 2000, product: 100, customer: 40, order: 20 },
@@ -101,13 +101,13 @@ describe('DashboardController.summaryStatistic() summaryStatistic method', () =>
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SUMMARY_003
+     * Test case: TC-CT-DASHBOARD-SUMMARY-003
      * Mục tiêu: Kiểm tra phương thức summaryStatistic xử lý lỗi khi service gặp lỗi
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi từ service
+     * Expected Output: { status: 500, message: 'Service error' }
      * Ghi chú: Kiểm tra xử lý lỗi kiểu Error
      */
-    it('TC_DASHBOARD_SUMMARY_003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
+    it('TC-CT-DASHBOARD-SUMMARY-003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Service error';
       mockDashboardService.getSummaryStatistic.mockRejectedValue(new Error(errorMessage) as never);
@@ -122,13 +122,13 @@ describe('DashboardController.summaryStatistic() summaryStatistic method', () =>
     });
 
     /**
-     * Test case: TC_DASHBOARD_SUMMARY_004
+     * Test case: TC-CT-DASHBOARD-SUMMARY-004
      * Mục tiêu: Kiểm tra phương thức summaryStatistic xử lý lỗi không phải Error
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi dạng chuỗi JSON
+     * Expected Output: { status: 500, message: '{"message":"Non-error exception"}' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_SUMMARY_004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
+    it('TC-CT-DASHBOARD-SUMMARY-004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { message: 'Non-error exception' };
       mockDashboardService.getSummaryStatistic.mockRejectedValue(errorObject as never);

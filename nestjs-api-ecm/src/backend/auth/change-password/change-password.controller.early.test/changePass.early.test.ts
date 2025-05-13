@@ -48,7 +48,7 @@ describe('ChangePasswordController.changePass() changePass method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * @testcase TC-CP-001
+     * @testcase TC-CT-AUTH-CP-001
      * @description Kiểm tra đổi mật khẩu thành công
      * @input userId='user123', mockDTO với oldPassword='oldPassword123', newPassword='newPassword123'
      * @expected Service được gọi với đúng tham số và trả về kết quả thành công (true)
@@ -74,7 +74,7 @@ describe('ChangePasswordController.changePass() changePass method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * @testcase TC-CP-002
+     * @testcase TC-CT-AUTH-CP-002
      * @description Kiểm tra xử lý khi service gặp lỗi
      * @input userId='user123', mockDTO hợp lệ
      * @expected Trả về thông báo lỗi từ service
@@ -96,7 +96,7 @@ describe('ChangePasswordController.changePass() changePass method', () => {
     });
 
     /**
-     * @testcase TC-CP-003
+     * @testcase TC-CT-AUTH-CP-003
      * @description Kiểm tra xử lý khi ID người dùng không hợp lệ
      * @input userId='', mockDTO hợp lệ
      * @expected Trả về kết quả thất bại (false)
@@ -117,7 +117,7 @@ describe('ChangePasswordController.changePass() changePass method', () => {
     });
 
     /**
-     * @testcase TC-CP-004
+     * @testcase TC-CT-AUTH-CP-004
      * @description Kiểm tra xử lý khi DTO không hợp lệ
      * @input userId='user123', mockDTO rỗng
      * @expected Trả về kết quả thất bại (false)

@@ -41,7 +41,7 @@ describe('CartService.getList() getList method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case ID: TC-CART-LIST-SRV-001
+     * Test Case ID: TC-SV-CART-GETLIST-001
      * Mục tiêu: Kiểm tra việc lấy danh sách sản phẩm trong giỏ hàng có phân trang thành công
      * Input:
      *   - page: 1 - Số trang cần lấy
@@ -81,7 +81,7 @@ describe('CartService.getList() getList method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case ID: TC-CART-LIST-SRV-002
+     * Test Case ID: TC-SV-CART-GETLIST-002
      * Mục tiêu: Kiểm tra xử lý khi số trang nhỏ hơn 1
      * Input:
      *   - page: 0 - Số trang không hợp lệ (nhỏ hơn 1)
@@ -99,7 +99,7 @@ describe('CartService.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-LIST-SRV-003
+     * Test Case ID: TC-SV-CART-GETLIST-003
      * Mục tiêu: Kiểm tra xử lý khi giới hạn bản ghi nhỏ hơn 1
      * Input:
      *   - page: 1 - Số trang hợp lệ
@@ -117,7 +117,7 @@ describe('CartService.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-LIST-SRV-004
+     * Test Case ID: TC-SV-CART-GETLIST-004
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy sản phẩm nào trong giỏ hàng
      * Input:
      *   - page: 1 - Số trang hợp lệ

@@ -48,7 +48,7 @@ describe('OrderRepository.getRevenueBySupplier() getRevenueBySupplier method', (
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-REVENUESUPPLIER-001
      * Mục tiêu: Kiểm tra lấy doanh thu theo nhà cung cấp trong khoảng thời gian hợp lệ
      * Input: 
      * - startDate: 2023-01-01
@@ -94,7 +94,7 @@ describe('OrderRepository.getRevenueBySupplier() getRevenueBySupplier method', (
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-REVENUESUPPLIER-002
      * Mục tiêu: Kiểm tra xử lý khi không có đơn hàng nào trong khoảng thời gian
      * Input:
      * - startDate: 2023-01-01
@@ -117,7 +117,7 @@ describe('OrderRepository.getRevenueBySupplier() getRevenueBySupplier method', (
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-REVENUESUPPLIER-003
      * Mục tiêu: Kiểm tra xử lý khi doanh thu trả về null hoặc undefined
      * Input:
      * - startDate: 2023-01-01

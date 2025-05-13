@@ -63,13 +63,13 @@ describe('DashboardService.getLatestProduct() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LATEST_PRODUCT_001
+     * Test case: TC-SV-DASHBOARD-LATESTPRODUCT-001
      * Mục tiêu: Kiểm tra phương thức getLatestProduct trả về danh sách sản phẩm mới nhất đúng
      * Input: Không có tham số đầu vào
-     * Expected Output: Mảng các đối tượng sản phẩm mới nhất
+     * Expected Output: [{ product_id: 'P001', product_name: 'Sản phẩm mới 1', created_at: '2023-04-15T10:00:00Z', price: 1500000 }, { product_id: 'P002', product_name: 'Sản phẩm mới 2', created_at: '2023-04-14T09:30:00Z', price: 2000000 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_LATEST_PRODUCT_001 - Nên trả về danh sách sản phẩm mới nhất đúng', async () => {
+    it('TC-SV-DASHBOARD-LATESTPRODUCT-001 - Nên trả về danh sách sản phẩm mới nhất đúng', async () => {
       // Sắp xếp (Arrange)
       const mockLatestProducts = [
         { product_id: 'P001', product_name: 'Sản phẩm mới 1', created_at: '2023-04-15T10:00:00Z', price: 1500000 },
@@ -87,13 +87,13 @@ describe('DashboardService.getLatestProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LATEST_PRODUCT_002
+     * Test case: TC-SV-DASHBOARD-LATESTPRODUCT-002
      * Mục tiêu: Kiểm tra phương thức getLatestProduct xử lý đúng khi repository trả về mảng rỗng
      * Input: Không có tham số đầu vào
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_LATEST_PRODUCT_002 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-LATESTPRODUCT-002 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       mockImportProRepo.findLatestProducts.mockResolvedValue([]);
 
@@ -112,13 +112,13 @@ describe('DashboardService.getLatestProduct() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LATEST_PRODUCT_003
+     * Test case: TC-SV-DASHBOARD-LATESTPRODUCT-003
      * Mục tiêu: Kiểm tra phương thức getLatestProduct xử lý lỗi khi repository ném ra lỗi
      * Input: Không có tham số đầu vào
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('Product repository error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_LATEST_PRODUCT_003 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-LATESTPRODUCT-003 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Product repository error';
       mockImportProRepo.findLatestProducts.mockRejectedValue(new Error(errorMessage));
@@ -131,13 +131,13 @@ describe('DashboardService.getLatestProduct() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LATEST_PRODUCT_004
+     * Test case: TC-SV-DASHBOARD-LATESTPRODUCT-004
      * Mục tiêu: Kiểm tra phương thức getLatestProduct xử lý đúng khi repository trả về null
      * Input: Không có tham số đầu vào
-     * Expected Output: Ném ra lỗi
+     * Expected Output: null
      * Ghi chú: Kiểm tra xử lý giá trị null
      */
-    it('TC_DASHBOARD_SERVICE_LATEST_PRODUCT_004 - Nên xử lý đúng khi repository trả về null', async () => {
+    it('TC-SV-DASHBOARD-LATESTPRODUCT-004 - Nên xử lý đúng khi repository trả về null', async () => {
       // Sắp xếp (Arrange)
       mockImportProRepo.findLatestProducts.mockResolvedValue(null);
 

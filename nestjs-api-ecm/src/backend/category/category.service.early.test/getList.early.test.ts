@@ -43,7 +43,7 @@ describe('CategoryService.getList() getList method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-LIST-SRV-001
+     * Test Case ID: TC-SV-CATEGORY-GETLIST-001
      * Mục tiêu: Kiểm tra việc áp dụng các bộ lọc đúng cách khi lấy danh sách danh mục
      * Input:
      *   - page: 1 - Số trang cần lấy
@@ -98,7 +98,7 @@ describe('CategoryService.getList() getList method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-LIST-SRV-002
+     * Test Case ID: TC-SV-CATEGORY-GETLIST-002
      * Mục tiêu: Kiểm tra xử lý khi số trang nhỏ hơn 1
      * Input:
      *   - page: 0 - Số trang không hợp lệ (nhỏ hơn 1)
@@ -114,7 +114,7 @@ describe('CategoryService.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-LIST-SRV-003
+     * Test Case ID: TC-SV-CATEGORY-GETLIST-003
      * Mục tiêu: Kiểm tra xử lý khi giới hạn bản ghi nhỏ hơn 1
      * Input:
      *   - page: 1 - Số trang hợp lệ
@@ -130,7 +130,7 @@ describe('CategoryService.getList() getList method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-LIST-SRV-004
+     * Test Case ID: TC-SV-CATEGORY-GETLIST-004
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy danh mục nào
      * Input:
      *   - page: 1 - Số trang hợp lệ

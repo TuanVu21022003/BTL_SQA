@@ -50,7 +50,7 @@ describe('CategoryController.detail() detail method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-001
+     * Test Case ID: TC-CT-CATEGORY-DETAIL-001
      * Mục tiêu: Kiểm tra việc lấy thông tin chi tiết của danh mục thành công
      * Input:
      *   - categoryId: "1" - ID của danh mục cần lấy thông tin
@@ -80,7 +80,7 @@ describe('CategoryController.detail() detail method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-002
+     * Test Case ID: TC-CT-CATEGORY-DETAIL-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - categoryId: "999" - ID của danh mục không tồn tại
@@ -104,7 +104,7 @@ describe('CategoryController.detail() detail method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-003
+     * Test Case ID: TC-CT-CATEGORY-DETAIL-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - categoryId: "999" - ID của danh mục không tồn tại

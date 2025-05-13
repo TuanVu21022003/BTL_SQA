@@ -33,7 +33,7 @@ describe('LoginModuleController.login() login method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Đăng nhập thành công
-     * Mã test case: TC-LG-001
+     * Mã test case: TC-CT-AUTH-LG-001
      * Mục tiêu: Kiểm tra controller trả về kết quả thành công khi service đăng nhập thành công
      * Input:
      *   - DTO: { username: 'testuser', password: 'testpassword' }
@@ -61,7 +61,7 @@ describe('LoginModuleController.login() login method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Xử lý lỗi từ service đăng nhập
-     * Mã test case: TC-LG-002
+     * Mã test case: TC-CT-AUTH-LG-002
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng nhập ném lỗi
      * Input:
      *   - DTO: { username: 'testuser', password: 'testpassword' }
@@ -84,7 +84,7 @@ describe('LoginModuleController.login() login method', () => {
 
     /**
      * Test case 3: Xử lý lỗi không phải Error object
-     * Mã test case: TC-LG-003
+     * Mã test case: TC-CT-AUTH-LG-003
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng nhập ném lỗi không phải Error object
      * Input:
      *   - DTO: { username: 'testuser', password: 'testpassword' }

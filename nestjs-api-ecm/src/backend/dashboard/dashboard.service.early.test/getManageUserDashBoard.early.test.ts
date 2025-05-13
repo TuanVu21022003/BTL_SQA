@@ -98,13 +98,13 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_MANAGE_USER_001
+     * Test case: TC-SV-DASHBOARD-MANAGEUSER-001
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard trả về thống kê người dùng đúng
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng chứa thống kê người dùng
+     * Expected Output: { totalUsers: 100, usersThisWeek: 15, usersLastWeek: 10, usersBoughtThisWeek: { userCount: 8 }, usersBoughtLastWeek: { userCount: 5 } }
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_MANAGE_USER_001 - Nên trả về thống kê người dùng đúng', async () => {
+    it('TC-SV-DASHBOARD-MANAGEUSER-001 - Nên trả về thống kê người dùng đúng', async () => {
       // Sắp xếp (Arrange)
       // Mock kết quả cho các truy vấn
       mockUserQueryBuilder.getCount
@@ -142,13 +142,13 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_MANAGE_USER_002
+     * Test case: TC-SV-DASHBOARD-MANAGEUSER-002
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard xử lý lỗi khi repository ném ra lỗi
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng chứa thông báo lỗi
+     * Expected Output: { error: 'Database connection error' }
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_MANAGE_USER_002 - Nên xử lý lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-MANAGEUSER-002 - Nên xử lý lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Database connection error';
       mockUserQueryBuilder.getCount.mockRejectedValue(new Error(errorMessage));
@@ -166,13 +166,13 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_MANAGE_USER_003
+     * Test case: TC-SV-DASHBOARD-MANAGEUSER-003
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard xử lý đúng khi repository trả về null
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng với giá trị mặc định
+     * Expected Output: { totalUsers: null, usersThisWeek: null, usersLastWeek: null, usersBoughtThisWeek: null, usersBoughtLastWeek: null }
      * Ghi chú: Kiểm tra xử lý giá trị null
      */
-    it('TC_DASHBOARD_SERVICE_MANAGE_USER_003 - Nên xử lý đúng khi repository trả về null', async () => {
+    it('TC-SV-DASHBOARD-MANAGEUSER-003 - Nên xử lý đúng khi repository trả về null', async () => {
       // Sắp xếp (Arrange)
       mockUserQueryBuilder.getCount
         .mockResolvedValueOnce(null) // totalUsers
@@ -198,13 +198,13 @@ describe('DashboardService.getManageUserDashBoard() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_MANAGE_USER_004
+     * Test case: TC-SV-DASHBOARD-MANAGEUSER-004
      * Mục tiêu: Kiểm tra phương thức getManageUserDashBoard xử lý đúng khi có lỗi không phải Error
      * Input: Không có tham số đầu vào
-     * Expected Output: Đối tượng chứa thông báo lỗi
+     * Expected Output: { error: 'Lỗi khi lấy thống kê người dùng' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_SERVICE_MANAGE_USER_004 - Nên xử lý đúng khi có lỗi không phải Error', async () => {
+    it('TC-SV-DASHBOARD-MANAGEUSER-004 - Nên xử lý đúng khi có lỗi không phải Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'Database error' };
       mockUserQueryBuilder.getCount.mockRejectedValue(errorObject);

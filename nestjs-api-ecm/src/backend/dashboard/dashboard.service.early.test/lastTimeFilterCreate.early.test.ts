@@ -67,13 +67,13 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_001
+     * Test case: TC-SV-DASHBOARD-LASTTIMEFILTER-001
      * Mục tiêu: Kiểm tra phương thức lastTimeFilterCreate trả về khoảng thời gian trước đó đúng với TimeFilter.Week
      * Input: startDate, endDate, timeFilter = TimeFilter.Week
      * Expected Output: Đối tượng chứa lastStartDate và lastEndDate tương ứng với tuần trước
      * Ghi chú: Kiểm tra bộ lọc theo tuần
      */
-    it('TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_001 - Nên trả về khoảng thời gian tuần trước với bộ lọc "Tuần"', () => {
+    it('TC-SV-DASHBOARD-LASTTIMEFILTER-001 - Nên trả về khoảng thời gian tuần trước với bộ lọc "Tuần"', () => {
       // Sắp xếp (Arrange)
       const startDate = new Date('2023-04-10'); // Thứ Hai
       const endDate = new Date('2023-04-16'); // Chủ Nhật
@@ -100,13 +100,13 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_002
+     * Test case: TC-SV-DASHBOARD-LASTTIMEFILTER-002
      * Mục tiêu: Kiểm tra phương thức lastTimeFilterCreate trả về khoảng thời gian trước đó đúng với TimeFilter.Month
      * Input: startDate, endDate, timeFilter = TimeFilter.Month
      * Expected Output: Đối tượng chứa lastStartDate và lastEndDate tương ứng với tháng trước
      * Ghi chú: Kiểm tra bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_002 - Nên trả về khoảng thời gian tháng trước với bộ lọc "Tháng"', () => {
+    it('TC-SV-DASHBOARD-LASTTIMEFILTER-002 - Nên trả về khoảng thời gian tháng trước với bộ lọc "Tháng"', () => {
       // Sắp xếp (Arrange)
       const startDate = new Date('2023-04-01'); // Ngày đầu tháng 4
       const endDate = new Date('2023-04-30'); // Ngày cuối tháng 4
@@ -133,13 +133,13 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_003
+     * Test case: TC-SV-DASHBOARD-LASTTIMEFILTER-003
      * Mục tiêu: Kiểm tra phương thức lastTimeFilterCreate trả về khoảng thời gian trước đó đúng với TimeFilter.Quarter
      * Input: startDate, endDate, timeFilter = TimeFilter.Quarter
      * Expected Output: Đối tượng chứa lastStartDate và lastEndDate tương ứng với quý trước
      * Ghi chú: Kiểm tra bộ lọc theo quý
      */
-    it('TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_003 - Nên trả về khoảng thời gian quý trước với bộ lọc "Quý"', () => {
+    it('TC-SV-DASHBOARD-LASTTIMEFILTER-003 - Nên trả về khoảng thời gian quý trước với bộ lọc "Quý"', () => {
       // Sắp xếp (Arrange)
       const startDate = new Date('2023-04-01'); // Ngày đầu Q2
       const endDate = new Date('2023-06-30'); // Ngày cuối Q2
@@ -170,13 +170,13 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_004
+     * Test case: TC-SV-DASHBOARD-LASTTIMEFILTER-004
      * Mục tiêu: Kiểm tra phương thức lastTimeFilterCreate trả về khoảng thời gian trước đó đúng với TimeFilter.Year
      * Input: startDate, endDate, timeFilter = TimeFilter.Year
      * Expected Output: Đối tượng chứa lastStartDate và lastEndDate tương ứng với năm trước
      * Ghi chú: Kiểm tra bộ lọc theo năm
      */
-    it('TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_004 - Nên trả về khoảng thời gian năm trước với bộ lọc "Năm"', () => {
+    it('TC-SV-DASHBOARD-LASTTIMEFILTER-004 - Nên trả về khoảng thời gian năm trước với bộ lọc "Năm"', () => {
       // Sắp xếp (Arrange)
       const startDate = new Date('2023-01-01'); // Ngày đầu năm 2023
       const endDate = new Date('2023-12-31'); // Ngày cuối năm 2023
@@ -209,13 +209,13 @@ describe('DashboardService.lastTimeFilterCreate() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_005
+     * Test case: TC-SV-DASHBOARD-LASTTIMEFILTER-005
      * Mục tiêu: Kiểm tra phương thức lastTimeFilterCreate ném ra lỗi khi bộ lọc không hợp lệ
      * Input: startDate, endDate, timeFilter = 'InvalidFilter' (không hợp lệ)
      * Expected Output: Ném ra lỗi với thông báo 'Unsupported time period for lastTimeFilterCreate.'
      * Ghi chú: Kiểm tra xử lý lỗi với bộ lọc không hợp lệ
      */
-    it('TC_DASHBOARD_SERVICE_LAST_TIME_FILTER_005 - Nên ném ra lỗi khi bộ lọc không hợp lệ', () => {
+    it('TC-SV-DASHBOARD-LASTTIMEFILTER-005 - Nên ném ra lỗi khi bộ lọc không hợp lệ', () => {
       // Sắp xếp (Arrange)
       const startDate = new Date('2023-01-01');
       const endDate = new Date('2023-12-31');

@@ -36,7 +36,7 @@ describe('ImportProductRepository.findLatestProducts() findLatestProducts method
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-FINDPROD-001
      * Mục tiêu: Kiểm tra lấy danh sách 8 sản phẩm mới nhất thành công
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng chứa 2 sản phẩm với đầy đủ thông tin
@@ -87,7 +87,7 @@ describe('ImportProductRepository.findLatestProducts() findLatestProducts method
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-FINDPROD-002
      * Mục tiêu: Kiểm tra xử lý khi không có sản phẩm nào trong database
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng rỗng []
@@ -105,7 +105,7 @@ describe('ImportProductRepository.findLatestProducts() findLatestProducts method
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-FINDPROD-003
      * Mục tiêu: Kiểm tra xử lý khi có lỗi từ database
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Throw Error với message 'Database error'
@@ -122,7 +122,7 @@ describe('ImportProductRepository.findLatestProducts() findLatestProducts method
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-RP-FINDPROD-004
      * Mục tiêu: Kiểm tra giới hạn số lượng sản phẩm trả về đúng là 8 khi có nhiều hơn 8 sản phẩm
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng chứa đúng 8 sản phẩm mới nhất, không nhiều hơn

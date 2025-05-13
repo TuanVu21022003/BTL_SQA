@@ -125,7 +125,7 @@ describe('RegisterModuleService.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-REG-001
+     * Test Case ID: TC-SV-AUTH-CREATE-001
      * Mục tiêu: Kiểm tra việc tạo người dùng mới và gửi email OTP thành công
      * Input:
      *   - firstName: "John"
@@ -174,7 +174,7 @@ describe('RegisterModuleService.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-REG-002
+     * Test Case ID: TC-SV-AUTH-CREATE-002
      * Mục tiêu: Kiểm tra xử lý khi người dùng đã tồn tại và đã kích hoạt
      * Input:
      *   - firstName: "John"
@@ -198,7 +198,7 @@ describe('RegisterModuleService.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-REG-003
+     * Test Case ID: TC-SV-AUTH-CREATE-003
      * Mục tiêu: Kiểm tra xử lý khi người dùng đã tồn tại nhưng chưa kích hoạt
      * Input:
      *   - firstName: "John"
@@ -233,7 +233,7 @@ describe('RegisterModuleService.create() create method', () => {
     });
 
     /**
-     * Test Case ID: TC-REG-004
+     * Test Case ID: TC-SV-AUTH-CREATE-004
      * Mục tiêu: Kiểm tra xử lý khi lưu thông tin người dùng thất bại
      * Input:
      *   - firstName: "John"

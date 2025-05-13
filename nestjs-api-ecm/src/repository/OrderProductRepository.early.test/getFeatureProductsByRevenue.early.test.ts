@@ -48,7 +48,7 @@ describe('OrderProductRepository.getFeatureProductsByRevenue() getFeatureProduct
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-FEATUREPROD-001
      * Mục tiêu: Kiểm tra lấy top 5 sản phẩm có doanh thu cao nhất thành công
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng chứa thông tin của 2 sản phẩm nổi bật với các trường:
@@ -109,7 +109,7 @@ describe('OrderProductRepository.getFeatureProductsByRevenue() getFeatureProduct
     });
 
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-RP-FEATUREPROD-004
      * Mục tiêu: Kiểm tra giới hạn số lượng sản phẩm trả về đúng là 5 khi có nhiều hơn 5 sản phẩm
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng chứa đúng 5 sản phẩm nổi bật, không nhiều hơn
@@ -152,7 +152,7 @@ describe('OrderProductRepository.getFeatureProductsByRevenue() getFeatureProduct
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-FEATUREPROD-002
      * Mục tiêu: Kiểm tra xử lý khi không có sản phẩm nào thỏa mãn điều kiện
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Mảng rỗng []
@@ -170,7 +170,7 @@ describe('OrderProductRepository.getFeatureProductsByRevenue() getFeatureProduct
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-FEATUREPROD-003
      * Mục tiêu: Kiểm tra xử lý khi có lỗi từ database
      * Input: Không có (phương thức không nhận tham số)
      * Expected Output: Throw Error với message 'Database error'

@@ -49,7 +49,7 @@ describe('OrderRepository.getTopCustomersByRevenue() getTopCustomersByRevenue me
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-TOPCUS-001
      * Mục tiêu: Kiểm tra lấy top 5 khách hàng có doanh thu cao nhất trong khoảng thời gian
      * Input: 
      * - startDate: 2023-01-01
@@ -91,7 +91,7 @@ describe('OrderRepository.getTopCustomersByRevenue() getTopCustomersByRevenue me
       expect((orderRepository as any).limit).toHaveBeenCalledWith(5);
     });
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-RP-TOPCUS-004
      * Mục tiêu: Kiểm tra giới hạn số lượng khách hàng trả về đúng là 5 khi có nhiều hơn 5 khách hàng
      * Input: 
      * - startDate: 2023-01-01
@@ -162,7 +162,7 @@ describe('OrderRepository.getTopCustomersByRevenue() getTopCustomersByRevenue me
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-TOPCUS-002
      * Mục tiêu: Kiểm tra xử lý khi không có đơn hàng nào trong khoảng thời gian
      * Input:
      * - startDate: 2023-01-01
@@ -185,7 +185,7 @@ describe('OrderRepository.getTopCustomersByRevenue() getTopCustomersByRevenue me
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-TOPCUS-003
      * Mục tiêu: Kiểm tra xử lý khi doanh thu không phải là số hợp lệ
      * Input:
      * - startDate: 2023-01-01

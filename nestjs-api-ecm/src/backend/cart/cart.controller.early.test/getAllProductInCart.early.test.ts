@@ -41,7 +41,7 @@ describe('CartController.getAllProductInCart() getAllProductInCart method', () =
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-GET-001
+     * Test Case ID: TC-CT-CART-GETALL-001
      * Mục tiêu: Kiểm tra việc lấy tất cả sản phẩm trong giỏ hàng của người dùng hợp lệ
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -72,7 +72,7 @@ describe('CartController.getAllProductInCart() getAllProductInCart method', () =
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-GET-002
+     * Test Case ID: TC-CT-CART-GETALL-002
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy sản phẩm nào trong giỏ hàng của người dùng
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -96,7 +96,7 @@ describe('CartController.getAllProductInCart() getAllProductInCart method', () =
     });
 
     /**
-     * Test Case ID: TC-CART-GET-003
+     * Test Case ID: TC-CT-CART-GETALL-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -121,7 +121,7 @@ describe('CartController.getAllProductInCart() getAllProductInCart method', () =
     });
 
     /**
-     * Test Case ID: TC-CART-GET-004
+     * Test Case ID: TC-CT-CART-GETALL-004
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - userId: "123" - ID của người dùng

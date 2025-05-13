@@ -37,7 +37,7 @@ describe('OrderRepository.calculateStatsForTwoPeriods() calculateStatsForTwoPeri
 
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RP-CAL-001
      * Mục tiêu: Kiểm tra tính toán thống kê chính xác cho hai khoảng thời gian
      * Input: 
      * - startDate: 2023-01-01
@@ -113,7 +113,7 @@ describe('OrderRepository.calculateStatsForTwoPeriods() calculateStatsForTwoPeri
 
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RP-CAL-002
      * Mục tiêu: Kiểm tra xử lý khi không có dữ liệu thống kê
      * Input: 
      * - startDate: 2023-01-01
@@ -149,7 +149,7 @@ describe('OrderRepository.calculateStatsForTwoPeriods() calculateStatsForTwoPeri
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RP-CAL-003
      * Mục tiêu: Kiểm tra xử lý khi khoảng thời gian không hợp lệ
      * Input: 
      * - startDate sau endDate

@@ -46,13 +46,13 @@ describe('DashboardController.getFinancialSummary() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_FINANCIAL_001
+     * Test case: TC-CT-DASHBOARD-FINANCIAL-001
      * Mục tiêu: Kiểm tra phương thức getFinancialSummary trả về kết quả thành công với TimeFilter.Week
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê tài chính
+     * Expected Output: { status: 200, data: [{ time_period: '2023-W01', total_revenue: 1000000, total_cost: 700000, profit: 300000 }, { time_period: '2023-W02', total_revenue: 1200000, total_cost: 800000, profit: 400000 }] }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tuần
      */
-    it('TC_DASHBOARD_FINANCIAL_001 - Nên trả về thống kê tài chính với bộ lọc "Tuần"', async () => {
+    it('TC-CT-DASHBOARD-FINANCIAL-001 - Nên trả về thống kê tài chính với bộ lọc "Tuần"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [
         { time_period: '2023-W01', total_revenue: 1000000, total_cost: 700000, profit: 300000 },
@@ -70,13 +70,13 @@ describe('DashboardController.getFinancialSummary() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_FINANCIAL_002
+     * Test case: TC-CT-DASHBOARD-FINANCIAL-002
      * Mục tiêu: Kiểm tra phương thức getFinancialSummary trả về kết quả thành công với TimeFilter.Month
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Đối tượng response thành công với dữ liệu thống kê tài chính
+     * Expected Output: { status: 200, data: [{ time_period: '2023-01', total_revenue: 5000000, total_cost: 3500000, profit: 1500000 }, { time_period: '2023-02', total_revenue: 5500000, total_cost: 3800000, profit: 1700000 }] }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_FINANCIAL_002 - Nên trả về thống kê tài chính với bộ lọc "Tháng"', async () => {
+    it('TC-CT-DASHBOARD-FINANCIAL-002 - Nên trả về thống kê tài chính với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [
         { time_period: '2023-01', total_revenue: 5000000, total_cost: 3500000, profit: 1500000 },
@@ -100,13 +100,13 @@ describe('DashboardController.getFinancialSummary() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_FINANCIAL_003
+     * Test case: TC-CT-DASHBOARD-FINANCIAL-003
      * Mục tiêu: Kiểm tra phương thức getFinancialSummary xử lý lỗi khi service gặp lỗi
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi từ service
+     * Expected Output: { status: 500, message: 'Lỗi khi lấy dữ liệu tài chính' }
      * Ghi chú: Kiểm tra xử lý lỗi kiểu Error
      */
-    it('TC_DASHBOARD_FINANCIAL_003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
+    it('TC-CT-DASHBOARD-FINANCIAL-003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Lỗi khi lấy dữ liệu tài chính';
       mockDashboardService.getFinancialSummaryByTime.mockRejectedValue(new Error(errorMessage) as never);
@@ -121,13 +121,13 @@ describe('DashboardController.getFinancialSummary() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_FINANCIAL_004
+     * Test case: TC-CT-DASHBOARD-FINANCIAL-004
      * Mục tiêu: Kiểm tra phương thức getFinancialSummary xử lý lỗi không phải Error
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi dạng chuỗi JSON
+     * Expected Output: { status: 500, message: '{"code":500,"message":"Database connection error"}' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_FINANCIAL_004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
+    it('TC-CT-DASHBOARD-FINANCIAL-004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'Database connection error' };
       mockDashboardService.getFinancialSummaryByTime.mockRejectedValue(errorObject as never);

@@ -57,13 +57,13 @@ describe('DashboardService Date Helper Methods', () => {
    */
   describe('addDays method', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_ADD_DAYS_001
+     * Test case: TC-SV-DASHBOARD-ADDDAYS-001
      * Mục tiêu: Kiểm tra phương thức addDays thêm ngày đúng
      * Input: date = '2023-04-15', days = 5
      * Expected Output: Ngày mới là '2023-04-20'
      * Ghi chú: Kiểm tra thêm ngày dương
      */
-    it('TC_DASHBOARD_SERVICE_ADD_DAYS_001 - Nên thêm ngày đúng với số ngày dương', () => {
+    it('TC-SV-DASHBOARD-ADDDAYS-001 - Nên thêm ngày đúng với số ngày dương', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const days = 5;
@@ -79,13 +79,13 @@ describe('DashboardService Date Helper Methods', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_ADD_DAYS_002
+     * Test case: TC-SV-DASHBOARD-ADDDAYS-002
      * Mục tiêu: Kiểm tra phương thức addDays trừ ngày đúng
      * Input: date = '2023-04-15', days = -5
      * Expected Output: Ngày mới là '2023-04-10'
      * Ghi chú: Kiểm tra thêm ngày âm (trừ ngày)
      */
-    it('TC_DASHBOARD_SERVICE_ADD_DAYS_002 - Nên trừ ngày đúng với số ngày âm', () => {
+    it('TC-SV-DASHBOARD-ADDDAYS-002 - Nên trừ ngày đúng với số ngày âm', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const days = -5;
@@ -101,13 +101,13 @@ describe('DashboardService Date Helper Methods', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_ADD_DAYS_003
+     * Test case: TC-SV-DASHBOARD-ADDDAYS-003
      * Mục tiêu: Kiểm tra phương thức addDays xử lý đúng khi chuyển tháng
      * Input: date = '2023-04-30', days = 5
      * Expected Output: Ngày mới là '2023-05-05'
      * Ghi chú: Kiểm tra thêm ngày qua tháng mới
      */
-    it('TC_DASHBOARD_SERVICE_ADD_DAYS_003 - Nên xử lý đúng khi thêm ngày qua tháng mới', () => {
+    it('TC-SV-DASHBOARD-ADDDAYS-003 - Nên xử lý đúng khi thêm ngày qua tháng mới', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-30');
       const days = 5;

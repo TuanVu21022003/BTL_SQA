@@ -57,7 +57,7 @@ describe('CategoryService.delete() delete method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DEL-SRV-001
+     * Test Case ID: TC-SV-CATEGORY-DEL-001
      * Mục tiêu: Kiểm tra việc xóa danh mục thành công theo ID
      * Input:
      *   - id: "123" - ID của danh mục cần xóa
@@ -87,7 +87,7 @@ describe('CategoryService.delete() delete method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DEL-SRV-002
+     * Test Case ID: TC-SV-CATEGORY-DEL-002
      * Mục tiêu: Kiểm tra xử lý khi xóa danh mục không tồn tại
      * Input:
      *   - id: "non-existent-id" - ID của danh mục không tồn tại
@@ -111,7 +111,7 @@ describe('CategoryService.delete() delete method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-DEL-SRV-003
+     * Test Case ID: TC-SV-CATEGORY-DEL-003
      * Mục tiêu: Kiểm tra xử lý khi gặp lỗi trong quá trình xóa
      * Input:
      *   - id: "123" - ID của danh mục cần xóa

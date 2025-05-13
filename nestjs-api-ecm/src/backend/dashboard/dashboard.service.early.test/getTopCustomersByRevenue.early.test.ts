@@ -68,13 +68,13 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_001
+     * Test case: TC-SV-DASHBOARD-TOPCUSTOMERS-001
      * Mục tiêu: Kiểm tra phương thức getTopCustomersByRevenue trả về danh sách khách hàng có doanh thu cao đúng
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Mảng các đối tượng khách hàng có doanh thu cao
+     * Expected Output: [{ user_id: 'U001', user_name: 'Nguyễn Văn A', total_revenue: 8000000, order_count: 5 }, { user_id: 'U002', user_name: 'Trần Thị B', total_revenue: 6000000, order_count: 4 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_001 - Nên trả về danh sách khách hàng có doanh thu cao đúng', async () => {
+    it('TC-SV-DASHBOARD-TOPCUSTOMERS-001 - Nên trả về danh sách khách hàng có doanh thu cao đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');
@@ -114,13 +114,13 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_002
+     * Test case: TC-SV-DASHBOARD-TOPCUSTOMERS-002
      * Mục tiêu: Kiểm tra phương thức getTopCustomersByRevenue hoạt động đúng với các bộ lọc thời gian khác nhau
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Mảng các đối tượng khách hàng có doanh thu cao
+     * Expected Output: [{ user_id: 'U003', user_name: 'Lê Văn C', total_revenue: 25000000, order_count: 15 }, { user_id: 'U001', user_name: 'Nguyễn Văn A', total_revenue: 20000000, order_count: 12 }]
      * Ghi chú: Kiểm tra với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
+    it('TC-SV-DASHBOARD-TOPCUSTOMERS-002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
       const mockStartDate = new Date('2023-04-01');
@@ -166,13 +166,13 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_003
+     * Test case: TC-SV-DASHBOARD-TOPCUSTOMERS-003
      * Mục tiêu: Kiểm tra phương thức getTopCustomersByRevenue xử lý đúng khi repository trả về mảng rỗng
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-TOPCUSTOMERS-003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
       const mockStartDate = new Date('2023-04-01');
@@ -205,13 +205,13 @@ describe('DashboardService.getTopCustomersByRevenue() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_004
+     * Test case: TC-SV-DASHBOARD-TOPCUSTOMERS-004
      * Mục tiêu: Kiểm tra phương thức getTopCustomersByRevenue xử lý lỗi khi repository ném ra lỗi
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('User repository error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_TOP_CUSTOMERS_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-TOPCUSTOMERS-004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
       const mockStartDate = new Date('2023-01-01');

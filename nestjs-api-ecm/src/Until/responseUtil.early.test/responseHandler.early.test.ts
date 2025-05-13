@@ -5,7 +5,7 @@ describe('responseHandler() responseHandler method', () => {
   // Test các trường hợp thành công
   describe('Happy Paths', () => {
     /**
-     * Test Case ID: TC001
+     * Test Case ID: TC-RESUTIL-001
      * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu hợp lệ
      * Input: data = { id: 1, name: 'Test' }
      * Expected Output: Object response với:
@@ -30,7 +30,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC002
+     * Test Case ID: TC-RESUTIL-002
      * Mục tiêu: Kiểm tra phương thức notFound()
      * Input: Không có
      * Expected Output: Object response với:
@@ -49,7 +49,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC003
+     * Test Case ID: TC-RESUTIL-003
      * Mục tiêu: Kiểm tra phương thức error() với message mặc định
      * Input: Không có
      * Expected Output: Object response với:
@@ -68,7 +68,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC004
+     * Test Case ID: TC-RESUTIL-004
      * Mục tiêu: Kiểm tra phương thức unauthorized() với message mặc định
      * Input: Không có
      * Expected Output: Object response với:
@@ -87,7 +87,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC005
+     * Test Case ID: TC-RESUTIL-005
      * Mục tiêu: Kiểm tra phương thức invalidated() với dữ liệu lỗi
      * Input: errors = { field: 'name', error: 'Required' }
      * Expected Output: Object response với:
@@ -110,7 +110,7 @@ describe('responseHandler() responseHandler method', () => {
   // Test các trường hợp đặc biệt
   describe('Edge Cases', () => {
     /**
-     * Test Case ID: TC006
+     * Test Case ID: TC-RESUTIL-006
      * Mục tiêu: Kiểm tra phương thức error() với message tùy chỉnh
      * Input: message = 'Custom error message'
      * Expected Output: Object response với:
@@ -130,7 +130,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC007
+     * Test Case ID: TC-RESUTIL-007
      * Mục tiêu: Kiểm tra phương thức unauthorized() với message tùy chỉnh
      * Input: message = 'Custom unauthorized message'
      * Expected Output: Object response với:
@@ -150,7 +150,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC008
+     * Test Case ID: TC-RESUTIL-008
      * Mục tiêu: Kiểm tra phương thức invalidated() với object errors rỗng
      * Input: errors = {}
      * Expected Output: Object response với:
@@ -170,7 +170,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC009
+     * Test Case ID: TC-RESUTIL-009
      * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu null
      * Input: data = null
      * Expected Output: Object response với:
@@ -191,7 +191,7 @@ describe('responseHandler() responseHandler method', () => {
     });
 
     /**
-     * Test Case ID: TC010
+     * Test Case ID: TC-RESUTIL-010
      * Mục tiêu: Kiểm tra phương thức ok() với dữ liệu undefined
      * Input: data = undefined
      * Expected Output: Object response với:

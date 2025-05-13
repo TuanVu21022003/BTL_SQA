@@ -51,7 +51,7 @@ describe('CategoryController.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-001
+     * Test Case ID: TC-CT-CATEGORY-UPDATE-001
      * Mục tiêu: Kiểm tra việc cập nhật thông tin danh mục thành công
      * Input:
      *   - categoryUpdateDTO:
@@ -84,7 +84,7 @@ describe('CategoryController.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-002
+     * Test Case ID: TC-CT-CATEGORY-UPDATE-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - categoryUpdateDTO:
@@ -111,7 +111,7 @@ describe('CategoryController.update() update method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-UPDATE-003
+     * Test Case ID: TC-CT-CATEGORY-UPDATE-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - categoryUpdateDTO:

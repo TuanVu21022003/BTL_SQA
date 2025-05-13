@@ -68,13 +68,13 @@ describe('DashboardService.getRevenueBySupplier() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_001
+     * Test case: TC-SV-DASHBOARD-REVENUESUPPLIER-001
      * Mục tiêu: Kiểm tra phương thức getRevenueBySupplier trả về doanh thu theo nhà cung cấp đúng
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Mảng các đối tượng doanh thu theo nhà cung cấp
+     * Expected Output: [{ supplier_id: 'S001', supplier_name: 'Nhà cung cấp A', total_revenue: 12000000 }, { supplier_id: 'S002', supplier_name: 'Nhà cung cấp B', total_revenue: 8000000 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_001 - Nên trả về doanh thu theo nhà cung cấp đúng', async () => {
+    it('TC-SV-DASHBOARD-REVENUESUPPLIER-001 - Nên trả về doanh thu theo nhà cung cấp đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');
@@ -114,13 +114,13 @@ describe('DashboardService.getRevenueBySupplier() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_002
+     * Test case: TC-SV-DASHBOARD-REVENUESUPPLIER-002
      * Mục tiêu: Kiểm tra phương thức getRevenueBySupplier hoạt động đúng với các bộ lọc thời gian khác nhau
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Mảng các đối tượng doanh thu theo nhà cung cấp
+     * Expected Output: [{ supplier_id: 'S001', supplier_name: 'Nhà cung cấp A', total_revenue: 45000000 }, { supplier_id: 'S003', supplier_name: 'Nhà cung cấp C', total_revenue: 30000000 }]
      * Ghi chú: Kiểm tra với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
+    it('TC-SV-DASHBOARD-REVENUESUPPLIER-002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
       const mockStartDate = new Date('2023-04-01');
@@ -166,13 +166,13 @@ describe('DashboardService.getRevenueBySupplier() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_003
+     * Test case: TC-SV-DASHBOARD-REVENUESUPPLIER-003
      * Mục tiêu: Kiểm tra phương thức getRevenueBySupplier xử lý đúng khi repository trả về mảng rỗng
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-REVENUESUPPLIER-003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
       const mockStartDate = new Date('2023-04-01');
@@ -205,13 +205,13 @@ describe('DashboardService.getRevenueBySupplier() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_004
+     * Test case: TC-SV-DASHBOARD-REVENUESUPPLIER-004
      * Mục tiêu: Kiểm tra phương thức getRevenueBySupplier xử lý lỗi khi repository ném ra lỗi
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('Supplier repository error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_SUPPLIER_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-REVENUESUPPLIER-004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
       const mockStartDate = new Date('2023-01-01');

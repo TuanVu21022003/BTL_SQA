@@ -52,7 +52,7 @@ describe('CartController.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-UPDATE-001
+     * Test Case ID: TC-CT-CART-UPDATE-001
      * Mục tiêu: Kiểm tra việc cập nhật giỏ hàng thành công
      * Input:
      *   - updateCartDto:
@@ -83,7 +83,7 @@ describe('CartController.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-UPDATE-002
+     * Test Case ID: TC-CT-CART-UPDATE-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error khi cập nhật
      * Input:
      *   - updateCartDto:
@@ -108,7 +108,7 @@ describe('CartController.update() update method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-UPDATE-003
+     * Test Case ID: TC-CT-CART-UPDATE-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - updateCartDto:

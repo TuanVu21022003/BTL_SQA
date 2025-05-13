@@ -5,7 +5,7 @@ describe('GenerateEntityCode.generateOrderCode() generateOrderCode method', () =
     // Test các trường hợp thành công
     describe('Happy Path', () => {
         /**
-         * Test Case ID: TC001
+         * Test Case ID: TC-GENORDER-001
          * Mục tiêu: Kiểm tra tạo mã đơn hàng hợp lệ với entity code cho trước
          * Input: entityCode = 'ORD'
          * Expected Output: Chuỗi có định dạng 'ORD-timestamp-randomString' trong đó:
@@ -38,7 +38,7 @@ describe('GenerateEntityCode.generateOrderCode() generateOrderCode method', () =
         });
 
         /**
-         * Test Case ID: TC002
+         * Test Case ID: TC-GENORDER-002
          * Mục tiêu: Kiểm tra tính duy nhất của mã được tạo
          * Input: entityCode = 'ORD', gọi hàm 2 lần liên tiếp
          * Expected Output: Hai mã khác nhau
@@ -60,7 +60,7 @@ describe('GenerateEntityCode.generateOrderCode() generateOrderCode method', () =
     // Test các trường hợp đặc biệt
     describe('Edge Cases', () => {
         /**
-         * Test Case ID: TC003
+         * Test Case ID: TC-GENORDER-003
          * Mục tiêu: Kiểm tra xử lý khi entity code rỗng
          * Input: entityCode = ''
          * Expected Output: Chuỗi có định dạng '-timestamp-randomString' trong đó:
@@ -93,7 +93,7 @@ describe('GenerateEntityCode.generateOrderCode() generateOrderCode method', () =
         });
 
         /**
-         * Test Case ID: TC004
+         * Test Case ID: TC-GENORDER-004
          * Mục tiêu: Kiểm tra xử lý khi entity code rất dài
          * Input: entityCode = 'A' lặp lại 100 lần
          * Expected Output: Chuỗi có định dạng '{entityCode}-timestamp-randomString' trong đó:

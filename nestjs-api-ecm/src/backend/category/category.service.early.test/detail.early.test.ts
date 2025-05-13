@@ -43,7 +43,7 @@ describe('CategoryService.detail() detail method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-SRV-001
+     * Test Case ID: TC-SV-CATEGORY-DETAIL-001
      * Mục tiêu: Kiểm tra việc lấy thông tin chi tiết của danh mục thành công theo ID
      * Input:
      *   - categoryId: "valid-id" - ID của danh mục cần lấy thông tin
@@ -74,7 +74,7 @@ describe('CategoryService.detail() detail method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-SRV-002
+     * Test Case ID: TC-SV-CATEGORY-DETAIL-002
      * Mục tiêu: Kiểm tra xử lý khi danh mục không tồn tại
      * Input:
      *   - categoryId: "non-existent-id" - ID của danh mục không tồn tại
@@ -95,7 +95,7 @@ describe('CategoryService.detail() detail method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-SRV-004
+     * Test Case ID: TC-SV-CATEGORY-DETAIL-004
      * Mục tiêu: Kiểm tra xử lý khi danh mục không tồn tại (test case mới)
      * Input:
      *   - categoryId: "missing-id" - ID của danh mục không tồn tại
@@ -114,7 +114,7 @@ describe('CategoryService.detail() detail method', () => {
     });
 
     /**
-     * Test Case ID: TC-CATEGORY-DETAIL-SRV-003
+     * Test Case ID: TC-SV-CATEGORY-DETAIL-003
      * Mục tiêu: Kiểm tra xử lý khi repository gặp lỗi
      * Input:
      *   - categoryId: "error-id" - ID của danh mục gây lỗi

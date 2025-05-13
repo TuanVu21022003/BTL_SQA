@@ -41,7 +41,7 @@ describe('CartService.detail() detail method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-CART-DETAIL-SRV-001
+     * Test Case ID: TC-SV-CART-DETAIL-001
      * Mục tiêu: Kiểm tra việc lấy thông tin chi tiết của sản phẩm trong giỏ hàng thành công
      * Input:
      *   - filter: { id: 1 } - Điều kiện tìm kiếm theo ID
@@ -71,7 +71,7 @@ describe('CartService.detail() detail method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-CART-DETAIL-SRV-002
+     * Test Case ID: TC-SV-CART-DETAIL-002
      * Mục tiêu: Kiểm tra xử lý khi không cung cấp điều kiện tìm kiếm
      * Input:
      *   - filter: {} - Điều kiện tìm kiếm rỗng
@@ -94,7 +94,7 @@ describe('CartService.detail() detail method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-DETAIL-SRV-003
+     * Test Case ID: TC-SV-CART-DETAIL-003
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy sản phẩm trong giỏ hàng
      * Input:
      *   - filter: { user_id: 999 } - Điều kiện tìm kiếm theo user_id không tồn tại
@@ -117,7 +117,7 @@ describe('CartService.detail() detail method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-DETAIL-SRV-004
+     * Test Case ID: TC-SV-CART-DETAIL-004
      * Mục tiêu: Kiểm tra xử lý khi gặp lỗi không mong muốn
      * Input:
      *   - filter: { user_id: 1 } - Điều kiện tìm kiếm hợp lệ

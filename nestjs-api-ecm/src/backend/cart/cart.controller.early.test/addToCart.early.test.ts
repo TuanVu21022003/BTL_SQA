@@ -50,7 +50,7 @@ describe('CartController.addToCart() addToCart method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case ID: TC-CART-001
+     * Test Case ID: TC-CT-CART-ADD-001
      * Mục tiêu: Kiểm tra việc thêm sản phẩm vào giỏ hàng thành công
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -85,7 +85,7 @@ describe('CartController.addToCart() addToCart method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case ID: TC-CART-002
+     * Test Case ID: TC-CT-CART-ADD-002
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi Error
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -114,7 +114,7 @@ describe('CartController.addToCart() addToCart method', () => {
     });
 
     /**
-     * Test Case ID: TC-CART-003
+     * Test Case ID: TC-CT-CART-ADD-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi không phải Error (object lỗi)
      * Input:
      *   - userId: "123" - ID của người dùng

@@ -76,7 +76,7 @@ describe('RegisterModuleService.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case ID: TC-REG-U-001
+     * Test Case ID: TC-SV-AUTH-UD-001
      * Mục tiêu: Kiểm tra việc cập nhật trạng thái kích hoạt của người dùng khi OTP được xác thực thành công
      * Input:
      *   - email: "test@example.com" - Địa chỉ email cần xác thực
@@ -117,7 +117,7 @@ describe('RegisterModuleService.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case ID: TC-REG-U-002
+     * Test Case ID: TC-SV-AUTH-UD-002
      * Mục tiêu: Kiểm tra xử lý khi mã OTP không hợp lệ hoặc đã hết hạn
      * Input:
      *   - email: "test@example.com" - Địa chỉ email cần xác thực
@@ -142,7 +142,7 @@ describe('RegisterModuleService.update() update method', () => {
     });
 
     /**
-     * Test Case ID: TC-REG-U-003
+     * Test Case ID: TC-SV-AUTH-UD-003
      * Mục tiêu: Kiểm tra xử lý khi cập nhật trạng thái người dùng thất bại
      * Input:
      *   - email: "test@example.com" - Địa chỉ email cần xác thực

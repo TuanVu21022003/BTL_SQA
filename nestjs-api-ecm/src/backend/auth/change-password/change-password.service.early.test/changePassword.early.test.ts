@@ -81,7 +81,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 1: Đổi mật khẩu thành công
-   * Mã test case: TC-CP-001
+   * Mã test case: TC-SV-AUTH-CP-001
    * Mục tiêu: Kiểm tra quá trình đổi mật khẩu diễn ra đúng khi tất cả điều kiện hợp lệ
    * Input:
    *   - userId: 'user-id'
@@ -109,7 +109,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 2: Không tìm thấy người dùng
-   * Mã test case: TC-CP-002
+   * Mã test case: TC-SV-AUTH-CP-002
    * Mục tiêu: Kiểm tra xử lý lỗi khi không tìm thấy người dùng với ID đã cho
    * Input:
    *   - userId: 'invalid-user-id'
@@ -129,7 +129,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 3: Mật khẩu hiện tại không đúng
-   * Mã test case: TC-CP-003
+   * Mã test case: TC-SV-AUTH-CP-003
    * Mục tiêu: Kiểm tra xử lý lỗi khi người dùng nhập sai mật khẩu hiện tại
    * Input:
    *   - userId: 'user-id'
@@ -150,7 +150,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 4: Lưu mật khẩu mới thất bại
-   * Mã test case: TC-CP-004
+   * Mã test case: TC-SV-AUTH-CP-004
    * Mục tiêu: Kiểm tra xử lý lỗi khi không thể lưu mật khẩu mới vào cơ sở dữ liệu
    * Input:
    *   - userId: 'user-id'
@@ -173,7 +173,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 5: Mật khẩu mới giống mật khẩu cũ
-   * Mã test case: TC-CP-005
+   * Mã test case: TC-SV-AUTH-CP-005
    * Mục tiêu: Kiểm tra xử lý khi người dùng nhập mật khẩu mới giống với mật khẩu cũ
    * Input:
    *   - userId: 'user-id'
@@ -198,7 +198,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 6: Mật khẩu mới không đủ độ phức tạp
-   * Mã test case: TC-CP-006
+   * Mã test case: TC-SV-AUTH-CP-006
    * Mục tiêu: Kiểm tra xử lý khi mật khẩu mới không đáp ứng yêu cầu về độ phức tạp
    * Input:
    *   - userId: 'user-id'
@@ -223,7 +223,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 7: Xử lý lỗi từ bcrypt khi mã hóa mật khẩu
-   * Mã test case: TC-CP-007
+   * Mã test case: TC-SV-AUTH-CP-007
    * Mục tiêu: Kiểm tra xử lý khi có lỗi xảy ra trong quá trình mã hóa mật khẩu mới
    * Input:
    *   - userId: 'user-id'
@@ -245,7 +245,7 @@ describe('ChangePasswordService.changePassword() changePassword method', () => {
 
   /**
    * Test case 8: Xử lý lỗi từ bcrypt khi so sánh mật khẩu
-   * Mã test case: TC-CP-008
+   * Mã test case: TC-SV-AUTH-CP-008
    * Mục tiêu: Kiểm tra xử lý khi có lỗi xảy ra trong quá trình so sánh mật khẩu
    * Input:
    *   - userId: 'user-id'

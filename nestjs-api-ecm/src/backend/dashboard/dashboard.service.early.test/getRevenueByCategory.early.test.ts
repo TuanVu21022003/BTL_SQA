@@ -68,13 +68,13 @@ describe('DashboardService.getRevenueByCategory() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_001
+     * Test case: TC-SV-DASHBOARD-REVENUECATEGORY-001
      * Mục tiêu: Kiểm tra phương thức getRevenueByCategory trả về doanh thu theo danh mục đúng
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Mảng các đối tượng doanh thu theo danh mục
+     * Expected Output: [{ category_id: 'C001', category_name: 'Điện thoại', total_revenue: 15000000 }, { category_id: 'C002', category_name: 'Laptop', total_revenue: 25000000 }]
      * Ghi chú: Kiểm tra luồng thành công cơ bản
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_001 - Nên trả về doanh thu theo danh mục đúng', async () => {
+    it('TC-SV-DASHBOARD-REVENUECATEGORY-001 - Nên trả về doanh thu theo danh mục đúng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Week;
       const mockStartDate = new Date('2023-04-10');
@@ -114,13 +114,13 @@ describe('DashboardService.getRevenueByCategory() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_002
+     * Test case: TC-SV-DASHBOARD-REVENUECATEGORY-002
      * Mục tiêu: Kiểm tra phương thức getRevenueByCategory hoạt động đúng với các bộ lọc thời gian khác nhau
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Mảng các đối tượng doanh thu theo danh mục
+     * Expected Output: [{ category_id: 'C002', category_name: 'Laptop', total_revenue: 80000000 }, { category_id: 'C003', category_name: 'Phụ kiện', total_revenue: 35000000 }]
      * Ghi chú: Kiểm tra với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
+    it('TC-SV-DASHBOARD-REVENUECATEGORY-002 - Nên hoạt động đúng với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Month;
       const mockStartDate = new Date('2023-04-01');
@@ -166,13 +166,13 @@ describe('DashboardService.getRevenueByCategory() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_003
+     * Test case: TC-SV-DASHBOARD-REVENUECATEGORY-003
      * Mục tiêu: Kiểm tra phương thức getRevenueByCategory xử lý đúng khi repository trả về mảng rỗng
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Mảng rỗng
+     * Expected Output: []
      * Ghi chú: Kiểm tra xử lý mảng rỗng
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
+    it('TC-SV-DASHBOARD-REVENUECATEGORY-003 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Quarter;
       const mockStartDate = new Date('2023-04-01');
@@ -205,13 +205,13 @@ describe('DashboardService.getRevenueByCategory() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_004
+     * Test case: TC-SV-DASHBOARD-REVENUECATEGORY-004
      * Mục tiêu: Kiểm tra phương thức getRevenueByCategory xử lý lỗi khi repository ném ra lỗi
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Ném ra lỗi từ repository
+     * Expected Output: Error('Category repository error')
      * Ghi chú: Kiểm tra xử lý lỗi từ repository
      */
-    it('TC_DASHBOARD_SERVICE_REVENUE_CATEGORY_004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
+    it('TC-SV-DASHBOARD-REVENUECATEGORY-004 - Nên ném ra lỗi khi repository gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const timeFilter = TimeFilter.Year;
       const mockStartDate = new Date('2023-01-01');

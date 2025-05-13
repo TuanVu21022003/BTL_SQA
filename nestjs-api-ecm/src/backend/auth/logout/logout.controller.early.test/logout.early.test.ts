@@ -56,7 +56,7 @@ describe('LogoutController.logout() logout method', () => {
   describe('Happy paths', () => {
     /**
      * Test case 1: Đăng xuất thành công
-     * Mã test case: TC-LO-001
+     * Mã test case: TC-CT-AUTH-LO-001
      * Mục tiêu: Kiểm tra controller trả về kết quả thành công khi service đăng xuất thành công
      * Input:
      *   - userId: '123'
@@ -85,7 +85,7 @@ describe('LogoutController.logout() logout method', () => {
   describe('Edge cases', () => {
     /**
      * Test case 2: Xử lý lỗi từ service đăng xuất
-     * Mã test case: TC-LO-002
+     * Mã test case: TC-CT-AUTH-LO-002
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng xuất ném lỗi
      * Input:
      *   - userId: '123'
@@ -110,7 +110,7 @@ describe('LogoutController.logout() logout method', () => {
 
     /**
      * Test case 3: Xử lý lỗi không phải Error object
-     * Mã test case: TC-LO-003
+     * Mã test case: TC-CT-AUTH-LO-003
      * Mục tiêu: Kiểm tra controller xử lý đúng khi service đăng xuất ném lỗi không phải Error object
      * Input:
      *   - userId: '123'
@@ -135,7 +135,7 @@ describe('LogoutController.logout() logout method', () => {
 
     /**
      * Test case 4: Xử lý khi userId không hợp lệ
-     * Mã test case: TC-LO-004
+     * Mã test case: TC-CT-AUTH-LO-004
      * Mục tiêu: Kiểm tra controller xử lý đúng khi userId không hợp lệ
      * Input:
      *   - userId: '' (rỗng)

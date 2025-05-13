@@ -46,13 +46,13 @@ describe('DashboardController.getTopProducts() method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test case: TC_DASHBOARD_TOP_PRODUCTS_001
+     * Test case: TC-CT-DASHBOARD-TOPPRODUCTS-001
      * Mục tiêu: Kiểm tra phương thức getTopProducts trả về kết quả thành công với TimeFilter.Week
      * Input: timeFilter = TimeFilter.Week
-     * Expected Output: Đối tượng response thành công với danh sách sản phẩm bán chạy
+     * Expected Output: { status: 200, data: [{ product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 5000000, quantity_sold: 50 }, { product_id: 'P002', product_name: 'Sản phẩm 2', total_revenue: 3000000, quantity_sold: 30 }] }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tuần
      */
-    it('TC_DASHBOARD_TOP_PRODUCTS_001 - Nên trả về danh sách sản phẩm bán chạy với bộ lọc "Tuần"', async () => {
+    it('TC-CT-DASHBOARD-TOPPRODUCTS-001 - Nên trả về danh sách sản phẩm bán chạy với bộ lọc "Tuần"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [
         { product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 5000000, quantity_sold: 50 },
@@ -70,13 +70,13 @@ describe('DashboardController.getTopProducts() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_TOP_PRODUCTS_002
+     * Test case: TC-CT-DASHBOARD-TOPPRODUCTS-002
      * Mục tiêu: Kiểm tra phương thức getTopProducts trả về kết quả thành công với TimeFilter.Month
      * Input: timeFilter = TimeFilter.Month
-     * Expected Output: Đối tượng response thành công với danh sách sản phẩm bán chạy
+     * Expected Output: { status: 200, data: [{ product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 15000000, quantity_sold: 150 }, { product_id: 'P003', product_name: 'Sản phẩm 3', total_revenue: 12000000, quantity_sold: 120 }] }
      * Ghi chú: Kiểm tra luồng thành công với bộ lọc theo tháng
      */
-    it('TC_DASHBOARD_TOP_PRODUCTS_002 - Nên trả về danh sách sản phẩm bán chạy với bộ lọc "Tháng"', async () => {
+    it('TC-CT-DASHBOARD-TOPPRODUCTS-002 - Nên trả về danh sách sản phẩm bán chạy với bộ lọc "Tháng"', async () => {
       // Sắp xếp (Arrange)
       const mockResult = [
         { product_id: 'P001', product_name: 'Sản phẩm 1', total_revenue: 15000000, quantity_sold: 150 },
@@ -100,13 +100,13 @@ describe('DashboardController.getTopProducts() method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test case: TC_DASHBOARD_TOP_PRODUCTS_003
+     * Test case: TC-CT-DASHBOARD-TOPPRODUCTS-003
      * Mục tiêu: Kiểm tra phương thức getTopProducts xử lý lỗi khi service gặp lỗi
      * Input: timeFilter = TimeFilter.Quarter
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi từ service
+     * Expected Output: { status: 500, message: 'Lỗi khi lấy danh sách sản phẩm bán chạy' }
      * Ghi chú: Kiểm tra xử lý lỗi kiểu Error
      */
-    it('TC_DASHBOARD_TOP_PRODUCTS_003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
+    it('TC-CT-DASHBOARD-TOPPRODUCTS-003 - Nên xử lý lỗi từ service một cách hợp lý', async () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Lỗi khi lấy danh sách sản phẩm bán chạy';
       mockDashboardService.getTopProductsByRevenue.mockRejectedValue(new Error(errorMessage) as never);
@@ -121,13 +121,13 @@ describe('DashboardController.getTopProducts() method', () => {
     });
 
     /**
-     * Test case: TC_DASHBOARD_TOP_PRODUCTS_004
+     * Test case: TC-CT-DASHBOARD-TOPPRODUCTS-004
      * Mục tiêu: Kiểm tra phương thức getTopProducts xử lý lỗi không phải Error
      * Input: timeFilter = TimeFilter.Year
-     * Expected Output: Đối tượng response lỗi với thông báo lỗi dạng chuỗi JSON
+     * Expected Output: { status: 500, message: '{"code":500,"message":"Database query failed"}' }
      * Ghi chú: Kiểm tra xử lý lỗi không phải kiểu Error
      */
-    it('TC_DASHBOARD_TOP_PRODUCTS_004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
+    it('TC-CT-DASHBOARD-TOPPRODUCTS-004 - Nên xử lý ngoại lệ không phải kiểu Error', async () => {
       // Sắp xếp (Arrange)
       const errorObject = { code: 500, message: 'Database query failed' };
       mockDashboardService.getTopProductsByRevenue.mockRejectedValue(errorObject as never);
