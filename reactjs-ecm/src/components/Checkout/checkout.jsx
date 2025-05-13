@@ -304,7 +304,7 @@ const Checkout = () => {
         <div className="flex h-full w-full flex-col items-start justify-end bg-[rgba(8,28,14,0.60)] text-center">
           <div className="mb-10 ml-72 flex flex-col items-start justify-start border-l-[8px] border-[#2c7c54] pl-7">
             <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-[#fff]">
-              Thanh toán
+              Đặt hàng
             </h2>
           </div>
         </div>
