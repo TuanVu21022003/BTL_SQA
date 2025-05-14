@@ -27,7 +27,6 @@ jest.mock('src/guards/Roles.guard', () => ({
   })),
 }));
 
-
 describe('LocationUserController', () => {
   // Khai báo các biến sử dụng trong test
   let controller: LocationUserController;
@@ -91,30 +90,24 @@ describe('LocationUserController', () => {
     jest.clearAllMocks();
   });
 
-  /**
-   * Mã: TC001
-   * Test case: Kiểm tra khởi tạo controller
-   * Mục tiêu: Đảm bảo controller và các dependency được khởi tạo đúng
-   * Input: Không có
-   * Output mong đợi: Các instance được định nghĩa
-   */
+  // Mã: TC001
+  // Test case: Kiểm tra khởi tạo controller
+  // Mục tiêu: Đảm bảo controller và các dependency được khởi tạo đúng
+  // Input: Không có
+  // Output mong đợi: Các instance được định nghĩa
   it('should be defined', () => {
     expect(controller).toBeDefined(); // Đảm bảo controller đã được tạo thành công
     expect(service).toBeDefined(); // Đảm bảo service đã được inject đúng
     expect(jwtService).toBeDefined(); // Đảm bảo jwtService đã được inject đúng
   });
 
-  /**
-  * Nhóm test cho chức năng lấy danh sách địa chỉ
-  */
+  // Kiểm tra các chức năng liên quan đến lấy danh sách địa chỉ
   describe('getAllLocation', () => {
-    /**
-     * Mã: TC002
-     * Test case: Lấy danh sách địa chỉ của người dùng thành công
-     * Mục tiêu: Kiểm tra việc lấy danh sách địa chỉ theo user_id
-     * Input: user_id hợp lệ
-     * Output mong đợi: Danh sách địa chỉ và thông tin tổng số bản ghi
-     */
+    // Mã: TC002
+    // Test case: Lấy danh sách địa chỉ của người dùng thành công
+    // Mục tiêu: Kiểm tra việc lấy danh sách địa chỉ theo user_id
+    // Input: user_id hợp lệ
+    // Output mong đợi: Danh sách địa chỉ và thông tin tổng số bản ghi
     it('should return locations for a user', async () => {
       const user_id = 'test-user-id';
       const mockLocations = [
@@ -142,25 +135,21 @@ describe('LocationUserController', () => {
       });
     });
 
-    /**
-     * Mã: TC003
-     * Test case: Xử lý lỗi khi lấy danh sách địa chỉ
-     * Mục tiêu: Kiểm tra xử lý lỗi khi có vấn đề với database
-     * Input: user_id hợp lệ
-     * Output mong đợi: Thông báo lỗi với status 500
-     * Ghi chú: Error path - trường hợp thất bại
-     */
+    // Mã: TC003
+    // Test case: Xử lý lỗi khi lấy danh sách địa chỉ
+    // Mục tiêu: Kiểm tra xử lý lỗi khi có vấn đề với database
+    // Input: user_id hợp lệ
+    // Output mong đợi: Thông báo lỗi với status 500
+    // Ghi chú: Error path - trường hợp thất bại
     it('should handle errors in getAllLocation', async () => {
       const user_id = 'test-user-id';
 
-      
       mockLocationUserService.getList.mockRejectedValue(
         new Error('Database error'),
       );
 
       const result = await controller.getAllLocation(user_id);
 
-      
       expect(result).toEqual({
         status: 500,
         message: 'Database error',
@@ -168,6 +157,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC004
+    // Test case: Xử lý giá trị không phải Error khi lấy danh sách địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
+    // Input: user_id hợp lệ
+    // Output mong đợi: Thông báo lỗi với status 500, message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       const user_id = 'test-user-id';
       // Mock lỗi là object thường
@@ -180,6 +174,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC005
+    // Test case: Trả về dữ liệu rỗng khi không có địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi không có địa chỉ nào cho user_id
+    // Input: user_id hợp lệ
+    // Output mong đợi: Response với data rỗng và total = 0
     it('should return empty data if no locations', async () => {
       const user_id = 'test-user-id';
       mockLocationUserService.getList.mockResolvedValue({ data: [], total: 0 });
@@ -193,17 +192,13 @@ describe('LocationUserController', () => {
     });
   });
 
-  /**
-   * Nhóm test cho chức năng lấy danh sách địa chỉ (Admin view)
-   */
+  // Kiểm tra các chức năng liên quan đến lấy danh sách địa chỉ (Admin view)
   describe('getAllLocationAdmin', () => {
-    /**
-     * Mã: TC004
-     * Test case: Admin lấy danh sách địa chỉ thành công
-     * Mục tiêu: Kiểm tra chức năng xem danh sách địa chỉ dành cho admin
-     * Input: user_id của admin
-     * Output mong đợi: Danh sách địa chỉ và tổng số bản ghi
-     */
+    // Mã: TC006
+    // Test case: Admin lấy danh sách địa chỉ thành công
+    // Mục tiêu: Kiểm tra chức năng xem danh sách địa chỉ dành cho admin
+    // Input: user_id của admin
+    // Output mong đợi: Danh sách địa chỉ và tổng số bản ghi
     it('should return locations for admin view', async () => {
       // Dữ liệu mẫu cho test
       const user_id = 'admin-user-id';
@@ -229,15 +224,11 @@ describe('LocationUserController', () => {
       });
     });
 
-    /**
-     * Mã: TC005
-     * Test case: Xử lý lỗi khi admin lấy danh sách
-     * Mục tiêu: Kiểm tra xử lý lỗi trong view admin
-     * Input: 
-     * - tham số user_id của admin
-     * - Giá trị mock từ service : Error với message 'Admin access error'
-     * Output mong đợi: Thông báo lỗi với status 500, message : Admin access error
-     */
+    // Mã: TC007
+    // Test case: Xử lý lỗi khi admin lấy danh sách
+    // Mục tiêu: Kiểm tra xử lý lỗi trong view admin
+    // Input: user_id của admin, service throw Error('Admin access error')
+    // Output mong đợi: Thông báo lỗi với status 500, message 'Admin access error'
     it('should handle errors in getAllLocationAdmin', async () => {
       // Dữ liệu mẫu cho test
       const user_id = 'admin-user-id';
@@ -253,6 +244,12 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    // Mã: TC008
+    // Test case: Gọi service với user_id_get chính xác
+    // Mục tiêu: Kiểm tra service được gọi với user_id_get đúng
+    // Input: user_id_get hợp lệ
+    // Output mong đợi: Service được gọi với tham số { user_id: user_id_get }
     it('should call service with correct user_id_get', async () => {
       const user_id_get = 'admin-id-2';
       mockLocationUserService.getList.mockResolvedValue({ data: [], total: 0 });
@@ -260,6 +257,11 @@ describe('LocationUserController', () => {
       expect(service.getList).toHaveBeenCalledWith({ user_id: user_id_get });
     });
 
+    // Mã: TC009
+    // Test case: Xử lý giá trị không phải Error khi admin lấy danh sách
+    // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
+    // Input: user_id_get hợp lệ
+    // Output mong đợi: Thông báo lỗi với status 500, message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       const user_id_get = 'admin-id-2';
       mockLocationUserService.getList.mockRejectedValue({ error: 'Admin error' });
@@ -270,6 +272,12 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    // Mã: TC010
+    // Test case: Xử lý khi service trả về null
+    // Mục tiêu: Kiểm tra xử lý khi service không tìm thấy dữ liệu
+    // Input: user_id_get hợp lệ
+    // Output mong đợi: Response với data là null
     it('should handle service returning null', async () => {
       const user_id_get = 'admin-id-2';
       mockLocationUserService.getList.mockResolvedValue(null);
@@ -283,17 +291,13 @@ describe('LocationUserController', () => {
     });
   });
 
-  /**
-   * Nhóm test cho chức năng tạo mới địa chỉ
-   */
+  // Kiểm tra các chức năng liên quan đến tạo mới địa chỉ
   describe('create', () => {
-    /**
-     * Mã: TC006
-     * Test case: Tạo mới địa chỉ thành công
-     * Mục tiêu: Kiểm tra việc tạo mới địa chỉ với dữ liệu hợp lệ
-     * Input: 1 đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
-     * Output mong đợi: Thông tin địa chỉ mới được tạo
-     */
+    // Mã: TC011
+    // Test case: Tạo mới địa chỉ thành công
+    // Mục tiêu: Kiểm tra việc tạo mới địa chỉ với dữ liệu hợp lệ
+    // Input: Một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
+    // Output mong đợi: Thông tin địa chỉ mới được tạo
     it('should create a new location', async () => {
       // Dữ liệu mẫu cho test
       const createDto: CreateLocationUserDto = {
@@ -312,10 +316,8 @@ describe('LocationUserController', () => {
 
       const result = await controller.create(createDto);
 
-      
       expect(service.createLocation).toHaveBeenCalledWith(createDto);
 
-      
       expect(result).toEqual({
         status: 200,
         message: 'SUCCESS!',
@@ -324,13 +326,11 @@ describe('LocationUserController', () => {
       });
     });
 
-    /**
-     * Mã: TC007
-     * Test case: Xử lý lỗi khi tạo địa chỉ
-     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình tạo địa chỉ
-     * Input: một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
-     * Output mong đợi: Thông báo lỗi với status 500, message Creation failed
-     */
+    // Mã: TC012
+    // Test case: Xử lý lỗi khi tạo địa chỉ
+    // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình tạo địa chỉ
+    // Input: Một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
+    // Output mong đợi: Thông báo lỗi với status 500, message 'Creation failed'
     it('should handle errors in create', async () => {
       // Dữ liệu mẫu cho test
       const createDto: CreateLocationUserDto = {
@@ -354,6 +354,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC013
+    // Test case: Xử lý khi DTO thiếu trường bắt buộc
+    // Mục tiêu: Kiểm tra xử lý khi DTO thiếu trường name
+    // Input: Một đối tượng CreateLocationUserDto thiếu trường name
+    // Output mong đợi: Thông báo lỗi với status 500, message 'Validation failed'
     it('should handle missing required fields in DTO', async () => {
       // DTO thiếu trường name
       const createDto: any = {
@@ -372,6 +377,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC014
+    // Test case: Xử lý giá trị không phải Error khi tạo địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
+    // Input: Một đối tượng CreateLocationUserDto hợp lệ
+    // Output mong đợi: Thông báo lỗi với status 500, message là JSON string của object
     it('should handle non-Error thrown values in create', async () => {
       const createDto: CreateLocationUserDto = {
         name: 'New Location',
@@ -388,6 +398,12 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    // Mã: TC015
+    // Test case: Xử lý khi service trả về null khi tạo địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
+    // Input: Một đối tượng CreateLocationUserDto hợp lệ
+    // Output mong đợi: Response với data là null
     it('should handle service returning null', async () => {
       const createDto: CreateLocationUserDto = {
         name: 'New Location',
@@ -407,18 +423,13 @@ describe('LocationUserController', () => {
     });
   });
 
-   /**
-   * Nhóm test cho chức năng cập nhật địa chỉ
-   */
+  // Kiểm tra các chức năng liên quan đến cập nhật địa chỉ
   describe('update', () => {
-    
-    /**
-     * Mã: TC008
-     * Test case: Cập nhật địa chỉ thành công
-     * Mục tiêu: Kiểm tra việc cập nhật thông tin địa chỉ
-     * Input: một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
-     * Output mong đợi: Thông tin địa chỉ sau khi cập nhật
-     */
+    // Mã: TC016
+    // Test case: Cập nhật địa chỉ thành công
+    // Mục tiêu: Kiểm tra việc cập nhật thông tin địa chỉ
+    // Input: Một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
+    // Output mong đợi: Thông tin địa chỉ sau khi cập nhật
     it('should update a location', async () => {
       // Dữ liệu mẫu cho test
       const updateDto: UpdateLocationUserDto = {
@@ -445,14 +456,11 @@ describe('LocationUserController', () => {
       });
     });
 
-    
-    /**
-     * Mã: TC009
-     * Test case: Xử lý lỗi khi cập nhật địa chỉ
-     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình cập nhật
-     * Input: một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
-     * Output mong đợi: Thông báo lỗi với status 500, message Update failed
-     */
+    // Mã: TC017
+    // Test case: Xử lý lỗi khi cập nhật địa chỉ
+    // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình cập nhật
+    // Input: Một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
+    // Output mong đợi: Thông báo lỗi với status 500, message 'Update failed'
     it('should handle errors in update', async () => {
       // Dữ liệu mẫu cho test
       const updateDto: UpdateLocationUserDto = {
@@ -477,6 +485,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC018
+    // Test case: Xử lý giá trị không phải Error khi cập nhật địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
+    // Input: Một đối tượng UpdateLocationUserDto hợp lệ
+    // Output mong đợi: Thông báo lỗi với status 500, message là JSON string của object
     it('should handle non-Error thrown values in update', async () => {
       const updateDto: UpdateLocationUserDto = {
         id: '1',
@@ -494,6 +507,12 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    // Mã: TC019
+    // Test case: Xử lý khi service trả về null khi cập nhật địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
+    // Input: Một đối tượng UpdateLocationUserDto hợp lệ
+    // Output mong đợi: Response với data là null
     it('should handle service returning null', async () => {
       const updateDto: UpdateLocationUserDto = {
         id: '1',
@@ -514,18 +533,13 @@ describe('LocationUserController', () => {
     });
   });
 
-  /**
-   * Nhóm test cho chức năng xóa địa chỉ
-   */
+  // Kiểm tra các chức năng liên quan đến xóa địa chỉ
   describe('remove', () => {
-    
-    /**
-     * Mã: TC010
-     * Test case: Xóa địa chỉ thành công
-     * Mục tiêu: Kiểm tra việc xóa địa chỉ
-     * Input: ID địa chỉ cần xóa
-     * Output mong đợi: Kết quả xóa thành công
-     */
+    // Mã: TC020
+    // Test case: Xóa địa chỉ thành công
+    // Mục tiêu: Kiểm tra việc xóa địa chỉ
+    // Input: ID địa chỉ cần xóa
+    // Output mong đợi: Kết quả xóa thành công
     it('should delete a location', async () => {
       // Dữ liệu mẫu cho test
       const locationId = 'test-location-id';
@@ -544,15 +558,11 @@ describe('LocationUserController', () => {
       });
     });
 
-   /**
-     * Mã: TC011
-     * Test case: Xử lý lỗi khi xóa địa chỉ
-     * Mục tiêu: Kiểm tra xử lý lỗi trong quá trình xóa
-     * Input: 
-     * - ID địa chỉ cần xóa
-     * - Giá trị mock từ service : Error với message 'Delete failed'
-     * Output mong đợi: Thông báo lỗi với status 500, message Delete failed
-     */
+    // Mã: TC021
+    // Test case: Xử lý lỗi khi xóa địa chỉ
+    // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình xóa
+    // Input: ID địa chỉ cần xóa, service throw Error('Delete failed')
+    // Output mong đợi: Thông báo lỗi với status 500, message 'Delete failed'
     it('should handle errors in delete', async () => {
       // Dữ liệu mẫu cho test
       const locationId = 'test-location-id';
@@ -569,6 +579,11 @@ describe('LocationUserController', () => {
       });
     });
 
+    // Mã: TC022
+    // Test case: Xử lý khi xóa địa chỉ không tồn tại
+    // Mục tiêu: Kiểm tra xử lý khi địa chỉ cần xóa không tồn tại
+    // Input: ID địa chỉ không tồn tại
+    // Output mong đợi: Response với affected = 0
     it('should handle deleting non-existent location', async () => {
       const locationId = 'not-exist-id';
       mockLocationUserService.delete.mockResolvedValue({ affected: 0 });
@@ -580,6 +595,12 @@ describe('LocationUserController', () => {
         data: { affected: 0 },
       });
     });
+
+    // Mã: TC023
+    // Test case: Xử lý giá trị không phải Error khi xóa địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
+    // Input: ID địa chỉ cần xóa
+    // Output mong đợi: Thông báo lỗi với status 500, message là JSON string của object
     it('should handle non-Error thrown values in remove', async () => {
       const locationId = 'test-location-id';
       mockLocationUserService.delete.mockRejectedValue({ error: 'Remove error' });
@@ -590,6 +611,12 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    // Mã: TC024
+    // Test case: Xử lý khi service trả về undefined khi xóa địa chỉ
+    // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
+    // Input: ID địa chỉ cần xóa
+    // Output mong đợi: Response với data là undefined
     it('should handle service returning undefined', async () => {
       const locationId = 'test-location-id';
       mockLocationUserService.delete.mockResolvedValue(undefined);
