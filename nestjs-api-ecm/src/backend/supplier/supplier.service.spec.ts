@@ -42,11 +42,22 @@ describe('SupplierController', () => {
     jest.clearAllMocks();
   });
 
+  // Mã: TC01
+  // Test case: Kiểm tra service được định nghĩa
+  // Mục tiêu: Đảm bảo rằng SupplierService được inject và định nghĩa trong controller
+  // Input: Không có
+  // Output mong đợi: service phải được định nghĩa (không undefined)
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
+  // Kiểm tra các chức năng liên quan đến lấy danh sách nhà cung cấp
   describe('getList', () => {
+    // Mã: TC02
+    // Test case: Lấy danh sách nhà cung cấp
+    // Mục tiêu: Kiểm tra controller trả về danh sách nhà cung cấp từ service
+    // Input: page = 1, limit = 10
+    // Output mong đợi: Response với danh sách nhà cung cấp (có thể rỗng) được bọc trong responseHandler.ok
     it('should return a list of suppliers', async () => {
       const result = { data: [], total: 0, page: 1, limit: 10 };
       mockSupplierService.getList.mockResolvedValue(result);
@@ -56,12 +67,22 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC03
+    // Test case: Xử lý lỗi khi lấy danh sách nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
+    // Input: page = 1, limit = 10, service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle errors', async () => {
       mockSupplierService.getList.mockRejectedValue(new Error('fail'));
       const response = await controller.getList(1, 10);
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC04
+    // Test case: Xử lý giá trị không phải Error khi lấy danh sách
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: page = 1, limit = 10, service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.getList.mockRejectedValue({ msg: 'fail' });
       const response = await controller.getList(1, 10);
@@ -69,7 +90,13 @@ describe('SupplierController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến tìm kiếm nhà cung cấp theo bộ lọc
   describe('getAllBySearch', () => {
+    // Mã: TC05
+    // Test case: Lấy danh sách nhà cung cấp theo bộ lọc
+    // Mục tiêu: Kiểm tra controller trả về danh sách nhà cung cấp được lọc theo tiêu chí tìm kiếm
+    // Input: page = 1, limit = 10, searchDto = { name: 'test', phone: '0123456789' }
+    // Output mong đợi: Response với danh sách nhà cung cấp được bọc trong responseHandler.ok
     it('should return filtered suppliers', async () => {
       const result = { data: [], total: 0, page: 1, limit: 10 };
       mockSupplierService.getList.mockResolvedValue(result);
@@ -80,12 +107,22 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC06
+    // Test case: Xử lý lỗi khi tìm kiếm nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tìm kiếm
+    // Input: page = 1, limit = 10, searchDto = { name: 'test' }, service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle errors', async () => {
       mockSupplierService.getList.mockRejectedValue(new Error('fail'));
       const response = await controller.getAllBySearch(1, 10, { name: 'test' });
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC07
+    // Test case: Xử lý giá trị không phải Error khi tìm kiếm
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: page = 1, limit = 10, searchDto = { name: 'test' }, service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.getList.mockRejectedValue({ msg: 'fail' });
       const response = await controller.getAllBySearch(1, 10, { name: 'test' });
@@ -93,7 +130,13 @@ describe('SupplierController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến tạo mới nhà cung cấp
   describe('create', () => {
+    // Mã: TC08
+    // Test case: Tạo mới nhà cung cấp
+    // Mục tiêu: Kiểm tra controller tạo mới nhà cung cấp thành công thông qua service
+    // Input: CreateSupplierDto với name, url_image, phone, address
+    // Output mong đợi: Response với thông tin nhà cung cấp được tạo, bọc trong responseHandler.ok
     it('should create a supplier', async () => {
       const dto: CreateSupplierDto = {
         name: 'test',
@@ -109,6 +152,11 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC09
+    // Test case: Xử lý lỗi khi tạo nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tạo
+    // Input: CreateSupplierDto, service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle errors', async () => {
       mockSupplierService.create.mockRejectedValue(new Error('fail'));
       const response = await controller.create({
@@ -120,6 +168,11 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC10
+    // Test case: Xử lý giá trị không phải Error khi tạo nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: CreateSupplierDto, service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.create.mockRejectedValue({ msg: 'fail' });
       const response = await controller.create({
@@ -132,7 +185,13 @@ describe('SupplierController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến lấy thông tin chi tiết nhà cung cấp
   describe('findOne', () => {
+    // Mã: TC11
+    // Test case: Lấy thông tin nhà cung cấp theo ID
+    // Mục tiêu: Kiểm tra controller trả về thông tin nhà cung cấp dựa trên ID
+    // Input: id = '1'
+    // Output mong đợi: Response với thông tin nhà cung cấp được bọc trong responseHandler.ok
     it('should return a supplier by id', async () => {
       const result = { id: '1', name: 'test' };
       mockSupplierService.findOne.mockResolvedValue(result);
@@ -142,6 +201,11 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC12
+    // Test case: Xử lý lỗi RECORD NOT FOUND khi lấy chi tiết
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw lỗi RECORD NOT FOUND
+    // Input: id = '1', service throw Error('RECORD NOT FOUND!')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'RECORD NOT FOUND!'
     it('should handle RECORD NOT FOUND error', async () => {
       mockSupplierService.findOne.mockRejectedValue(new Error('RECORD NOT FOUND!'));
       const response = await controller.findOne('1');
@@ -149,12 +213,22 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('RECORD NOT FOUND!'));
     });
 
+    // Mã: TC13
+    // Test case: Xử lý các lỗi khác khi lấy chi tiết
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw các lỗi khác
+    // Input: id = '1', service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle other errors', async () => {
       mockSupplierService.findOne.mockRejectedValue(new Error('fail'));
       const response = await controller.findOne('1');
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC14
+    // Test case: Xử lý giá trị không phải Error khi lấy chi tiết
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: id = '1', service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.findOne.mockRejectedValue({ msg: 'fail' });
       const response = await controller.findOne('1');
@@ -162,7 +236,13 @@ describe('SupplierController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến cập nhật nhà cung cấp
   describe('update', () => {
+    // Mã: TC15
+    // Test case: Cập nhật thông tin nhà cung cấp
+    // Mục tiêu: Kiểm tra controller cập nhật nhà cung cấp thành công thông qua service
+    // Input: id = '1', UpdateSupplierDto với id, name, url_image, phone, address
+    // Output mong đợi: Response với thông tin nhà cung cấp đã cập nhật, bọc trong responseHandler.ok
     it('should update a supplier', async () => {
       const dto: UpdateSupplierDto = {
         id: '1',
@@ -179,6 +259,11 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC16
+    // Test case: Xử lý lỗi khi cập nhật nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình cập nhật
+    // Input: id = '1', UpdateSupplierDto, service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle errors', async () => {
       mockSupplierService.update.mockRejectedValue(new Error('fail'));
       const response = await controller.update('1', {
@@ -191,6 +276,11 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC17
+    // Test case: Xử lý giá trị không phải Error khi cập nhật
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: id = '1', UpdateSupplierDto, service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.update.mockRejectedValue({ msg: 'fail' });
       const response = await controller.update('1', {
@@ -204,7 +294,13 @@ describe('SupplierController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến xóa nhà cung cấp
   describe('remove', () => {
+    // Mã: TC18
+    // Test case: Xóa nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xóa nhà cung cấp thành công thông qua service
+    // Input: id = '1'
+    // Output mong đợi: Response với thông tin nhà cung cấp đã xóa, bọc trong responseHandler.ok
     it('should delete a supplier', async () => {
       const result = { id: '1' };
       mockSupplierService.delete.mockResolvedValue(result);
@@ -214,12 +310,22 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
+    // Mã: TC19
+    // Test case: Xử lý lỗi khi xóa nhà cung cấp
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình xóa
+    // Input: id = '1', service throw Error('fail')
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message 'fail'
     it('should handle errors', async () => {
       mockSupplierService.delete.mockRejectedValue(new Error('fail'));
       const response = await controller.remove('1');
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
+    // Mã: TC20
+    // Test case: Xử lý giá trị không phải Error khi xóa
+    // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
+    // Input: id = '1', service throw { msg: 'fail' }
+    // Output mong đợi: Response lỗi được bọc trong responseHandler.error với message là JSON string của object
     it('should handle non-Error thrown values', async () => {
       mockSupplierService.delete.mockRejectedValue({ msg: 'fail' });
       const response = await controller.remove('1');

@@ -167,6 +167,30 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    it('should handle non-Error thrown values', async () => {
+      const user_id = 'test-user-id';
+      // Mock lỗi là object thường
+      mockLocationUserService.getList.mockRejectedValue({ error: 'Some error' });
+      const result = await controller.getAllLocation(user_id);
+      expect(result).toEqual({
+        status: 500,
+        message: JSON.stringify({ error: 'Some error' }),
+        success: false,
+      });
+    });
+
+    it('should return empty data if no locations', async () => {
+      const user_id = 'test-user-id';
+      mockLocationUserService.getList.mockResolvedValue({ data: [], total: 0 });
+      const result = await controller.getAllLocation(user_id);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: { data: [], total: 0 },
+      });
+    });
   });
 
   /**
@@ -227,6 +251,34 @@ describe('LocationUserController', () => {
         status: 500,
         message: 'Admin access error',
         success: false,
+      });
+    });
+    it('should call service with correct user_id_get', async () => {
+      const user_id_get = 'admin-id-2';
+      mockLocationUserService.getList.mockResolvedValue({ data: [], total: 0 });
+      await controller.getAllLocationAdmin(user_id_get);
+      expect(service.getList).toHaveBeenCalledWith({ user_id: user_id_get });
+    });
+
+    it('should handle non-Error thrown values', async () => {
+      const user_id_get = 'admin-id-2';
+      mockLocationUserService.getList.mockRejectedValue({ error: 'Admin error' });
+      const result = await controller.getAllLocationAdmin(user_id_get);
+      expect(result).toEqual({
+        status: 500,
+        message: JSON.stringify({ error: 'Admin error' }),
+        success: false,
+      });
+    });
+    it('should handle service returning null', async () => {
+      const user_id_get = 'admin-id-2';
+      mockLocationUserService.getList.mockResolvedValue(null);
+      const result = await controller.getAllLocationAdmin(user_id_get);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: null,
       });
     });
   });
@@ -301,6 +353,58 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    it('should handle missing required fields in DTO', async () => {
+      // DTO thiếu trường name
+      const createDto: any = {
+        address: '123 Street',
+        phone: '1234567890',
+        default_location: true,
+        user_id: 'test-user-id',
+      };
+      // Service sẽ trả về lỗi
+      mockLocationUserService.createLocation.mockRejectedValue(new Error('Validation failed'));
+      const result = await controller.create(createDto);
+      expect(result).toEqual({
+        status: 500,
+        message: 'Validation failed',
+        success: false,
+      });
+    });
+
+    it('should handle non-Error thrown values in create', async () => {
+      const createDto: CreateLocationUserDto = {
+        name: 'New Location',
+        address: '123 Street',
+        phone: '1234567890',
+        default_location: true,
+        user_id: 'test-user-id',
+      };
+      mockLocationUserService.createLocation.mockRejectedValue({ error: 'Some error' });
+      const result = await controller.create(createDto);
+      expect(result).toEqual({
+        status: 500,
+        message: JSON.stringify({ error: 'Some error' }),
+        success: false,
+      });
+    });
+    it('should handle service returning null', async () => {
+      const createDto: CreateLocationUserDto = {
+        name: 'New Location',
+        address: '123 Street',
+        phone: '1234567890',
+        default_location: true,
+        user_id: 'test-user-id',
+      };
+      mockLocationUserService.createLocation.mockResolvedValue(null);
+      const result = await controller.create(createDto);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: null,
+      });
+    });
   });
 
    /**
@@ -372,6 +476,42 @@ describe('LocationUserController', () => {
         success: false,
       });
     });
+
+    it('should handle non-Error thrown values in update', async () => {
+      const updateDto: UpdateLocationUserDto = {
+        id: '1',
+        name: 'Updated Location',
+        address: '456 Street',
+        phone: '0987654321',
+        default_location: false,
+        user_id: 'test-user-id',
+      };
+      mockLocationUserService.update.mockRejectedValue({ error: 'Update error' });
+      const result = await controller.update(updateDto);
+      expect(result).toEqual({
+        status: 500,
+        message: JSON.stringify({ error: 'Update error' }),
+        success: false,
+      });
+    });
+    it('should handle service returning null', async () => {
+      const updateDto: UpdateLocationUserDto = {
+        id: '1',
+        name: 'Updated Location',
+        address: '456 Street',
+        phone: '0987654321',
+        default_location: false,
+        user_id: 'test-user-id',
+      };
+      mockLocationUserService.update.mockResolvedValue(null);
+      const result = await controller.update(updateDto);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: null,
+      });
+    });
   });
 
   /**
@@ -426,6 +566,39 @@ describe('LocationUserController', () => {
         status: 500,
         message: 'Delete failed',
         success: false,
+      });
+    });
+
+    it('should handle deleting non-existent location', async () => {
+      const locationId = 'not-exist-id';
+      mockLocationUserService.delete.mockResolvedValue({ affected: 0 });
+      const result = await controller.remove(locationId);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: { affected: 0 },
+      });
+    });
+    it('should handle non-Error thrown values in remove', async () => {
+      const locationId = 'test-location-id';
+      mockLocationUserService.delete.mockRejectedValue({ error: 'Remove error' });
+      const result = await controller.remove(locationId);
+      expect(result).toEqual({
+        status: 500,
+        message: JSON.stringify({ error: 'Remove error' }),
+        success: false,
+      });
+    });
+    it('should handle service returning undefined', async () => {
+      const locationId = 'test-location-id';
+      mockLocationUserService.delete.mockResolvedValue(undefined);
+      const result = await controller.remove(locationId);
+      expect(result).toEqual({
+        status: 200,
+        message: 'SUCCESS!',
+        success: true,
+        data: undefined,
       });
     });
   });
