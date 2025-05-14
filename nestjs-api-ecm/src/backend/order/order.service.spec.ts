@@ -1,601 +1,1060 @@
-// Import các module cần thiết từ NestJS và các file liên quan
 import { Test, TestingModule } from '@nestjs/testing';
-import { OrderController } from './order.controller';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { OrderService } from './order.service';
-import {
-  NotificationStatus,
-  NotificationType,
-  OrderStatus,
-  PaymentStatus,
-  PaymentMethod,
-} from 'src/share/Enum/Enum';
-import { AuthGuard } from 'src/guards/JwtAuth.guard';
-import { RolesGuard } from 'src/guards/Roles.guard';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { UserService } from '../user/user.service';
+import { OrderEntity } from 'src/entities/order_entity/oder.entity';
+import { Order_productEntity } from 'src/entities/order_entity/order_product.entity';
+import { User } from 'src/entities/user_entity/user.entity';
+import { Cart_productEntity } from 'src/entities/cartproduct_entity/cart_product.entity';
 import { CreateOrderDto } from 'src/dto/orderDTO/order.create.dto';
+import { OrderAllOrderDto } from 'src/dto/orderDTO/order.allOrder.dto';
 import { UpdateOrderDTO } from 'src/dto/orderDTO/order.update.dto';
+import { OrderStatus, PaymentMethod, PaymentStatus, NotificationStatus, NotificationType } from 'src/share/Enum/Enum';
+import { NotificationService } from 'src/backend/notification/notification.service';
+import { EmailService } from 'src/backend/email/email.service';
+import { OrderRepository } from 'src/repository/OrderRepository';
+import { UserRepository } from 'src/repository/UserRepository';
+import { CartRepository } from 'src/repository/CartRepository';
 
-/**
- * Test suite cho OrderController
- * Mục đích: Kiểm tra các chức năng của controller đơn hàng
- */
-describe('OrderController', () => {
-    // Khai báo các biến controller và service để sử dụng trong các test case
-  let controller: OrderController;
+describe('OrderService', () => {
   let service: OrderService;
+  let orderRepo: jest.Mocked<OrderRepository>;
+  let orderProductRepo: jest.Mocked<Repository<Order_productEntity>>;
+  let userRepo: jest.Mocked<UserRepository>;
+  let cartRepo: jest.Mocked<CartRepository>;
+  let dataSource: jest.Mocked<DataSource>;
+  let notificationService: jest.Mocked<NotificationService>;
+  let emailService: jest.Mocked<EmailService>;
 
-  // Mock các service được sử dụng trong controller
-  const mockOrderService = {
-    createOrder: jest.fn(),
-    getAllOrder: jest.fn(),
-    getOrderManagement: jest.fn(),
-    updateOrder: jest.fn(),
-  };
-
-  const mockJwtService = {
-    verifyAsync: jest.fn(),
-  };
-
-  const mockConfigService = {
-    get: jest.fn(),
-  };
-
-  const mockUserService = {
-    findOne: jest.fn(),
-  };
-
-  /**
-   * Cấu hình và khởi tạo module test trước mỗi test case
-   */
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [OrderController],
       providers: [
+        OrderService,
         {
-          provide: OrderService,
-          useValue: mockOrderService,
+          provide: getRepositoryToken(OrderEntity),
+          useValue: {
+            create: jest.fn(),
+            save: jest.fn(),
+            findOne: jest.fn(),
+            findOneBy: jest.fn(),
+            findAndCount: jest.fn(),
+            createQueryBuilder: jest.fn(),
+            count: jest.fn(),
+          },
         },
         {
-          provide: JwtService,
-          useValue: mockJwtService,
+          provide: getRepositoryToken(Order_productEntity),
+          useValue: {
+            create: jest.fn(),
+            save: jest.fn(),
+          },
         },
         {
-          provide: ConfigService,
-          useValue: mockConfigService,
+          provide: getRepositoryToken(User),
+          useValue: {
+            findOneBy: jest.fn(),
+            find: jest.fn(),
+          },
         },
         {
-          provide: UserService,
-          useValue: mockUserService,
+          provide: getRepositoryToken(Cart_productEntity),
+          useValue: {},
         },
         {
-          provide: AuthGuard,
-          useValue: { canActivate: jest.fn().mockReturnValue(true) },
+          provide: DataSource,
+          useValue: {
+            createQueryRunner: jest.fn().mockReturnValue({
+              connect: jest.fn(),
+              startTransaction: jest.fn(),
+              manager: {
+                save: jest.fn(),
+              },
+              commitTransaction: jest.fn(),
+              rollbackTransaction: jest.fn(),
+              release: jest.fn(),
+            }),
+          },
         },
         {
-          provide: RolesGuard,
-          useValue: { canActivate: jest.fn().mockReturnValue(true) },
+          provide: NotificationService,
+          useValue: {
+            sendNotification: jest.fn(),
+          },
+        },
+        {
+          provide: EmailService,
+          useValue: {
+            sendNotificationEmail: jest.fn(),
+          },
         },
       ],
     }).compile();
 
-    controller = module.get<OrderController>(OrderController);
     service = module.get<OrderService>(OrderService);
-  });
-
-  /**
-   * Xóa tất cả mock data sau mỗi test case
-   */
-  afterEach(() => {
-    jest.clearAllMocks();
+    orderRepo = module.get(getRepositoryToken(OrderEntity));
+    orderProductRepo = module.get(getRepositoryToken(Order_productEntity));
+    userRepo = module.get(getRepositoryToken(User));
+    cartRepo = module.get(getRepositoryToken(Cart_productEntity));
+    dataSource = module.get(DataSource);
+    notificationService = module.get(NotificationService);
+    emailService = module.get(EmailService);
   });
 
   /**
    * Mã: TC001
-   * Test case: Kiểm tra khởi tạo controller
-   * Mục tiêu: Đảm bảo controller được khởi tạo thành công
+   * Test case: Kiểm tra khởi tạo service
+   * Mục tiêu: Đảm bảo service được khởi tạo thành công
    * Input: Không có
-   * Output mong đợi: Controller được định nghĩa
+   * Output mong đợi: Service được định nghĩa
    */
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 
-  /**
-   * Nhóm test cho chức năng tạo đơn hàng
-   */
+  // Test chức năng createOrder của OrderService
   describe('createOrder', () => {
-    // Dữ liệu mẫu cho việc tạo đơn hàng
-    const createOrderDto: CreateOrderDto = {
-      user_id: 'user123',
-      products: [
-        {
-          product_id: 'prod1',
-          quantity: 2,
-          priceout: 100,
-        },
-      ],
-      totalPrice: 200,
-      paymentMethod: PaymentMethod.BankTransfer,
-      location_id: 'loc123',
-      paymentStatus: PaymentStatus.Paid,
-      orderStatus: OrderStatus.Checking,
-    };
-
-    /**
-     * Mã: TC002
-     * Test case: Tạo đơn hàng thành công
-     * Mục tiêu: Kiểm tra việc tạo đơn hàng với dữ liệu hợp lệ
-     * Input: đối tượng CreateOrderDto đầy đủ các trường thuộc tính
-     * Output mong đợi: Trả về thông tin đơn hàng mới với status 200
-     */
-    it('should create order successfully', async () => {
-      const mockCreatedOrder = {
-        id: 'order123',
-        ...createOrderDto,
+    // Mã: TC002
+    // Test case: Tạo đơn hàng thành công
+    // Mục tiêu: Kiểm tra xem hàm createOrder có tạo và lưu đơn hàng thành công không
+    // Input: CreateOrderDto với thông tin hợp lệ
+    // Output mong đợi: Đơn hàng được tạo với các thông tin khớp với mockOrder
+    it('should successfully create an order', async () => {
+      const mockOrderDto: CreateOrderDto = {
+        user_id: 'user1',
+        location_id: 'loc1',
+        totalPrice: 100,
+        paymentMethod: PaymentMethod.CashOnDelivery,
+        paymentStatus: PaymentStatus.Unpaid,
         orderStatus: OrderStatus.Checking,
-      };
-
-      mockOrderService.createOrder.mockResolvedValue(mockCreatedOrder);
-
-      const result = await controller.createOrder('user123', createOrderDto);
-
-      expect(service.createOrder).toHaveBeenCalledWith(createOrderDto);
-      expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data: mockCreatedOrder,
-      });
-    });
-
-    /**
-     * Mã: TC003
-     * Test case: Xử lý lỗi khi tạo đơn hàng
-     * Mục tiêu: Kiểm tra xử lý lỗi khi có vấn đề với database
-     * Input: đối tượng CreateOrderDto với các trường thuộc tính hợp lệ nhưng database lỗi
-     * Output mong đợi: Trả về thông báo lỗi với status 500
-     */
-    it('should handle creation error', async () => {
-      mockOrderService.createOrder.mockRejectedValue(
-        new Error('Database error'),
-      );
-
-      const result = await controller.createOrder('user123', createOrderDto);
-
-      expect(result).toEqual({
-        status: 500,
-        message: 'Database error',
-        success: false,
-      });
-    });
-
-    /**
-     * Mã: TC004
-     * Test case: Xử lý trường hợp không có sản phẩm trong đơn hàng
-     * Mục tiêu: Kiểm tra validation khi mảng sản phẩm rỗng
-     * Input: đối tượngCreateOrderDto với mảng products rỗng
-     * Output mong đợi: Trả về lỗi với thông báo yêu cầu sản phẩm
-     */
-    it('should handle empty products array', async () => {
-      const invalidDto = {
-        ...createOrderDto,
-        products: [],
-      };
-
-      mockOrderService.createOrder.mockRejectedValue(
-        new Error('Products required'),
-      );
-
-      const result = await controller.createOrder('user123', invalidDto);
-
-      expect(result).toEqual({
-        status: 500,
-        message: 'Products required',
-        success: false,
-      });
-    });
-  });
-
-  /**
-   * Nhóm test cho chức năng lấy danh sách đơn hàng
-   */
-  describe('getAllOrder', () => {
-    const userId = 'user123';
-    const orderDto = { page: 1, limit: 10 };
-
-    /**
-     * Mã: TC005
-     * Test case: Lấy danh sách đơn hàng của người dùng
-     * Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng theo user
-     * Input: userId và thông tin phân trang
-     * Output mong đợi: Danh sách đơn hàng và tổng số lượng
-     */
-    it('should return all orders for user', async () => {
-      const mockOrders = {
-        list: [
-          {
-            id: 'order1',
-            user_id: userId,
-            orderStatus: OrderStatus.Checking,
-          },
+        products: [
+          { product_id: 'prod1', quantity: 2, priceout: 50 },
+          { product_id: 'prod2', quantity: 1, priceout: 50 },
         ],
-        total: 1,
       };
 
-      mockOrderService.getAllOrder.mockResolvedValue(mockOrders);
+      const mockOrder = {
+        id: 'order1',
+        order_code: 'ORD123',
+        ...mockOrderDto,
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+      };
 
-      const result = await controller.getAllOrder(userId, orderDto);
+      const mockOrderProducts = mockOrderDto.products.map((p) => ({
+        ...p,
+        order_id: 'order1',
+      }));
 
-      expect(service.getAllOrder).toHaveBeenCalledWith(userId, orderDto);
+      orderRepo.create.mockReturnValue(mockOrder as any);
+      orderProductRepo.create.mockImplementation((p) => p as any);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.manager.save as any)
+        .mockResolvedValueOnce(mockOrder)
+        .mockResolvedValueOnce(mockOrderProducts);
+
+      const result = await service.createOrder(mockOrderDto);
+
+      expect(result).toEqual(mockOrder);
+      expect(queryRunner.connect).toHaveBeenCalled();
+      expect(queryRunner.startTransaction).toHaveBeenCalled();
+      expect(queryRunner.commitTransaction).toHaveBeenCalled();
+      expect(queryRunner.release).toHaveBeenCalled();
+    });
+
+    // Mã: TC003
+    // Test case: Xử lý lỗi khi tạo đơn hàng
+    // Mục tiêu: Kiểm tra xem hàm createOrder có rollback transaction và throw lỗi khi xảy ra lỗi không
+    // Input: CreateOrderDto hợp lệ nhưng mock lỗi khi lưu vào database
+    // Output mong đợi: Throw InternalServerErrorException với message 'ORDER.OCCUR ERROR WHEN SAVE TO DATABASE!'
+    it('should handle errors during order creation', async () => {
+      const mockOrderDto: CreateOrderDto = {
+        user_id: 'user1',
+        location_id: 'loc1',
+        totalPrice: 100,
+        paymentMethod: PaymentMethod.CashOnDelivery,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderStatus: OrderStatus.Checking,
+        products: [
+          { product_id: 'prod1', quantity: 2, priceout: 50 },
+          { product_id: 'prod2', quantity: 1, priceout: 50 },
+        ],
+      };
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.manager.save as any).mockRejectedValue(new Error('DB error'));
+
+      await expect(service.createOrder(mockOrderDto)).rejects.toThrow(
+        'ORDER.OCCUR ERROR WHEN SAVE TO DATABASE!',
+      );
+
+      expect(queryRunner.rollbackTransaction).toHaveBeenCalled();
+      expect(queryRunner.release).toHaveBeenCalled();
+    });
+  });
+
+  // Test chức năng createNotificationOrderSuccess của OrderService
+  describe('createNotificationOrderSuccess', () => {
+    // Mã: TC004
+    // Test case: Tạo thông báo thành công với admin
+    // Mục tiêu: Kiểm tra xem hàm createNotificationOrderSuccess có gửi thông báo và email cho admin không
+    // Input: OrderEntity với user_id hợp lệ và có admin
+    // Output mong đợi: Gửi thông báo và email thành công
+    it('should create notification and send emails for new order with admins', async () => {
+      const mockOrder = {
+        id: 'order1',
+        user_id: 'user1',
+        orderStatus: OrderStatus.Checking,
+        paymentStatus: PaymentStatus.Unpaid,
+      } as OrderEntity;
+
+      const mockUser = {
+        id: 'user1',
+        firstName: 'John',
+        lastName: 'Doe',
+      } as User;
+
+      const mockAdmins = [
+        { id: 'admin1', email: 'admin1@test.com', role: 'admin', isActive: true },
+        { id: 'admin2', email: 'admin2@test.com', role: 'admin', isActive: true },
+      ] as User[];
+
+      (userRepo.findOneBy as any).mockResolvedValue(mockUser);
+      (userRepo.find as any).mockResolvedValue(mockAdmins);
+
+      await service.createNotificationOrderSuccess(mockOrder);
+
+      expect(notificationService.sendNotification).toHaveBeenCalledWith(
+        mockOrder,
+        expect.stringContaining('John Doe'),
+        NotificationStatus.Success,
+        NotificationType.NewOrder,
+      );
+      expect(emailService.sendNotificationEmail).toHaveBeenCalled();
+    });
+
+    // Mã: TC005
+    // Test case: Tạo thông báo khi không có admin
+    // Mục tiêu: Kiểm tra xem hàm createNotificationOrderSuccess có chỉ gửi thông báo mà không gửi email khi không có admin không
+    // Input: OrderEntity với user_id hợp lệ nhưng không có admin
+    // Output mong đợi: Chỉ gửi thông báo, không gửi email
+    it('should handle case with no admins', async () => {
+      const mockOrder = {
+        id: 'order1',
+        user_id: 'user1',
+      } as OrderEntity;
+
+      const mockUser = {
+        id: 'user1',
+        firstName: 'John',
+        lastName: 'Doe',
+      } as User;
+
+      (userRepo.findOneBy as any).mockResolvedValue(mockUser);
+      (userRepo.find as any).mockResolvedValue([]);
+
+      await service.createNotificationOrderSuccess(mockOrder);
+
+      expect(notificationService.sendNotification).toHaveBeenCalled();
+      expect(emailService.sendNotificationEmail).not.toHaveBeenCalled();
+    });
+  });
+
+  // Test chức năng getAllOrder của OrderService
+  describe('getAllOrder', () => {
+    // Mã: TC006
+    // Test case: Lấy danh sách đơn hàng phân trang thành công
+    // Mục tiêu: Kiểm tra xem hàm getAllOrder có trả về danh sách đơn hàng phân trang đúng không
+    // Input: userId và OrderAllOrderDto với page=1, limit=10
+    // Output mong đợi: Danh sách đơn hàng và tổng số đơn hàng
+    it('should return paginated orders for a user', async () => {
+      const userId = 'user1';
+      const mockDto: OrderAllOrderDto = {
+        page: 1,
+        limit: 10,
+      };
+
+      const mockOrders = [
+        { id: 'order1', user_id: userId },
+        { id: 'order2', user_id: userId },
+      ] as OrderEntity[];
+
+      (orderRepo.findAndCount as any).mockResolvedValue([mockOrders, 2]);
+
+      const result = await service.getAllOrder(userId, mockDto);
+
       expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data: mockOrders,
+        list: mockOrders,
+        total: 2,
+      });
+      expect(orderRepo.findAndCount).toHaveBeenCalledWith({
+        where: { user_id: userId },
+        relations: ['orderProducts'],
+        skip: 0,
+        take: 10,
       });
     });
 
-    /**
-     * Mã: TC006
-     * Test case: Xử lý trường hợp không có đơn hàng
-     * Mục tiêu: Kiểm tra response khi không có đơn hàng nào
-     * Input: userId và thông tin phân trang
-     * Output mong đợi: Danh sách rỗng và tổng số lượng 0
-     */
-    it('should return empty list when no orders', async () => {
-      const emptyResponse = { list: [], total: 0 };
-      mockOrderService.getAllOrder.mockResolvedValue(emptyResponse);
+    // Mã: TC007
+    // Test case: Lấy danh sách đơn hàng khi không có đơn hàng nào
+    // Mục tiêu: Kiểm tra xem hàm getAllOrder có trả về danh sách rỗng khi không có đơn hàng không
+    // Input: userId và OrderAllOrderDto với page=1, limit=10
+    // Output mong đợi: Danh sách rỗng và tổng số là 0
+    it('should return empty list if no orders', async () => {
+      const userId = 'user1';
+      const mockDto: OrderAllOrderDto = {
+        page: 1,
+        limit: 10,
+      };
 
-      const result = await controller.getAllOrder(userId, orderDto);
+      (orderRepo.findAndCount as any).mockResolvedValue([[], 0]);
 
-      expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data : emptyResponse,
-      });
-    });
-
-    /**
-     * Mã: TC007
-     * Test case: Xử lý lỗi khi truy vấn đơn hàng
-     * Mục tiêu: Kiểm tra xử lý lỗi từ service
-     * Input: Các tham số tìm kiếm đơn hàng
-     * Output mong đợi: Response với data undefined
-     */
-    it('should handle service error', async () => {
-      mockOrderService.getAllOrder.mockRejectedValue(
-        new Error('Database error'),
-      );
-
-      const result = await controller.getOrderManagement(
-        1,
-        10,
-        OrderStatus.Checking,
-        PaymentStatus.Paid,
-        false
-      );
+      const result = await service.getAllOrder(userId, mockDto);
 
       expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data : undefined,
+        list: [],
+        total: 0,
       });
     });
   });
 
-  /**
-   * Nhóm test cho chức năng quản lý đơn hàng
-   */
+  // Test chức năng getOrderManagement của OrderService
   describe('getOrderManagement', () => {
-    const excludedStatuses = [OrderStatus.Delivered, OrderStatus.Canceled];
-
-    /**
-     * Mã: TC008
-     * Test case: Lấy danh sách đơn hàng đã lọc khi includeExcluded là false
-     * Mục tiêu: Kiểm tra việc lọc đơn hàng không bao gồm trạng thái đã loại trừ
-     * Input: 
-     * - page: 1
-     * - limit: 10
-     * - orderStatus: Checking
-     * - paymentStatus: Paid
-     * - includeExcluded: false
-     * Output mong đợi: Danh sách đơn hàng đã lọc theo điều kiện
-     */
-    it('should return managed orders with filters when includeExcluded is false', async () => {
-        // Chuẩn bị dữ liệu test
-      const page = 1;
-      const limit = 10;
-      const orderStatus = OrderStatus.Checking;
-      const paymentStatus = PaymentStatus.Paid;
-      const includeExcluded = false;
-
-      const mockOrders = [
-        {
-          id: '1',
-          orderStatus: OrderStatus.Checking,
-          paymentStatus: PaymentStatus.Paid,
-        },
-      ];
-
-      // Mock response từ service
-      mockOrderService.getOrderManagement.mockResolvedValue(mockOrders);
-
-      // Thực thi hàm cần test
-      const result = await controller.getOrderManagement(
-        page,
-        limit,
-        orderStatus,
-        paymentStatus,
-        includeExcluded,
-      );
-
-      // Định nghĩa bộ lọc mong đợi
-      const expectedFilters = {
-        orderStatus: orderStatus,
-        paymentStatus: paymentStatus,
-        excludedStatuses: !orderStatus ? excludedStatuses : [],
-        includedStatuses: [],
+    // Mã: TC008
+    // Test case: Lấy danh sách đơn hàng với bộ lọc trạng thái
+    // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách đơn hàng với bộ lọc trạng thái và tóm tắt trạng thái không
+    // Input: page=1, limit=10, filters với orderStatus, paymentStatus và includedStatuses
+    // Output mong đợi: Danh sách đơn hàng, tổng số và tóm tắt trạng thái
+    it('should return filtered orders with status summary', async () => {
+      const mockQueryBuilder = {
+        leftJoin: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getManyAndCount: jest.fn().mockResolvedValue([
+          [
+            {
+              id: 'order1',
+              orderStatus: OrderStatus.Checking,
+              paymentStatus: PaymentStatus.Unpaid,
+              orderProducts: [
+                {
+                  product: { id: 'prod1', name: 'Product 1', stockQuantity: 10 },
+                  priceout: 50,
+                  quantity: 2,
+                },
+              ],
+              user: { id: 'user1', firstName: 'John', lastName: 'Doe' },
+              employee: null,
+              location: { id: 'loc1', address: '123 Street', phone: '123456', default_location: true },
+            },
+          ],
+          1,
+        ]),
+        getRawMany: jest.fn().mockResolvedValue([
+          { orderStatus: OrderStatus.Checking, count: '1' },
+        ]),
       };
 
-      // Kiểm tra kết quả
-      expect(service.getOrderManagement).toHaveBeenCalledWith(
-        page,
-        limit,
-        expectedFilters,
-      );
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
 
-      expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data: mockOrders,
-      });
-    });
-
-    /**
-     * Mã: TC009
-     * Test case: Xử lý trường hợp includeExcluded là true
-     * Mục tiêu: Kiểm tra việc lọc đơn hàng khi bao gồm các trạng thái đã loại trừ
-     * Input:
-     * - page: 1
-     * - limit: 10
-     * - orderStatus: undefined
-     * - paymentStatus: Paid
-     * - includeExcluded: true
-     * Output mong đợi: Danh sách đơn hàng bao gồm cả trạng thái đã loại trừ
-     */
-    it('should handle includeExcluded true case', async () => {
-      const page = 1;
-      const limit = 10;
-      const orderStatus = undefined;
-      const paymentStatus = PaymentStatus.Paid;
-      const includeExcluded = true;
-
-      const mockOrders = [
-        {
-          id: '1',
-          orderStatus: OrderStatus.Delivered,
-          paymentStatus: PaymentStatus.Paid,
-        },
-      ];
-
-      mockOrderService.getOrderManagement.mockResolvedValue(mockOrders);
-
-      const result = await controller.getOrderManagement(
-        page,
-        limit,
-        orderStatus,
-        paymentStatus,
-        includeExcluded,
-      );
-
-      const expectedFilters = {
-        orderStatus: '',
-        paymentStatus: paymentStatus,
+      const result = await service.getOrderManagement(1, 10, {
+        orderStatus: OrderStatus.Checking,
+        paymentStatus: PaymentStatus.Unpaid,
+        includedStatuses: [OrderStatus.Checking],
         excludedStatuses: [],
-        includedStatuses:
-          includeExcluded && !orderStatus ? excludedStatuses : [],
-      };
-
-      expect(service.getOrderManagement).toHaveBeenCalledWith(
-        page,
-        limit,
-        expectedFilters,
-      );
+      });
 
       expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data: mockOrders,
+        orders: expect.any(Array),
+        total: 1,
+        orderStatusSummary: expect.any(Object),
       });
+      expect(result.orders[0].order.products).toEqual([
+        {
+          productId: 'prod1',
+          productName: 'Product 1',
+          priceout: 50,
+          quantityBuy: 2,
+          quantityInStock: 10,
+        },
+      ]);
+      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalled();
+      expect(mockQueryBuilder.where).toHaveBeenCalled();
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'order.orderStatus = :orderStatus',
+        { orderStatus: OrderStatus.Checking },
+      );
     });
 
-    /**
-     * Mã: TC010
-     * Test case: Xử lý trường hợp không có tham số
-     * Mục tiêu: Kiểm tra hành vi mặc định khi không có tham số lọc
-     * Input: Chỉ có page và limit, các tham số khác undefined
-     * Output mong đợi: Danh sách rỗng với các bộ lọc mặc định
-     */
-    it('should handle empty parameters', async () => {
-      const mockOrders = [];
-      mockOrderService.getOrderManagement.mockResolvedValue(mockOrders);
+    // Mã: TC009
+    // Test case: Lấy danh sách đơn hàng với trạng thái bị loại trừ
+    // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách đơn hàng với trạng thái bị loại trừ không
+    // Input: page=1, limit=10, filters với excludedStatuses
+    // Output mong đợi: Danh sách đơn hàng, số lượng sản phẩm trong kho và tóm tắt trạng thái
+    it('should return orders with excluded statuses', async () => {
+      const mockQueryBuilder = {
+        leftJoin: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getManyAndCount: jest.fn().mockResolvedValue([
+          [
+            {
+              id: 'order1',
+              orderStatus: OrderStatus.Checking,
+              paymentStatus: PaymentStatus.Unpaid,
+              orderProducts: [],
+              user: { id: 'user1', firstName: 'John', lastName: 'Doe' },
+              employee: { id: 'emp1', firstName: 'Emp', lastName: 'One' },
+              location: { id: 'loc1', address: '123 Street', phone: '123456', default_location: true },
+            },
+          ],
+          1,
+        ]),
+        getRawMany: jest.fn().mockResolvedValue([
+          { orderStatus: OrderStatus.Checking, count: '1' },
+        ]),
+      };
 
-      const result = await controller.getOrderManagement(
-        1,
-        10,
-        undefined,
-        undefined,
-        undefined,
-      );
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
 
-      expect(service.getOrderManagement).toHaveBeenCalledWith(1, 10, {
+      const result = await service.getOrderManagement(1, 10, {
         orderStatus: '',
         paymentStatus: '',
-        excludedStatuses: [], // Changed from excludedStatuses to []
         includedStatuses: [],
+        excludedStatuses: [OrderStatus.Delivered],
+      });
+
+      expect(result).toHaveProperty('productInStock');
+      expect(result).toHaveProperty('orderStatusSummary');
+      expect(result.total).toBe(1);
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'order.orderStatus NOT IN (:...excludedStatuses)',
+        { excludedStatuses: [OrderStatus.Delivered] },
+      );
+    });
+
+    // Mã: TC010
+    // Test case: Lấy danh sách đơn hàng khi không có đơn hàng nào
+    // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách rỗng và bao phủ nhánh trong getQuantityProductInStock và getOrderStatusCount không
+    // Input: page=1, limit=10, filters với excludedStatuses
+    // Output mong đợi: Danh sách rỗng, productInStock rỗng và orderStatusSummary rỗng
+    it('should handle case with no orders to cover getQuantityProductInStock and getOrderStatusCount', async () => {
+      const mockQueryBuilder = {
+        leftJoin: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getManyAndCount: jest.fn().mockResolvedValue([[], 0]),
+        getRawMany: jest.fn().mockResolvedValue([]),
+      };
+
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
+
+      const result = await service.getOrderManagement(1, 10, {
+        orderStatus: '',
+        paymentStatus: '',
+        includedStatuses: [],
+        excludedStatuses: [OrderStatus.Delivered],
       });
 
       expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data : []
+        orders: [],
+        productInStock: [],
+        total: 0,
+        orderStatusSummary: {},
       });
     });
 
-    /**
-     * Mã: TC011
-     * Test case: Xử lý lỗi từ service
-     * Mục tiêu: Kiểm tra xử lý lỗi khi service gặp vấn đề
-     * Input: Các tham số hợp lệ nhưng service trả về lỗi
-     * Output mong đợi: Response thông báo lỗi với status 500
-     */
-    it('should handle service error', async () => {
-      mockOrderService.getOrderManagement.mockRejectedValue(
-        new Error('Database error'),
-      );
+    // Mã: TC011
+    // Test case: Lấy danh sách đơn hàng với employee và location là null
+    // Mục tiêu: Kiểm tra xem hàm getOrderManagement có xử lý đúng khi employee và location là null không (bao phủ nhánh trong ordersWithProducts)
+    // Input: page=1, limit=10, filters với excludedStatuses
+    // Output mong đợi: Danh sách đơn hàng với employee và location là null
+    it('should handle case with null employee and location', async () => {
+      const mockQueryBuilder = {
+        leftJoin: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getManyAndCount: jest.fn().mockResolvedValue([
+          [
+            {
+              id: 'order1',
+              orderStatus: OrderStatus.Checking,
+              paymentStatus: PaymentStatus.Unpaid,
+              orderProducts: [],
+              user: { id: 'user1', firstName: 'John', lastName: 'Doe' },
+              employee: null,
+              location: null,
+            },
+          ],
+          1,
+        ]),
+        getRawMany: jest.fn().mockResolvedValue([
+          { orderStatus: OrderStatus.Checking, count: '1' },
+        ]),
+      };
 
-      const result = await controller.getOrderManagement(
-        1,
-        10,
-        OrderStatus.Checking,
-        PaymentStatus.Paid,
-        false
-      );
-  
-      expect(result).toEqual({
-        status: 500,
-        message: 'Database error',
-        success: false
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
+
+      const result = await service.getOrderManagement(1, 10, {
+        orderStatus: '',
+        paymentStatus: '',
+        includedStatuses: [],
+        excludedStatuses: [],
       });
 
-      expect(service.getOrderManagement).toHaveBeenCalledWith(
-        1,
-        10,
-        {
-          orderStatus: OrderStatus.Checking,
-          paymentStatus: PaymentStatus.Paid,
-          excludedStatuses: [],
-          includedStatuses: []
-        }
+      expect(result).toEqual({
+        orders: expect.any(Array),
+        total: 1,
+        orderStatusSummary: expect.any(Object),
+      });
+      expect(result.orders[0].order.employee).toBeNull();
+      expect(result.orders[0].order.location).toBeNull();
+    });
+
+    // Mã: TC012
+    // Test case: Lấy danh sách đơn hàng với bộ lọc kết hợp orderStatus và includedStatuses
+    // Mục tiêu: Kiểm tra xem hàm getOrderManagement có xử lý đúng khi kết hợp nhiều bộ lọc không (bao phủ các nhánh trong điều kiện lọc)
+    // Input: page=1, limit=10, filters với orderStatus và includedStatuses
+    // Output mong đợi: Danh sách đơn hàng và tóm tắt trạng thái
+    it('should handle case with combined filters', async () => {
+      const mockQueryBuilder = {
+        leftJoin: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getManyAndCount: jest.fn().mockResolvedValue([
+          [
+            {
+              id: 'order1',
+              orderStatus: OrderStatus.Checking,
+              paymentStatus: PaymentStatus.Unpaid,
+              orderProducts: [],
+              user: { id: 'user1', firstName: 'John', lastName: 'Doe' },
+              employee: null,
+              location: null,
+            },
+          ],
+          1,
+        ]),
+        getRawMany: jest.fn().mockResolvedValue([
+          { orderStatus: OrderStatus.Checking, count: '1' },
+        ]),
+      };
+
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
+
+      const result = await service.getOrderManagement(1, 10, {
+        orderStatus: OrderStatus.Checking,
+        paymentStatus: '',
+        includedStatuses: [OrderStatus.Checking, OrderStatus.WaitingForDelivered],
+        excludedStatuses: [],
+      });
+
+      expect(result).toEqual({
+        orders: expect.any(Array),
+        total: 1,
+        orderStatusSummary: expect.any(Object),
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'order.orderStatus = :orderStatus',
+        { orderStatus: OrderStatus.Checking },
+      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'order.orderStatus IN (:...includedStatuses)',
+        { includedStatuses: [OrderStatus.Checking, OrderStatus.WaitingForDelivered] },
       );
     });
   });
 
-  /**
-   * Nhóm test cho chức năng cập nhật đơn hàng
-   * Mục đích: Kiểm tra các tính năng cập nhật thông tin đơn hàng
-   */
-  describe('updateOrder', () => {
-    const userId = 'user123';
-    const updateDto: UpdateOrderDTO = {
-      order_id: 'order123',
-      orderStatus: OrderStatus.Checking,
-      user_id: 'user123',
-      employee_id: 'emp123',
-      paymentStatus: PaymentStatus.Paid,
-    };
+  // Test chức năng getDetail của OrderService
+  describe('getDetail', () => {
+    // Mã: TC013
+    // Test case: Lấy chi tiết đơn hàng thành công
+    // Mục tiêu: Kiểm tra xem hàm getDetail có trả về chi tiết đơn hàng đúng không
+    // Input: orderId hợp lệ
+    // Output mong đợi: Chi tiết đơn hàng khớp với mockOrder
+    it('should return order details', async () => {
+      const orderId = 'order1';
+      const mockOrder = {
+        id: orderId,
+        orderProducts: [],
+        location: { id: 'loc1' },
+      } as OrderEntity;
 
-    /**
-     * Mã: TC012
-     * Test case: Cập nhật đơn hàng thành công
-     * Mục tiêu: Kiểm tra việc cập nhật đơn hàng với dữ liệu hợp lệ
-     * Input: UpdateOrderDTO hợp lệ
-     * Output mong đợi: Thông tin đơn hàng đã cập nhật
-     */
-    it('should update order successfully', async () => {
-      const mockUpdatedOrder = {
-        id: updateDto.order_id,
-        ...updateDto,
-      };
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder);
 
-      mockOrderService.updateOrder.mockResolvedValue(mockUpdatedOrder);
+      const result = await service.getDetail(orderId);
 
-      const result = await controller.updateOrder(userId, updateDto);
-
-      expect(service.updateOrder).toHaveBeenCalledWith(updateDto);
-      expect(result).toEqual({
-        status: 200,
-        message: 'SUCCESS!',
-        success: true,
-        data: mockUpdatedOrder,
+      expect(result).toEqual(mockOrder);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: orderId },
+        relations: ['orderProducts', 'orderProducts.product', 'location'],
       });
     });
 
-    /**
-     * Mã: TC013
-     * Test case: Xử lý user_id không hợp lệ
-     * Mục tiêu: Kiểm tra xử lý lỗi khi user_id không tồn tại
-     * Input: user_id không hợp lệ
-     * Output mong đợi: Thông báo lỗi với status 500
-     */
-    it('should handle invalid user_id', async () => {
-        mockOrderService.updateOrder.mockRejectedValue(
-          new Error('Invalid user')
-        );
-    
-        const result = await controller.updateOrder('invalid_user', updateDto);
-    
-        expect(result).toEqual({
-          status: 500,
-          message: 'Invalid user',
-          success: false
-        });
-      });
+    // Mã: TC014
+    // Test case: Lấy chi tiết đơn hàng không tồn tại
+    // Mục tiêu: Kiểm tra xem hàm getDetail có throw lỗi khi không tìm thấy đơn hàng không
+    // Input: orderId không tồn tại
+    // Output mong đợi: Throw Error với message 'ORDER.ORDER DETAIL NOT EXSIST!'
+    it('should throw error when order not found', async () => {
+      (orderRepo.findOne as any).mockResolvedValue(null);
 
-      /**
-     * Mã: TC014
-     * Test case: Xử lý thiếu trường bắt buộc
-     * Mục tiêu: Kiểm tra validation khi thiếu thông tin bắt buộc
-     * Input: UpdateOrderDTO thiếu trường
-     * Output mong đợi: Thông báo lỗi thiếu trường
-     */
-      it('should handle missing required fields', async () => {
-        const incompleteDto = {
-          order_id: 'order123',
-        };
-    
-        mockOrderService.updateOrder.mockRejectedValue(
-          new Error('Missing required fields')
-        );
-    
-        const result = await controller.updateOrder(
-          userId, 
-          incompleteDto as UpdateOrderDTO
-        );
-    
-        expect(result).toEqual({
-          status: 500,
-          message: 'Missing required fields',
-          success: false
-        });
-      });
+      await expect(service.getDetail('nonexistent')).rejects.toThrow(
+        'ORDER.ORDER DETAIL NOT EXSIST!',
+      );
+    });
 
-      /**
-     * Mã: TC015
-     * Test case: Xử lý lỗi từ service
-     * Mục tiêu: Kiểm tra xử lý lỗi khi service gặp vấn đề
-     * Input: UpdateOrderDTO hợp lệ nhưng service lỗi
-     * Output mong đợi: Thông báo lỗi database
-     */
-    it('should handle service error', async () => {
-        mockOrderService.updateOrder.mockRejectedValue(
-          new Error('Database error')
-        );
-    
-        const result = await controller.updateOrder(userId, updateDto);
-    
-        expect(result).toEqual({
-          status: 500,
-          message: 'Database error',
-          success: false
-        });
+    // Mã: TC015
+    // Test case: Lấy chi tiết đơn hàng với các quan hệ null
+    // Mục tiêu: Kiểm tra xem hàm getDetail có xử lý đúng khi orderProducts và location là null không
+    // Input: orderId hợp lệ nhưng orderProducts và location là null
+    // Output mong đợi: Chi tiết đơn hàng với orderProducts và location là null
+    it('should handle order with null relations', async () => {
+      const orderId = 'order1';
+      const mockOrder = {
+        id: orderId,
+        orderProducts: null,
+        location: null,
+      } as OrderEntity;
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder);
+
+      const result = await service.getDetail(orderId);
+
+      expect(result).toEqual(mockOrder);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: orderId },
+        relations: ['orderProducts', 'orderProducts.product', 'location'],
       });
+    });
+  });
+
+  // Test chức năng getOrderUserDashboard của OrderService
+  describe('getOrderUserDashboard', () => {
+    // Mã: TC016
+    // Test case: Lấy tóm tắt đơn hàng cho dashboard người dùng
+    // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về tóm tắt trạng thái đơn hàng không
+    // Input: userId hợp lệ
+    // Output mong đợi: Tổng số đơn hàng và tóm tắt trạng thái
+    it('should return order summary for user dashboard', async () => {
+      const userId = 'user1';
+      const mockStatusCounts = [
+        { orderStatus: OrderStatus.Checking, count: '2' },
+        { orderStatus: OrderStatus.Delivered, count: '1' },
+      ];
+
+      const mockQueryBuilder = {
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue(mockStatusCounts),
+      };
+
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
+      (orderRepo.count as any).mockResolvedValue(3);
+
+      const result = await service.getOrderUserDashboard(userId);
+
+      expect(result).toEqual({
+        totalOrders: 3,
+        statusSummary: expect.objectContaining({
+          [OrderStatus.Checking]: 2,
+          [OrderStatus.Delivered]: 1,
+        }),
+      });
+    });
+
+    // Mã: TC017
+    // Test case: Xử lý lỗi khi lấy tóm tắt đơn hàng
+    // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về lỗi khi query thất bại không
+    // Input: userId hợp lệ nhưng query thất bại
+    // Output mong đợi: Đối tượng chứa thông tin lỗi
+    it('should return error for getOrderUserDashboard on error', async () => {
+      const userId = 'user1';
+      (orderRepo.createQueryBuilder as any).mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockRejectedValue(new Error('Query failed')),
+      });
+      (orderRepo.count as any).mockResolvedValue(0);
+
+      const result = await service.getOrderUserDashboard(userId);
+
+      expect(result).toEqual({ error: 'Error: Query failed' });
+    });
+
+    // Mã: TC018
+    // Test case: Lấy tóm tắt đơn hàng khi không có đơn hàng nào
+    // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về số 0 khi không có đơn hàng không
+    // Input: userId hợp lệ nhưng không có đơn hàng
+    // Output mong đợi: Tổng số đơn hàng là 0 và tóm tắt trạng thái với tất cả giá trị là 0
+    it('should return zero counts if no orders', async () => {
+      const userId = 'user1';
+      const mockQueryBuilder = {
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue([]),
+      };
+
+      (orderRepo.createQueryBuilder as any).mockReturnValue(mockQueryBuilder);
+      (orderRepo.count as any).mockResolvedValue(0);
+
+      const result = await service.getOrderUserDashboard(userId);
+
+      expect(result).toEqual({
+        totalOrders: 0,
+        statusSummary: expect.objectContaining({
+          [OrderStatus.Checking]: 0,
+          [OrderStatus.Delivered]: 0,
+        }),
+      });
+    });
+  });
+
+  // Test chức năng updateOrder của OrderService
+  describe('updateOrder', () => {
+    // Mã: TC019
+    // Test case: Cập nhật đơn hàng thành công
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có cập nhật đơn hàng thành công không
+    // Input: UpdateOrderDTO với thông tin hợp lệ
+    // Output mong đợi: Đơn hàng được cập nhật với thông tin mới
+    it('should successfully update an order', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: OrderStatus.WaitingForDelivered,
+        user_id: 'user1',
+        employee_id: 'emp1',
+        paymentStatus: PaymentStatus.Paid,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      const updatedOrder = {
+        ...mockOrder,
+        orderStatus: mockUpdateDto.orderStatus,
+        employee_id: mockUpdateDto.employee_id,
+        paymentStatus: mockUpdateDto.paymentStatus,
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockResolvedValue(updatedOrder as OrderEntity);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.commitTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      const result = await service.updateOrder(mockUpdateDto);
+
+      expect(result).toEqual(updatedOrder);
+      expect(result.orderStatus).toBe(OrderStatus.WaitingForDelivered);
+      expect(result.employee_id).toBe('emp1');
+      expect(result.paymentStatus).toBe(PaymentStatus.Paid);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: mockUpdateDto.order_id },
+        relations: ['orderProducts'],
+      });
+      expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
+    });
+
+    // Mã: TC020
+    // Test case: Cập nhật đơn hàng không tồn tại
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có throw lỗi khi đơn hàng không tồn tại không
+    // Input: UpdateOrderDTO với order_id không tồn tại
+    // Output mong đợi: Throw Error với message 'ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!'
+    it('should throw error when order not found', async () => {
+      (orderRepo.findOne as any).mockResolvedValue(null);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.rollbackTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      await expect(
+        service.updateOrder({ order_id: 'nonexistent' } as UpdateOrderDTO),
+      ).rejects.toThrow('ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!');
+    });
+
+    // Mã: TC021
+    // Test case: Xử lý lỗi khi cập nhật đơn hàng
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có rollback transaction và throw lỗi khi xảy ra lỗi không
+    // Input: UpdateOrderDTO hợp lệ nhưng mock lỗi khi lưu vào database
+    // Output mong đợi: Throw InternalServerErrorException với message 'ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!'
+    it('should throw InternalServerErrorException on save error', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: OrderStatus.WaitingForDelivered,
+        user_id: 'user1',
+        employee_id: 'emp1',
+        paymentStatus: PaymentStatus.Paid,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockRejectedValue(new Error('Save failed'));
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.rollbackTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      await expect(service.updateOrder(mockUpdateDto)).rejects.toThrow(
+        'ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!',
+      );
+      expect(queryRunner.rollbackTransaction).toHaveBeenCalled();
+    });
+
+    // Mã: TC022
+    // Test case: Cập nhật đơn hàng với paymentStatus là null
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật paymentStatus khi nó là null không (bao phủ nhánh tại dòng 276)
+    // Input: UpdateOrderDTO với paymentStatus là null
+    // Output mong đợi: Đơn hàng được cập nhật nhưng paymentStatus không thay đổi
+    it('should handle case with null paymentStatus', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: OrderStatus.WaitingForDelivered,
+        user_id: 'user1',
+        employee_id: 'emp1',
+        paymentStatus: null,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      const updatedOrder = {
+        ...mockOrder,
+        orderStatus: mockUpdateDto.orderStatus,
+        employee_id: mockUpdateDto.employee_id,
+        paymentStatus: PaymentStatus.Unpaid, // Không thay đổi vì paymentStatus là null
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockResolvedValue(updatedOrder as OrderEntity);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.commitTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      const result = await service.updateOrder(mockUpdateDto);
+
+      expect(result).toEqual(updatedOrder);
+      expect(result.orderStatus).toBe(OrderStatus.WaitingForDelivered);
+      expect(result.employee_id).toBe('emp1');
+      expect(result.paymentStatus).toBe(PaymentStatus.Unpaid);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: mockUpdateDto.order_id },
+        relations: ['orderProducts'],
+      });
+      expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
+    });
+
+    // Mã: TC023
+    // Test case: Cập nhật đơn hàng với paymentStatus không hợp lệ
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có xử lý đúng khi paymentStatus không thuộc enum PaymentStatus không (bao phủ nhánh tại dòng 276)
+    // Input: UpdateOrderDTO với paymentStatus không hợp lệ
+    // Output mong đợi: Đơn hàng được cập nhật nhưng paymentStatus sẽ là undefined
+    it('should handle case with invalid paymentStatus', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: OrderStatus.WaitingForDelivered,
+        user_id: 'user1',
+        employee_id: 'emp1',
+        paymentStatus: 'INVALID_STATUS' as PaymentStatus,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      const updatedOrder = {
+        ...mockOrder,
+        orderStatus: mockUpdateDto.orderStatus,
+        employee_id: mockUpdateDto.employee_id,
+        paymentStatus: undefined, // Vì paymentStatus không hợp lệ, find sẽ trả về undefined
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockResolvedValue(updatedOrder as OrderEntity);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.commitTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      const result = await service.updateOrder(mockUpdateDto);
+
+      expect(result).toEqual(updatedOrder);
+      expect(result.orderStatus).toBe(OrderStatus.WaitingForDelivered);
+      expect(result.employee_id).toBe('emp1');
+      expect(result.paymentStatus).toBeUndefined();
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: mockUpdateDto.order_id },
+        relations: ['orderProducts'],
+      });
+      expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
+    });
+
+    // Mã: TC024
+    // Test case: Cập nhật đơn hàng với orderStatus là null
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật orderStatus khi nó là null không
+    // Input: UpdateOrderDTO với orderStatus là null
+    // Output mong đợi: Đơn hàng được cập nhật nhưng orderStatus không thay đổi
+    it('should handle case with null orderStatus', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: null,
+        user_id: 'user1',
+        employee_id: 'emp1',
+        paymentStatus: PaymentStatus.Paid,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: null,
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      const updatedOrder = {
+        ...mockOrder,
+        employee_id: mockUpdateDto.employee_id,
+        paymentStatus: mockUpdateDto.paymentStatus,
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockResolvedValue(updatedOrder as OrderEntity);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.commitTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      const result = await service.updateOrder(mockUpdateDto);
+
+      expect(result).toEqual(updatedOrder);
+      expect(result.orderStatus).toBe(OrderStatus.Checking);
+      expect(result.employee_id).toBe('emp1');
+      expect(result.paymentStatus).toBe(PaymentStatus.Paid);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: mockUpdateDto.order_id },
+        relations: ['orderProducts'],
+      });
+      expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
+    });
+
+    // Mã: TC025
+    // Test case: Cập nhật đơn hàng với employee_id là null
+    // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật employee_id khi nó là null không
+    // Input: UpdateOrderDTO với employee_id là null
+    // Output mong đợi: Đơn hàng được cập nhật nhưng employee_id không thay đổi
+    it('should handle case with null employee_id', async () => {
+      const mockUpdateDto: UpdateOrderDTO = {
+        order_id: 'order1',
+        orderStatus: OrderStatus.WaitingForDelivered,
+        user_id: 'user1',
+        employee_id: null,
+        paymentStatus: PaymentStatus.Paid,
+      };
+
+      const mockOrder: Partial<OrderEntity> = {
+        id: 'order1',
+        orderStatus: OrderStatus.Checking,
+        employee_id: 'emp0',
+        paymentStatus: PaymentStatus.Unpaid,
+        orderProducts: [],
+      };
+
+      const updatedOrder = {
+        ...mockOrder,
+        orderStatus: mockUpdateDto.orderStatus,
+        paymentStatus: mockUpdateDto.paymentStatus,
+      };
+
+      (orderRepo.findOne as any).mockResolvedValue(mockOrder as OrderEntity);
+      (orderRepo.save as any).mockResolvedValue(updatedOrder as OrderEntity);
+
+      const queryRunner = dataSource.createQueryRunner();
+      (queryRunner.connect as any).mockResolvedValue(undefined);
+      (queryRunner.startTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.commitTransaction as any).mockResolvedValue(undefined);
+      (queryRunner.release as any).mockResolvedValue(undefined);
+
+      const result = await service.updateOrder(mockUpdateDto);
+
+      expect(result).toEqual(updatedOrder);
+      expect(result.orderStatus).toBe(OrderStatus.WaitingForDelivered);
+      expect(result.employee_id).toBe('emp0');
+      expect(result.paymentStatus).toBe(PaymentStatus.Paid);
+      expect(orderRepo.findOne).toHaveBeenCalledWith({
+        where: { id: mockUpdateDto.order_id },
+        relations: ['orderProducts'],
+      });
+      expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
+    });
   });
 });
