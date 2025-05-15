@@ -9,12 +9,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
 import { TimeFilter } from 'src/share/Enum/Enum';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { OrderRepository } from 'src/repository/OrderRepository';
-import { OrderProductRepository } from 'src/repository/OrderProductRepository';
-import { ImportRepository } from 'src/repository/ImportRepository';
-import { ImportProductRepository } from 'src/repository/ImportProductRepository';
-import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - getSummaryStatistic
@@ -22,7 +16,7 @@ import { UserRepository } from 'src/repository/UserRepository';
  */
 describe('DashboardService.getSummaryStatistic() method', () => {
   let dashboardService: DashboardService;
-
+  
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -43,16 +37,16 @@ describe('DashboardService.getSummaryStatistic() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
-        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
-        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
-        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
-        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
+        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
     dashboardService = module.get<DashboardService>(DashboardService);
-
+    
     // Spy các phương thức helper để kiểm tra chúng được gọi đúng cách
     jest.spyOn(dashboardService, 'timeFilterCreate');
     jest.spyOn(dashboardService, 'lastTimeFilterCreate');
@@ -81,18 +75,18 @@ describe('DashboardService.getSummaryStatistic() method', () => {
       const mockEndDate = new Date('2023-04-16');
       const mockLastStartDate = new Date('2023-04-03');
       const mockLastEndDate = new Date('2023-04-09');
-
+      
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-
+      
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-
+      
       // Mock calculateStatsForTwoPeriods
       const mockStats = {
         currentRevenue: 1000000,
@@ -104,9 +98,9 @@ describe('DashboardService.getSummaryStatistic() method', () => {
         currentTotalCustomers: 20,
         lastTotalCustomers: 15
       };
-
+      
       mockOrderRepo.calculateStatsForTwoPeriods.mockResolvedValue(mockStats);
-
+      
       // Thực thi (Act)
       const result = await dashboardService.getSummaryStatistic(timeFilter);
 
@@ -116,7 +110,7 @@ describe('DashboardService.getSummaryStatistic() method', () => {
       expect(mockOrderRepo.calculateStatsForTwoPeriods).toHaveBeenCalledWith(
         mockStartDate, mockEndDate, mockLastStartDate, mockLastEndDate
       );
-
+      
       // Kiểm tra kết quả
       expect(result).toEqual({
         thisTime: {
@@ -148,18 +142,18 @@ describe('DashboardService.getSummaryStatistic() method', () => {
       const mockEndDate = new Date('2023-04-30');
       const mockLastStartDate = new Date('2023-03-01');
       const mockLastEndDate = new Date('2023-03-31');
-
+      
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-
+      
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-
+      
       // Mock calculateStatsForTwoPeriods
       const mockStats = {
         currentRevenue: 5000000,
@@ -171,9 +165,9 @@ describe('DashboardService.getSummaryStatistic() method', () => {
         currentTotalCustomers: 80,
         lastTotalCustomers: 70
       };
-
+      
       mockOrderRepo.calculateStatsForTwoPeriods.mockResolvedValue(mockStats);
-
+      
       // Thực thi (Act)
       const result = await dashboardService.getSummaryStatistic(timeFilter);
 
@@ -183,7 +177,7 @@ describe('DashboardService.getSummaryStatistic() method', () => {
       expect(mockOrderRepo.calculateStatsForTwoPeriods).toHaveBeenCalledWith(
         mockStartDate, mockEndDate, mockLastStartDate, mockLastEndDate
       );
-
+      
       // Kiểm tra kết quả
       expect(result).toEqual({
         thisTime: {
@@ -217,16 +211,16 @@ describe('DashboardService.getSummaryStatistic() method', () => {
     it('TC-SV-DASHBOARD-SUMMARY-003 - Nên ném ra lỗi khi timeFilterCreate gặp lỗi', async () => {
       // Sắp xếp (Arrange)
       const invalidTimeFilter = 'InvalidFilter' as TimeFilter;
-
+      
       // Mock timeFilterCreate để ném ra lỗi
       dashboardService.timeFilterCreate = jest.fn().mockImplementation(() => {
         throw new Error('Invalid time filter');
       });
-
+      
       // Thực thi & Kiểm tra (Act & Assert)
       await expect(dashboardService.getSummaryStatistic(invalidTimeFilter))
         .rejects.toThrow('Invalid time filter');
-
+      
       expect(dashboardService.timeFilterCreate).toHaveBeenCalledWith(invalidTimeFilter);
       expect(dashboardService.lastTimeFilterCreate).not.toHaveBeenCalled();
       expect(mockOrderRepo.calculateStatsForTwoPeriods).not.toHaveBeenCalled();
@@ -246,26 +240,26 @@ describe('DashboardService.getSummaryStatistic() method', () => {
       const mockEndDate = new Date('2023-04-16');
       const mockLastStartDate = new Date('2023-04-03');
       const mockLastEndDate = new Date('2023-04-09');
-
+      
       // Mock timeFilterCreate và lastTimeFilterCreate
       dashboardService.timeFilterCreate = jest.fn().mockReturnValue({
         startDate: mockStartDate,
         endDate: mockEndDate
       });
-
+      
       dashboardService.lastTimeFilterCreate = jest.fn().mockReturnValue({
         lastStartDate: mockLastStartDate,
         lastEndDate: mockLastEndDate
       });
-
+      
       // Mock calculateStatsForTwoPeriods để ném ra lỗi
       const errorMessage = 'Database connection error';
       mockOrderRepo.calculateStatsForTwoPeriods.mockRejectedValue(new Error(errorMessage));
-
+      
       // Thực thi & Kiểm tra (Act & Assert)
       await expect(dashboardService.getSummaryStatistic(timeFilter))
         .rejects.toThrow(errorMessage);
-
+      
       expect(dashboardService.timeFilterCreate).toHaveBeenCalledWith(timeFilter);
       expect(dashboardService.lastTimeFilterCreate).toHaveBeenCalledWith(mockStartDate, mockEndDate, timeFilter);
       expect(mockOrderRepo.calculateStatsForTwoPeriods).toHaveBeenCalledWith(

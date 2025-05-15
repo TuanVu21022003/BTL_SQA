@@ -8,12 +8,6 @@
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { OrderRepository } from 'src/repository/OrderRepository';
-import { OrderProductRepository } from 'src/repository/OrderProductRepository';
-import { ImportRepository } from 'src/repository/ImportRepository';
-import { ImportProductRepository } from 'src/repository/ImportProductRepository';
-import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - Date Helper Methods
@@ -21,7 +15,7 @@ import { UserRepository } from 'src/repository/UserRepository';
  */
 describe('DashboardService Date Helper Methods', () => {
   let dashboardService: DashboardService;
-
+  
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -40,11 +34,11 @@ describe('DashboardService Date Helper Methods', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
-        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
-        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
-        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
-        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
+        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
+        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
+        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
+        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
+        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
       ],
     }).compile();
 
@@ -67,7 +61,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const days = 5;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addDays(date, days);
 
@@ -89,7 +83,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const days = -5;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addDays(date, days);
 
@@ -111,7 +105,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-30');
       const days = 5;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addDays(date, days);
 
@@ -139,7 +133,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const months = 3;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addMonths(date, months);
 
@@ -161,7 +155,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const months = -3;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addMonths(date, months);
 
@@ -183,7 +177,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-12-15');
       const months = 3;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addMonths(date, months);
 
@@ -211,7 +205,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const years = 2;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addYears(date, years);
 
@@ -233,7 +227,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2023-04-15');
       const years = -2;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addYears(date, years);
 
@@ -255,7 +249,7 @@ describe('DashboardService Date Helper Methods', () => {
       // Sắp xếp (Arrange)
       const date = new Date('2020-02-29'); // Năm nhuận
       const years = 1;
-
+      
       // Thực thi (Act)
       const result = dashboardService.addYears(date, years);
 
