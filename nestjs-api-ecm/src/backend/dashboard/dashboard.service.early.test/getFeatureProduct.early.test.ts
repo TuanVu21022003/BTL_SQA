@@ -8,6 +8,12 @@
 
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from '../dashboard.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { OrderRepository } from 'src/repository/OrderRepository';
+import { OrderProductRepository } from 'src/repository/OrderProductRepository';
+import { ImportRepository } from 'src/repository/ImportRepository';
+import { ImportProductRepository } from 'src/repository/ImportProductRepository';
+import { UserRepository } from 'src/repository/UserRepository';
 
 /**
  * Test Suite: DashboardService - getFeatureProduct
@@ -15,7 +21,7 @@ import { DashboardService } from '../dashboard.service';
  */
 describe('DashboardService.getFeatureProduct() method', () => {
   let dashboardService: DashboardService;
-  
+
   /**
    * Mock cho các repository
    * Mô tả: Tạo mock cho các repository được sử dụng trong service
@@ -36,11 +42,11 @@ describe('DashboardService.getFeatureProduct() method', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DashboardService,
-        { provide: 'OrderRepositoryRepository', useValue: mockOrderRepo },
-        { provide: 'OrderProductRepositoryRepository', useValue: mockOrderProductRepo },
-        { provide: 'ImportRepositoryRepository', useValue: mockImportRepo },
-        { provide: 'ImportProductRepositoryRepository', useValue: mockImportProRepo },
-        { provide: 'UserRepositoryRepository', useValue: mockUserRepo },
+        { provide: getRepositoryToken(OrderRepository), useValue: mockOrderRepo },
+        { provide: getRepositoryToken(OrderProductRepository), useValue: mockOrderProductRepo },
+        { provide: getRepositoryToken(ImportRepository), useValue: mockImportRepo },
+        { provide: getRepositoryToken(ImportProductRepository), useValue: mockImportProRepo },
+        { provide: getRepositoryToken(UserRepository), useValue: mockUserRepo },
       ],
     }).compile();
 
@@ -69,9 +75,9 @@ describe('DashboardService.getFeatureProduct() method', () => {
         { product_id: 'P001', product_name: 'Sản phẩm nổi bật 1', total_sold: 150, rating: 4.8 },
         { product_id: 'P002', product_name: 'Sản phẩm nổi bật 2', total_sold: 120, rating: 4.7 }
       ];
-      
+
       mockOrderProductRepo.getFeatureProductsByRevenue.mockResolvedValue(mockFeatureProducts);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFeatureProduct();
 
@@ -90,7 +96,7 @@ describe('DashboardService.getFeatureProduct() method', () => {
     it('TC-SV-DASHBOARD-FEATUREPRODUCT-002 - Nên trả về mảng rỗng khi repository trả về mảng rỗng', async () => {
       // Sắp xếp (Arrange)
       mockOrderProductRepo.getFeatureProductsByRevenue.mockResolvedValue([]);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFeatureProduct();
 
@@ -116,11 +122,11 @@ describe('DashboardService.getFeatureProduct() method', () => {
       // Sắp xếp (Arrange)
       const errorMessage = 'Product repository error';
       mockOrderProductRepo.getFeatureProductsByRevenue.mockRejectedValue(new Error(errorMessage));
-      
+
       // Thực thi & Kiểm tra (Act & Assert)
       await expect(dashboardService.getFeatureProduct())
         .rejects.toThrow(errorMessage);
-      
+
       expect(mockOrderProductRepo.getFeatureProductsByRevenue).toHaveBeenCalled();
     });
 
@@ -134,7 +140,7 @@ describe('DashboardService.getFeatureProduct() method', () => {
     it('TC-SV-DASHBOARD-FEATUREPRODUCT-004 - Nên xử lý đúng khi repository trả về null', async () => {
       // Sắp xếp (Arrange)
       mockOrderProductRepo.getFeatureProductsByRevenue.mockResolvedValue(null);
-      
+
       // Thực thi (Act)
       const result = await dashboardService.getFeatureProduct();
 

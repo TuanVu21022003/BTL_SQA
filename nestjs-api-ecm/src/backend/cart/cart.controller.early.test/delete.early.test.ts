@@ -111,7 +111,7 @@ describe('CartController.delete() delete method', () => {
     });
 
     /**
-     * Test Case ID: 
+     * Test Case ID: TC-CT-CART-DEL-003
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi
      * Input:
      *   - userId: "123" - ID của người dùng
@@ -137,6 +137,38 @@ describe('CartController.delete() delete method', () => {
       // Kiểm tra (Assert)
       expect(mockCartService.deleteProductsInCart).toHaveBeenCalledWith(userId, mockDeleteCartDto.cart_ids); // Kiểm tra service được gọi với tham số đúng
       expect(result).toEqual(responseHandler.error(errorMessage)); // Kiểm tra kết quả trả về là thông báo lỗi
+    });
+
+    /**
+     * Test Case ID: TC-CT-CART-DEL-004
+     * Mục tiêu: Kiểm tra xử lý khi service ném ra lỗi không phải là đối tượng Error
+     * Input:
+     *   - userId: "123" - ID của người dùng
+     *   - deleteCartDto:
+     *     + cart_ids: ["1", "2", "3"] - Danh sách ID của các sản phẩm cần xóa
+     *   - Service ném lỗi: Đối tượng không phải Error (ví dụ: string, object, v.v.)
+     * Expected Output:
+     *   - Object: responseHandler.error với thông báo lỗi được chuyển đổi thành chuỗi
+     *   - Service.deleteProductsInCart được gọi với tham số đúng: userId và cart_ids
+     * Ghi chú: Controller phải xử lý được các loại lỗi khác nhau, không chỉ đối tượng Error
+     */
+    it('should handle non-Error exceptions from service', async () => {
+      // Sắp xếp (Arrange)
+      const userId = '123'; // ID của người dùng
+      const mockDeleteCartDto = new MockDeleteCartDto() as any; // DTO xóa sản phẩm
+      mockDeleteCartDto.cart_ids = ['1', '2', '3']; // Thiết lập danh sách ID cần xóa
+      const nonErrorException = { code: 500, message: 'Database connection error' }; // Lỗi không phải Error
+      jest.mocked(mockCartService.deleteProductsInCart).mockRejectedValue(nonErrorException as never); // Giả lập service ném lỗi không phải Error
+
+      // Thực thi (Act)
+      const result = await cartController.delete(userId, mockDeleteCartDto); // Gọi phương thức cần test
+
+      // Kiểm tra (Assert)
+      expect(mockCartService.deleteProductsInCart).toHaveBeenCalledWith(userId, mockDeleteCartDto.cart_ids); // Kiểm tra service được gọi với tham số đúng
+      
+      // Kiểm tra kết quả trả về là thông báo lỗi được chuyển đổi thành chuỗi
+      // Đây là nhánh xử lý ở dòng 98 - khi lỗi không phải là instance của Error
+      expect(result).toEqual(responseHandler.error(JSON.stringify(nonErrorException)));
     });
   });
 });

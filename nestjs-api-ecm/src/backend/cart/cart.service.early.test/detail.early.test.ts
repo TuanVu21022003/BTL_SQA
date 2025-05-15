@@ -63,6 +63,30 @@ describe('CartService.detail() detail method', () => {
       expect(mockCartRepo.findOneBy).toHaveBeenCalledWith({ id: 1 }); // Kiểm tra repository được gọi với tham số đúng
       expect(result).toEqual(mockCartProduct); // Kiểm tra kết quả trả về đúng với sản phẩm tìm thấy
     });
+
+    /**
+     * Test Case ID: TC-SV-CART-DETAIL-005
+     * Mục tiêu: Kiểm tra việc lấy thông tin chi tiết của sản phẩm trong giỏ hàng với điều kiện product_id
+     * Input:
+     *   - filter: { product_id: 'product-1' } - Điều kiện tìm kiếm theo product_id
+     *   - Repository.findOneBy trả về: { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 }
+     * Expected Output:
+     *   - Object: { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 }
+     *   - Repository.findOneBy được gọi với tham số đúng: { product_id: 'product-1' }
+     * Ghi chú: Service phải xử lý được trường hợp tìm kiếm theo product_id
+     */
+    it('should filter by product_id when provided', async () => {
+      // Sắp xếp (Arrange)
+      const mockCartProduct = { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 } as unknown as Cart_productEntity; // Sản phẩm trong giỏ hàng mẫu
+      jest.mocked(mockCartRepo.findOneBy).mockResolvedValue(mockCartProduct as any as never); // Giả lập tìm thấy sản phẩm
+
+      // Thực thi (Act)
+      const result = await service.detail({ product_id: 'product-1' }); // Gọi phương thức cần test với điều kiện tìm kiếm theo product_id
+
+      // Kiểm tra (Assert)
+      expect(mockCartRepo.findOneBy).toHaveBeenCalledWith({ product_id: 'product-1' }); // Kiểm tra repository được gọi với tham số đúng
+      expect(result).toEqual(mockCartProduct); // Kiểm tra kết quả trả về đúng với sản phẩm tìm thấy
+    });
   });
 
   /**
@@ -132,6 +156,30 @@ describe('CartService.detail() detail method', () => {
 
       // Thực thi và Kiểm tra (Act & Assert)
       await expect(service.detail({ user_id: 1 })).rejects.toThrow('Unexpected error'); // Kiểm tra lỗi được ném ra
+    });
+
+    /**
+     * Test Case ID: TC-SV-CART-DETAIL-006
+     * Mục tiêu: Kiểm tra việc lấy thông tin chi tiết với cả user_id và product_id
+     * Input:
+     *   - filter: { user_id: 'user-1', product_id: 'product-1' } - Điều kiện tìm kiếm kết hợp
+     *   - Repository.findOneBy trả về: { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 }
+     * Expected Output:
+     *   - Object: { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 }
+     *   - Repository.findOneBy được gọi với tham số đúng: { user_id: 'user-1', product_id: 'product-1' }
+     * Ghi chú: Service phải xử lý được trường hợp tìm kiếm kết hợp nhiều điều kiện
+     */
+    it('should filter by both user_id and product_id when both are provided', async () => {
+      // Sắp xếp (Arrange)
+      const mockCartProduct = { id: 1, product_id: 'product-1', user_id: 'user-1', quantity: 2 } as unknown as Cart_productEntity; // Sản phẩm trong giỏ hàng mẫu
+      jest.mocked(mockCartRepo.findOneBy).mockResolvedValue(mockCartProduct as any as never); // Giả lập tìm thấy sản phẩm
+
+      // Thực thi (Act)
+      const result = await service.detail({ user_id: 'user-1', product_id: 'product-1' }); // Gọi phương thức cần test với điều kiện tìm kiếm kết hợp
+
+      // Kiểm tra (Assert)
+      expect(mockCartRepo.findOneBy).toHaveBeenCalledWith({ user_id: 'user-1', product_id: 'product-1' }); // Kiểm tra repository được gọi với tham số đúng
+      expect(result).toEqual(mockCartProduct); // Kiểm tra kết quả trả về đúng với sản phẩm tìm thấy
     });
   });
 });
