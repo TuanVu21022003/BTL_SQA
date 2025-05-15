@@ -40,7 +40,7 @@ describe('ProductController', () => {
     jest.clearAllMocks();
   });
 
-  // Mã: TC01
+  // Mã: TC-PC-001
   // Test case: Kiểm tra controller được định nghĩa
   // Mục tiêu: Đảm bảo rằng ProductController được khởi tạo và định nghĩa
   // Input: Không có
@@ -51,7 +51,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách sản phẩm
   describe('getList', () => {
-    // Mã: TC02
+    // Mã: TC-PC-002
     // Test case: Lấy danh sách sản phẩm
     // Mục tiêu: Kiểm tra controller trả về danh sách sản phẩm từ service
     // Input: page = 1, limit = 10, status = ExpirationStatus.All
@@ -65,7 +65,7 @@ describe('ProductController', () => {
       expect(mockProductService.getList).toHaveBeenCalledWith(1, 10, { status: ExpirationStatus.All });
     });
 
-    // Mã: TC03
+    // Mã: TC-PC-003
     // Test case: Xử lý lỗi khi lấy danh sách sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: page = 1, limit = 10, status = ExpirationStatus.All, service throw Error('fail')
@@ -76,7 +76,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC04
+    // Mã: TC-PC-004
     // Test case: Sử dụng status rỗng khi không cung cấp
     // Mục tiêu: Kiểm tra controller gọi service với status rỗng khi không truyền status
     // Input: page = 1, limit = 10, không truyền status
@@ -91,7 +91,7 @@ describe('ProductController', () => {
       expect(mockProductService.getList).toHaveBeenCalledWith(1, 10, { status: '' });
     });
 
-    // Mã: TC05
+    // Mã: TC-PC-005
     // Test case: Xử lý giá trị không phải Error khi lấy danh sách
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: page = 1, limit = 10, service throw { msg: 'fail' }
@@ -106,7 +106,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến tìm kiếm sản phẩm
   describe('search', () => {
-    // Mã: TC06
+    // Mã: TC-PC-006
     // Test case: Tìm kiếm sản phẩm
     // Mục tiêu: Kiểm tra controller trả về danh sách sản phẩm theo tiêu chí tìm kiếm
     // Input: page = 1, limit = 10, name = 'abc', category_id = 'cat1'
@@ -120,7 +120,7 @@ describe('ProductController', () => {
       expect(mockProductService.searchProducts).toHaveBeenCalledWith(1, 10, { name: 'abc', category_id: 'cat1' });
     });
 
-    // Mã: TC07
+    // Mã: TC-PC-007
     // Test case: Xử lý lỗi khi tìm kiếm sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tìm kiếm
     // Input: page = 1, limit = 10, name = 'abc', category_id = 'cat1', service throw Error('fail')
@@ -131,7 +131,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC08
+    // Mã: TC-PC-008
     // Test case: Xử lý giá trị không phải Error khi tìm kiếm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: page = 1, limit = 10, name = 'abc', category_id = 'cat1', service throw { msg: 'fail' }
@@ -146,7 +146,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến tạo mới sản phẩm
   describe('create', () => {
-    // Mã: TC09
+    // Mã: TC-PC-009
     // Test case: Tạo mới sản phẩm
     // Mục tiêu: Kiểm tra controller tạo mới sản phẩm thành công thông qua service
     // Input: ProductCreateDTO với các thuộc tính sản phẩm
@@ -172,7 +172,7 @@ describe('ProductController', () => {
       expect(mockProductService.create).toHaveBeenCalledWith(dto);
     });
 
-    // Mã: TC10
+    // Mã: TC-PC-010
     // Test case: Xử lý lỗi khi tạo sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tạo
     // Input: ProductCreateDTO, service throw Error('fail')
@@ -195,7 +195,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC11
+    // Mã: TC-PC-011
     // Test case: Xử lý giá trị không phải Error khi tạo sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: ProductCreateDTO, service throw { msg: 'fail' }
@@ -221,7 +221,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy thông tin chi tiết sản phẩm
   describe('detail', () => {
-    // Mã: TC12
+    // Mã: TC-PC-012
     // Test case: Lấy thông tin chi tiết sản phẩm
     // Mục tiêu: Kiểm tra controller trả về thông tin chi tiết sản phẩm dựa trên ID
     // Input: id = '1'
@@ -235,7 +235,7 @@ describe('ProductController', () => {
       expect(mockProductService.detail).toHaveBeenCalledWith('1');
     });
 
-    // Mã: TC13
+    // Mã: TC-PC-013
     // Test case: Xử lý lỗi khi lấy chi tiết sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: id = '1', service throw Error('fail')
@@ -246,7 +246,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC14
+    // Mã: TC-PC-014
     // Test case: Xử lý giá trị không phải Error khi lấy chi tiết
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: id = '1', service throw { msg: 'fail' }
@@ -260,7 +260,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến cập nhật sản phẩm
   describe('update', () => {
-    // Mã: TC15
+    // Mã: TC-PC-015
     // Test case: Cập nhật thông tin sản phẩm
     // Mục tiêu: Kiểm tra controller cập nhật sản phẩm thành công thông qua service
     // Input: ProductUpdateDTO với các thuộc tính sản phẩm
@@ -287,7 +287,7 @@ describe('ProductController', () => {
       expect(mockProductService.update).toHaveBeenCalledWith(dto, dto.id);
     });
 
-    // Mã: TC16
+    // Mã: TC-PC-016
     // Test case: Xử lý lỗi khi cập nhật sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình cập nhật
     // Input: ProductUpdateDTO, service throw Error('fail')
@@ -311,7 +311,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC17
+    // Mã: TC-PC-017
     // Test case: Xử lý giá trị không phải Error khi cập nhật
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: ProductUpdateDTO, service throw { msg: 'fail' }
@@ -338,7 +338,7 @@ describe('ProductController', () => {
 
   // Kiểm tra các chức năng liên quan đến xóa sản phẩm
   describe('delete', () => {
-    // Mã: TC18
+    // Mã: TC-PC-018
     // Test case: Xóa sản phẩm
     // Mục tiêu: Kiểm tra controller xóa sản phẩm thành công thông qua service
     // Input: id = '1'
@@ -350,7 +350,7 @@ describe('ProductController', () => {
       expect(mockProductService.delete).toHaveBeenCalledWith('1');
     });
 
-    // Mã: TC19
+    // Mã: TC-PC-019
     // Test case: Xử lý lỗi khi xóa sản phẩm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình xóa
     // Input: id = '1', service throw Error('fail')
@@ -361,7 +361,7 @@ describe('ProductController', () => {
       expect(result).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC20
+    // Mã: TC-PC-020
     // Test case: Xử lý giá trị không phải Error khi xóa
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: id = '1', service throw { msg: 'fail' }

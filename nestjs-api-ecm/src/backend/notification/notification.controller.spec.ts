@@ -42,7 +42,7 @@ describe('NotificationController', () => {
   });
 
   /**
-   * Mã: TC001
+   * Mã: TC-NC-001
    * Test case: Kiểm tra khởi tạo controller
    * Mục tiêu: Đảm bảo controller được khởi tạo thành công
    * Input: Không có
@@ -53,7 +53,7 @@ describe('NotificationController', () => {
   });
 
   /**
-   * Mã: TC002
+   * Mã: TC-NC-002
    * Test case: Kiểm tra dependency injection
    * Mục tiêu: Đảm bảo NotificationService được inject vào controller
    * Input: Không có

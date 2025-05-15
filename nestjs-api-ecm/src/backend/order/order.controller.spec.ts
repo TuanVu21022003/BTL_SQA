@@ -51,7 +51,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách tất cả đơn hàng của người dùng
   describe('getAllOrder', () => {
-    // Mã: TC001
+    // Mã: TC-OC-001
     // Test case: Lấy danh sách tất cả đơn hàng của người dùng thành công
     // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng theo user_id
     // Input: user_id = 'user123', dto với page = 1, limit = 10
@@ -69,7 +69,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC002
+    // Mã: TC-OC-002
     // Test case: Xử lý lỗi khi lấy danh sách đơn hàng
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: user_id = 'user', dto với page = 1, limit = 1, service throw Error('fail')
@@ -81,7 +81,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC003
+    // Mã: TC-OC-003
     // Test case: Xử lý lỗi với object không phải Error khi lấy danh sách đơn hàng
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: user_id = 'user', dto với page = 1, limit = 1, service throw { foo: 'bar' }
@@ -96,7 +96,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến quản lý đơn hàng
   describe('getOrderManagement', () => {
-    // Mã: TC004
+    // Mã: TC-OC-004
     // Test case: Lấy danh sách đơn hàng được quản lý thành công
     // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng quản lý với các bộ lọc mặc định
     // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = false
@@ -125,7 +125,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC005
+    // Mã: TC-OC-005
     // Test case: Xử lý includeExcluded true khi không có orderStatus
     // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với includeExcluded = true
     // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = true
@@ -154,7 +154,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC006
+    // Mã: TC-OC-006
     // Test case: Xử lý includeExcluded false khi không có orderStatus
     // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với includeExcluded = false
     // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = false
@@ -183,7 +183,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC007
+    // Mã: TC-OC-007
     // Test case: Xử lý khi cung cấp orderStatus (included/excluded nên rỗng)
     // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với orderStatus được cung cấp
     // Input: page = 1, limit = 10, orderStatus = Checking, includeExcluded = true
@@ -213,7 +213,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC008
+    // Mã: TC-OC-008
     // Test case: Xử lý lỗi với object không phải Error khi lấy danh sách quản lý
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: page = 1, limit = 1, service throw { foo: 'bar' }
@@ -225,7 +225,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC009
+    // Mã: TC-OC-009
     // Test case: Xử lý lỗi khi lấy danh sách quản lý
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: page = 1, limit = 1, service throw Error('fail')
@@ -240,7 +240,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến tạo đơn hàng
   describe('createOrder', () => {
-    // Mã: TC010
+    // Mã: TC-OC-010
     // Test case: Tạo đơn hàng thành công
     // Mục tiêu: Kiểm tra việc tạo đơn hàng với dữ liệu hợp lệ
     // Input: user_id = 'user123', dto với các trường hợp lệ
@@ -266,7 +266,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC011
+    // Mã: TC-OC-011
     // Test case: Xử lý lỗi khi tạo đơn hàng
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: user_id = 'user', dto rỗng, service throw Error('fail')
@@ -278,7 +278,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC012
+    // Mã: TC-OC-012
     // Test case: Xử lý lỗi với object không phải Error khi tạo đơn hàng
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: user_id = 'user', dto rỗng, service throw { foo: 'bar' }
@@ -293,7 +293,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy chi tiết đơn hàng
   describe('getDetailOrder', () => {
-    // Mã: TC013
+    // Mã: TC-OC-013
     // Test case: Lấy chi tiết đơn hàng thành công
     // Mục tiêu: Kiểm tra việc lấy chi tiết đơn hàng theo id
     // Input: user_id = 'user123', id = 'order1'
@@ -310,7 +310,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC014
+    // Mã: TC-0C-014
     // Test case: Xử lý lỗi khi lấy chi tiết đơn hàng
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: user_id = 'user', id = 'order', service throw Error('fail')
@@ -322,7 +322,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC015
+    // Mã: TC-OC-015
     // Test case: Xử lý lỗi với object không phải Error khi lấy chi tiết đơn hàng
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: user_id = 'user', id = 'order', service throw { foo: 'bar' }
@@ -337,7 +337,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến cập nhật đơn hàng
   describe('updateOrder', () => {
-    // Mã: TC016
+    // Mã: TC-OC-016
     // Test case: Cập nhật đơn hàng thành công
     // Mục tiêu: Kiểm tra việc cập nhật thông tin đơn hàng
     // Input: user_id = 'user123', dto với các trường hợp lệ
@@ -361,7 +361,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC017
+    // Mã: TC-OC-017
     // Test case: Xử lý lỗi khi cập nhật đơn hàng
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: user_id = 'user', dto rỗng, service throw Error('fail')
@@ -373,7 +373,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC018
+    // Mã: TC-OC-018
     // Test case: Xử lý lỗi với object không phải Error khi cập nhật đơn hàng
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: user_id = 'user', dto rỗng, service throw { foo: 'bar' }
@@ -388,7 +388,7 @@ describe('OrderController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy thông tin dashboard người dùng
   describe('getOrderUserDashboard', () => {
-    // Mã: TC019
+    // Mã: TC-OC-019
     // Test case: Lấy thông tin dashboard người dùng thành công
     // Mục tiêu: Kiểm tra việc lấy thông tin dashboard theo user_id
     // Input: user_id = 'user123'
@@ -405,7 +405,7 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
-    // Mã: TC020
+    // Mã: TC-OC-020
     // Test case: Xử lý lỗi khi lấy thông tin dashboard
     // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
     // Input: user_id = 'user', service throw Error('fail')
@@ -417,7 +417,7 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
-    // Mã: TC021
+    // Mã: TC-OC-021
     // Test case: Xử lý lỗi với object không phải Error khi lấy thông tin dashboard
     // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
     // Input: user_id = 'user', service throw { foo: 'bar' }

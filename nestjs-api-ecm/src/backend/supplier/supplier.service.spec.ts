@@ -42,7 +42,7 @@ describe('SupplierController', () => {
     jest.clearAllMocks();
   });
 
-  // Mã: TC01
+  // Mã: TC-SS-001
   // Test case: Kiểm tra service được định nghĩa
   // Mục tiêu: Đảm bảo rằng SupplierService được inject và định nghĩa trong controller
   // Input: Không có
@@ -53,7 +53,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách nhà cung cấp
   describe('getList', () => {
-    // Mã: TC02
+    // Mã: TC-SS-002
     // Test case: Lấy danh sách nhà cung cấp
     // Mục tiêu: Kiểm tra controller trả về danh sách nhà cung cấp từ service
     // Input: page = 1, limit = 10
@@ -67,7 +67,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC03
+    // Mã: TC-SS-003
     // Test case: Xử lý lỗi khi lấy danh sách nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: page = 1, limit = 10, service throw Error('fail')
@@ -78,7 +78,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC04
+    // Mã: TC-SS-004
     // Test case: Xử lý giá trị không phải Error khi lấy danh sách
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: page = 1, limit = 10, service throw { msg: 'fail' }
@@ -92,7 +92,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến tìm kiếm nhà cung cấp theo bộ lọc
   describe('getAllBySearch', () => {
-    // Mã: TC05
+    // Mã: TC-SS-005
     // Test case: Lấy danh sách nhà cung cấp theo bộ lọc
     // Mục tiêu: Kiểm tra controller trả về danh sách nhà cung cấp được lọc theo tiêu chí tìm kiếm
     // Input: page = 1, limit = 10, searchDto = { name: 'test', phone: '0123456789' }
@@ -107,7 +107,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC06
+    // Mã: TC-SS-006
     // Test case: Xử lý lỗi khi tìm kiếm nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tìm kiếm
     // Input: page = 1, limit = 10, searchDto = { name: 'test' }, service throw Error('fail')
@@ -118,7 +118,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC07
+    // Mã: TC-SS-007
     // Test case: Xử lý giá trị không phải Error khi tìm kiếm
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: page = 1, limit = 10, searchDto = { name: 'test' }, service throw { msg: 'fail' }
@@ -132,7 +132,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến tạo mới nhà cung cấp
   describe('create', () => {
-    // Mã: TC08
+    // Mã: TC-SS-008
     // Test case: Tạo mới nhà cung cấp
     // Mục tiêu: Kiểm tra controller tạo mới nhà cung cấp thành công thông qua service
     // Input: CreateSupplierDto với name, url_image, phone, address
@@ -152,7 +152,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC09
+    // Mã: TC-SS-009
     // Test case: Xử lý lỗi khi tạo nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tạo
     // Input: CreateSupplierDto, service throw Error('fail')
@@ -168,7 +168,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC10
+    // Mã: TC-SS-010
     // Test case: Xử lý giá trị không phải Error khi tạo nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: CreateSupplierDto, service throw { msg: 'fail' }
@@ -187,7 +187,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy thông tin chi tiết nhà cung cấp
   describe('findOne', () => {
-    // Mã: TC11
+    // Mã: TC-SS-011
     // Test case: Lấy thông tin nhà cung cấp theo ID
     // Mục tiêu: Kiểm tra controller trả về thông tin nhà cung cấp dựa trên ID
     // Input: id = '1'
@@ -201,7 +201,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC12
+    // Mã: TC-SS-012
     // Test case: Xử lý lỗi RECORD NOT FOUND khi lấy chi tiết
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw lỗi RECORD NOT FOUND
     // Input: id = '1', service throw Error('RECORD NOT FOUND!')
@@ -213,7 +213,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('RECORD NOT FOUND!'));
     });
 
-    // Mã: TC13
+    // Mã: TC-SS-013
     // Test case: Xử lý các lỗi khác khi lấy chi tiết
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw các lỗi khác
     // Input: id = '1', service throw Error('fail')
@@ -224,7 +224,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC14
+    // Mã: TC-SS-014
     // Test case: Xử lý giá trị không phải Error khi lấy chi tiết
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: id = '1', service throw { msg: 'fail' }
@@ -238,7 +238,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến cập nhật nhà cung cấp
   describe('update', () => {
-    // Mã: TC15
+    // Mã: TC-SS-015
     // Test case: Cập nhật thông tin nhà cung cấp
     // Mục tiêu: Kiểm tra controller cập nhật nhà cung cấp thành công thông qua service
     // Input: id = '1', UpdateSupplierDto với id, name, url_image, phone, address
@@ -259,7 +259,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC16
+    // Mã: TC-SS-016
     // Test case: Xử lý lỗi khi cập nhật nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình cập nhật
     // Input: id = '1', UpdateSupplierDto, service throw Error('fail')
@@ -276,7 +276,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC17
+    // Mã: TC-SS-017
     // Test case: Xử lý giá trị không phải Error khi cập nhật
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: id = '1', UpdateSupplierDto, service throw { msg: 'fail' }
@@ -296,7 +296,7 @@ describe('SupplierController', () => {
 
   // Kiểm tra các chức năng liên quan đến xóa nhà cung cấp
   describe('remove', () => {
-    // Mã: TC18
+    // Mã: TC-SS-018
     // Test case: Xóa nhà cung cấp
     // Mục tiêu: Kiểm tra controller xóa nhà cung cấp thành công thông qua service
     // Input: id = '1'
@@ -310,7 +310,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.ok(result));
     });
 
-    // Mã: TC19
+    // Mã: TC-SS-019
     // Test case: Xử lý lỗi khi xóa nhà cung cấp
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình xóa
     // Input: id = '1', service throw Error('fail')
@@ -321,7 +321,7 @@ describe('SupplierController', () => {
       expect(response).toEqual(responseHandler.error('fail'));
     });
 
-    // Mã: TC20
+    // Mã: TC-SS-020
     // Test case: Xử lý giá trị không phải Error khi xóa
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: id = '1', service throw { msg: 'fail' }

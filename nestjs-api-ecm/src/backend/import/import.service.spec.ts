@@ -66,7 +66,7 @@ describe('ImportService', () => {
   });
 
   /**
-   * Mã: TC001
+   * Mã: TC-IPS-001
    * Test case: Kiểm tra khởi tạo service
    * Mục tiêu: Đảm bảo service được khởi tạo thành công
    * Input: Không có
@@ -95,7 +95,7 @@ describe('ImportService', () => {
     };
 
     /**
-     * Mã: TC002
+     * Mã: TC-IPS-002
      * Test case: Tạo đơn nhập hàng thành công
      * Mục tiêu: Kiểm tra luồng tạo đơn nhập hàng hoạt động đúng
      * Input: 1 đối tượng CreateImportDTO chứa đầy đủ các trường thuộc tính
@@ -136,7 +136,7 @@ describe('ImportService', () => {
 
 
     /**
-     * Mã: TC003
+     * Mã: TC-IPS-003
      * Test case: Xử lý lỗi khi tạo đơn nhập hàng thất bại
      * Mục tiêu: Kiểm tra xử lý lỗi và rollback transaction
      * Input: một đối tượng CreateImportDTO hợp lệ nhưng có lỗi database
@@ -157,7 +157,7 @@ describe('ImportService', () => {
 
 
     /**
-     * Mã: TC004
+     * Mã: TC-IPS-004
      * Test case: Kiểm tra release connection trong finally block
      * Mục tiêu: Đảm bảo connection luôn được release
      * Input: Một đối tượng CreateImportDTO gây lỗi có đầy đủ các trường thuộc tính
@@ -178,7 +178,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC005
+     * Mã: TC-IPS-005
      * Test case: Xử lý trường hợp không có sản phẩm
      * Mục tiêu: Kiểm tra validate danh sách sản phẩm rỗng
      * Input: một đối tượng CreateImportDTO không có sản phẩm
@@ -197,7 +197,7 @@ describe('ImportService', () => {
    */
   describe('findAll', () => {
     /**
-     * Mã: TC006
+     * Mã: TC-IPS-006
      * Test case: Lấy danh sách đơn nhập hàng có phân trang
      * Mục tiêu: Kiểm tra chức năng phân trang
      * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
@@ -242,7 +242,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC007
+     * Mã: TC-IPS-007
      * Test case: Xử lý kết quả rỗng
      * Mục tiêu: Kiểm tra xử lý khi không có dữ liệu
      * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
@@ -260,7 +260,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC008
+     * Mã: TC-IPS-008
      * Test case: Kiểm tra tính toán phân trang
      * Mục tiêu: Đảm bảo tính toán skip, take chính xác
      * Input: số trang hiện tại page=2, số lượng bản ghi trên 1 trang limit=15
@@ -279,7 +279,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC009
+     * Mã: TC-IPS-009
      * Test case: Xử lý lỗi database
      * Mục tiêu: Kiểm tra xử lý khi có lỗi truy vấn
      * Input: số trang hiện tại page=1, số lượng bản ghi trên 1 trang limit=10
@@ -297,7 +297,7 @@ describe('ImportService', () => {
    */
   describe('getImportCodeMax', () => {
     /**
-     * Mã: TC010
+     * Mã: TC-IPS-010
      * Test case: Sinh mã mới khi chưa có đơn nào
      * Mục tiêu: Kiểm tra sinh mã đầu tiên
      * Input: Không có đơn nhập nào
@@ -314,7 +314,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC011
+     * Mã: TC-IPS-011
      * Test case: Tăng mã tự động
      * Mục tiêu: Kiểm tra tăng mã tự động
      * Input: Mã hiện tại IPC00001
@@ -331,7 +331,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC012
+     * Mã: TC-IPS-012
      * Test case: Xử lý lỗi truy vấn
      * Mục tiêu: Kiểm tra xử lý khi có lỗi query
      * Input: Query lỗi
@@ -351,7 +351,7 @@ describe('ImportService', () => {
    */
   describe('findOne', () => {
     /**
-     * Mã: TC013
+     * Mã: TC-IPS-013
      * Test case: Tìm đơn nhập hàng thành công
      * Mục tiêu: Kiểm tra tìm kiếm đơn theo ID
      * Input: ID hợp lệ
@@ -371,7 +371,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC014
+     * Mã: TC-IPS-014
      * Test case: Không tìm thấy đơn nhập hàng
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy đơn
      * Input: ID không tồn tại
@@ -384,7 +384,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC015
+     * Mã: TC-IPS-015
      * Test case: Xử lý lỗi database
      * Mục tiêu: Kiểm tra xử lý khi có lỗi truy vấn
      * Input: ID hợp lệ nhưng có lỗi database
@@ -402,7 +402,7 @@ describe('ImportService', () => {
    */
   describe('update', () => {
     /**
-     * Mã : TC016
+     * Mã : TC-IPS-016
      * Test case: Cập nhật thông tin khi sản phẩm đã tồn tại
      * Mục đích: Kiểm tra việc cập nhật thông tin sản phẩm đã có
      * Input:
@@ -444,7 +444,7 @@ describe('ImportService', () => {
     });
   
     /**
-     * Mã : TC017
+     * Mã : TC-IPS-017
      * Test case: Thêm sản phẩm mới vào đơn nhập hàng
      * Mục đích: Kiểm tra việc thêm sản phẩm mới khi cập nhật
      * Input:
@@ -483,7 +483,7 @@ describe('ImportService', () => {
     });
   
     /**
-     * Mã : TC018
+     * Mã : TC-IPS-018
      * Test case: Cập nhật đơn nhập hàng không tồn tại
      * Mục đích: Kiểm tra xử lý lỗi khi đơn hàng không tồn tại
      * Input:
@@ -510,7 +510,7 @@ describe('ImportService', () => {
    */
   describe('delete', () => {
     /**
-     * Mã: TC019
+     * Mã: TC-IPS-019
      * Test case: Xóa đơn nhập hàng thành công
      * Mục tiêu: Kiểm tra việc xóa đơn nhập hàng
      * Input: ID hợp lệ của đơn nhập hàng ('1')
@@ -525,7 +525,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC020
+     * Mã: TC-IPS-020
      * Test case: Xóa đơn nhập hàng không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi xóa đơn hàng không tồn tại
      * Input: ID không tồn tại ('999')
@@ -540,7 +540,7 @@ describe('ImportService', () => {
     });
 
     /**
-     * Mã: TC021
+     * Mã: TC-IPS-021
      * Test case: Xử lý lỗi database khi xóa đơn nhập hàng
      * Mục tiêu: Kiểm tra xử lý khi có lỗi database trong quá trình xóa
      * Input: ID hợp lệ ('1') nhưng có lỗi database

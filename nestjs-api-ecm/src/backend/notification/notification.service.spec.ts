@@ -107,7 +107,7 @@ describe('NotificationService', () => {
   });
 
   /**
-   * Mã: TC001
+   * Mã: TC-NS-001
    * Test case: Kiểm tra khởi tạo service
    * Mục tiêu: Đảm bảo service được khởi tạo thành công
    * Input: Không có
@@ -122,7 +122,7 @@ describe('NotificationService', () => {
    */
   describe('constructor', () => {
     /**
-     * Mã: TC002
+     * Mã: TC-NS-002
      * Test case: Khởi tạo Firebase Admin SDK lần đầu
      * Mục tiêu: Kiểm tra việc khởi tạo Firebase Admin SDK khi chưa được khởi tạo
      * Input: apps.length = 0
@@ -141,7 +141,7 @@ describe('NotificationService', () => {
     });
 
     /**
-     * Mã: TC003
+     * Mã: TC-NS-003
      * Test case: Không khởi tạo lại Firebase Admin SDK
      * Mục tiêu: Kiểm tra việc không khởi tạo lại Firebase Admin SDK khi đã được khởi tạo
      * Input: apps.length = 1
@@ -187,7 +187,7 @@ describe('NotificationService', () => {
     const mockMessage = 'Test notification message';
 
     /**
-     * Mã: TC004
+     * Mã: TC-NS-004
      * Test case: Gửi thông báo thành công
      * Mục tiêu: Kiểm tra việc gửi thông báo thành công đến Firebase
      * Input: mockOrder, mockMessage, NotificationStatus.Success, NotificationType.NewOrder
@@ -215,7 +215,7 @@ describe('NotificationService', () => {
 
 
     /**
-     * Mã: TC005
+     * Mã: TC-NS-005
      * Test case: Xử lý lỗi database
      * Mục tiêu: Kiểm tra việc xử lý khi gặp lỗi từ database
      * Input: mockOrder với lỗi database được mock

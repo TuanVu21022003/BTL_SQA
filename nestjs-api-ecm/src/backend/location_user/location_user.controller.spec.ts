@@ -90,7 +90,7 @@ describe('LocationUserController', () => {
     jest.clearAllMocks();
   });
 
-  // Mã: TC001
+  // Mã: TC-LUC-001
   // Test case: Kiểm tra khởi tạo controller
   // Mục tiêu: Đảm bảo controller và các dependency được khởi tạo đúng
   // Input: Không có
@@ -103,7 +103,7 @@ describe('LocationUserController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách địa chỉ
   describe('getAllLocation', () => {
-    // Mã: TC002
+    // Mã: TC-LUC-002
     // Test case: Lấy danh sách địa chỉ của người dùng thành công
     // Mục tiêu: Kiểm tra việc lấy danh sách địa chỉ theo user_id
     // Input: user_id hợp lệ
@@ -135,7 +135,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC003
+    // Mã: TC-LUC-003
     // Test case: Xử lý lỗi khi lấy danh sách địa chỉ
     // Mục tiêu: Kiểm tra xử lý lỗi khi có vấn đề với database
     // Input: user_id hợp lệ
@@ -157,7 +157,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC004
+    // Mã: TC-LUC-004
     // Test case: Xử lý giá trị không phải Error khi lấy danh sách địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
     // Input: user_id hợp lệ
@@ -174,7 +174,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC005
+    // Mã: TC-LUC-005
     // Test case: Trả về dữ liệu rỗng khi không có địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi không có địa chỉ nào cho user_id
     // Input: user_id hợp lệ
@@ -194,7 +194,7 @@ describe('LocationUserController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách địa chỉ (Admin view)
   describe('getAllLocationAdmin', () => {
-    // Mã: TC006
+    // Mã: TC-LUC-006
     // Test case: Admin lấy danh sách địa chỉ thành công
     // Mục tiêu: Kiểm tra chức năng xem danh sách địa chỉ dành cho admin
     // Input: user_id của admin
@@ -224,7 +224,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC007
+    // Mã: TC-LUC-007
     // Test case: Xử lý lỗi khi admin lấy danh sách
     // Mục tiêu: Kiểm tra xử lý lỗi trong view admin
     // Input: user_id của admin, service throw Error('Admin access error')
@@ -245,7 +245,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC008
+    // Mã: TC-LUC-008
     // Test case: Gọi service với user_id_get chính xác
     // Mục tiêu: Kiểm tra service được gọi với user_id_get đúng
     // Input: user_id_get hợp lệ
@@ -257,7 +257,7 @@ describe('LocationUserController', () => {
       expect(service.getList).toHaveBeenCalledWith({ user_id: user_id_get });
     });
 
-    // Mã: TC009
+    // Mã: TC-LUC-009
     // Test case: Xử lý giá trị không phải Error khi admin lấy danh sách
     // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
     // Input: user_id_get hợp lệ
@@ -273,7 +273,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC010
+    // Mã: TC-LUC-010
     // Test case: Xử lý khi service trả về null
     // Mục tiêu: Kiểm tra xử lý khi service không tìm thấy dữ liệu
     // Input: user_id_get hợp lệ
@@ -293,7 +293,7 @@ describe('LocationUserController', () => {
 
   // Kiểm tra các chức năng liên quan đến tạo mới địa chỉ
   describe('create', () => {
-    // Mã: TC011
+    // Mã: TC-LUC-011
     // Test case: Tạo mới địa chỉ thành công
     // Mục tiêu: Kiểm tra việc tạo mới địa chỉ với dữ liệu hợp lệ
     // Input: Một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
@@ -326,7 +326,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC012
+    // Mã: TC-LUC-012
     // Test case: Xử lý lỗi khi tạo địa chỉ
     // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình tạo địa chỉ
     // Input: Một đối tượng CreateLocationUserDto chứa đầy đủ các trường thuộc tính
@@ -354,7 +354,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC013
+    // Mã: TC-LUC-013
     // Test case: Xử lý khi DTO thiếu trường bắt buộc
     // Mục tiêu: Kiểm tra xử lý khi DTO thiếu trường name
     // Input: Một đối tượng CreateLocationUserDto thiếu trường name
@@ -377,7 +377,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC014
+    // Mã: TC-LUC-014
     // Test case: Xử lý giá trị không phải Error khi tạo địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
     // Input: Một đối tượng CreateLocationUserDto hợp lệ
@@ -399,7 +399,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC015
+    // Mã: TC-LUC-015
     // Test case: Xử lý khi service trả về null khi tạo địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
     // Input: Một đối tượng CreateLocationUserDto hợp lệ
@@ -425,7 +425,7 @@ describe('LocationUserController', () => {
 
   // Kiểm tra các chức năng liên quan đến cập nhật địa chỉ
   describe('update', () => {
-    // Mã: TC016
+    // Mã: TC-LUC-016
     // Test case: Cập nhật địa chỉ thành công
     // Mục tiêu: Kiểm tra việc cập nhật thông tin địa chỉ
     // Input: Một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
@@ -456,7 +456,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC017
+    // Mã: TC-LUC-017
     // Test case: Xử lý lỗi khi cập nhật địa chỉ
     // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình cập nhật
     // Input: Một đối tượng UpdateLocationUserDto chứa đầy đủ các trường thuộc tính
@@ -485,7 +485,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC018
+    // Mã: TC-LUC-018
     // Test case: Xử lý giá trị không phải Error khi cập nhật địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
     // Input: Một đối tượng UpdateLocationUserDto hợp lệ
@@ -508,7 +508,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC019
+    // Mã: TC-LUC-019
     // Test case: Xử lý khi service trả về null khi cập nhật địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
     // Input: Một đối tượng UpdateLocationUserDto hợp lệ
@@ -535,7 +535,7 @@ describe('LocationUserController', () => {
 
   // Kiểm tra các chức năng liên quan đến xóa địa chỉ
   describe('remove', () => {
-    // Mã: TC020
+    // Mã: TC-LUC-020
     // Test case: Xóa địa chỉ thành công
     // Mục tiêu: Kiểm tra việc xóa địa chỉ
     // Input: ID địa chỉ cần xóa
@@ -558,7 +558,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC021
+    // Mã: TC-LUC-021
     // Test case: Xử lý lỗi khi xóa địa chỉ
     // Mục tiêu: Kiểm tra xử lý lỗi trong quá trình xóa
     // Input: ID địa chỉ cần xóa, service throw Error('Delete failed')
@@ -579,7 +579,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC022
+    // Mã: TC-LUC-022
     // Test case: Xử lý khi xóa địa chỉ không tồn tại
     // Mục tiêu: Kiểm tra xử lý khi địa chỉ cần xóa không tồn tại
     // Input: ID địa chỉ không tồn tại
@@ -596,7 +596,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC023
+    // Mã: TC-LUC-023
     // Test case: Xử lý giá trị không phải Error khi xóa địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service trả về một object không phải Error
     // Input: ID địa chỉ cần xóa
@@ -612,7 +612,7 @@ describe('LocationUserController', () => {
       });
     });
 
-    // Mã: TC024
+    // Mã: TC-LUC-024
     // Test case: Xử lý khi service trả về undefined khi xóa địa chỉ
     // Mục tiêu: Kiểm tra xử lý khi service không trả về dữ liệu
     // Input: ID địa chỉ cần xóa

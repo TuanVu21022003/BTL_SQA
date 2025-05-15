@@ -81,7 +81,7 @@ describe('ProductService', () => {
 
   // Mô tả: Kiểm tra xem ProductService có được khởi tạo thành công hay không.
   it('should be defined', () => {
-    // Mã: TC001
+    // Mã: TC-PS-001
     // Test case: Kiểm tra khởi tạo ProductService
     // Mục tiêu: Đảm bảo ProductService được định nghĩa sau khi module được biên dịch
     // Input: Không có
@@ -92,7 +92,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng getList, lấy danh sách sản phẩm với phân trang và bộ lọc.
   describe('getList', () => {
     it('should return a list of products with pagination', async () => {
-      // Mã: TC002
+      // Mã: TC-PS-002
       // Test case: Lấy danh sách sản phẩm với phân trang và bộ lọc trạng thái
       // Mục tiêu: Đảm bảo hàm getList trả về danh sách sản phẩm với phân trang và áp dụng bộ lọc trạng thái hợp lệ
       // Input: page = 1, limit = 10, filters = { status: ExpirationStatus.Valid }
@@ -129,7 +129,7 @@ describe('ProductService', () => {
     });
 
     it('should throw error if page is less than 1', async () => {
-      // Mã: TC003
+      // Mã: TC-PS-003
       // Test case: Kiểm tra lỗi khi số trang nhỏ hơn 1
       // Mục tiêu: Đảm bảo hàm getList ném lỗi khi page <= 0
       // Input: page = 0, limit = 10, filters = {}
@@ -138,7 +138,7 @@ describe('ProductService', () => {
     });
 
     it('should throw error if limit is less than 1', async () => {
-      // Mã: TC004
+      // Mã: TC-PS-004
       // Test case: Kiểm tra lỗi khi giới hạn nhỏ hơn 1
       // Mục tiêu: Đảm bảo hàm getList ném lỗi khi limit <= 0
       // Input: page = 1, limit = 0, filters = {}
@@ -147,7 +147,7 @@ describe('ProductService', () => {
     });
 
     it('should throw error if no products found', async () => {
-      // Mã: TC005
+      // Mã: TC-PS-005
       // Test case: Kiểm tra lỗi khi không tìm thấy sản phẩm
       // Mục tiêu: Đảm bảo hàm getList ném lỗi khi không có sản phẩm nào được tìm thấy
       // Input: page = 1, limit = 10, filters = { status: ExpirationStatus.Valid }
@@ -166,7 +166,7 @@ describe('ProductService', () => {
     });
 
     it('should not add status condition if status is invalid', async () => {
-      // Mã: TC006
+      // Mã: TC-PS-006
       // Test case: Kiểm tra khi trạng thái trong bộ lọc không hợp lệ
       // Mục tiêu: Đảm bảo hàm getList không áp dụng điều kiện trạng thái khi status không hợp lệ
       // Input: page = 1, limit = 10, filters = { status: 'INVALID_STATUS' }
@@ -193,7 +193,7 @@ describe('ProductService', () => {
     });
 
     it('should use default page and limit if not provided', async () => {
-      // Mã: TC007
+      // Mã: TC-PS-007
       // Test case: Kiểm tra sử dụng giá trị mặc định cho page và limit
       // Mục tiêu: Đảm bảo hàm getList sử dụng page = 1 và limit = 10 khi không được cung cấp
       // Input: page = undefined, limit = undefined, filters = {}
@@ -221,7 +221,7 @@ describe('ProductService', () => {
     });
 
     it('should not add status condition if filters.status is not provided', async () => {
-      // Mã: TC008
+      // Mã: TC-PS-008
       // Test case: Kiểm tra khi không cung cấp trạng thái trong bộ lọc
       // Mục tiêu: Đảm bảo hàm getList không áp dụng điều kiện trạng thái khi filters.status không được cung cấp
       // Input: page = 1, limit = 10, filters = {}
@@ -248,7 +248,7 @@ describe('ProductService', () => {
     });
 
     it('should handle filters as undefined', async () => {
-      // Mã: TC009
+      // Mã: TC-PS-009
       // Test case: Kiểm tra khi bộ lọc là undefined
       // Mục tiêu: Đảm bảo hàm getList xử lý đúng khi filters là undefined bằng cách sử dụng bộ lọc rỗng
       // Input: page = 1, limit = 10, filters = {}
@@ -277,7 +277,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng searchProducts, tìm kiếm sản phẩm dựa trên các bộ lọc như tên và danh mục.
   describe('searchProducts', () => {
     it('should return products based on search filters', async () => {
-      // Mã: TC010
+      // Mã: TC-PS-010
       // Test case: Tìm kiếm sản phẩm với bộ lọc tên và danh sách danh mục
       // Mục tiêu: Đảm bảo hàm searchProducts trả về danh sách sản phẩm dựa trên bộ lọc tên và danh sách category_id
       // Input: page = 1, limit = 10, filters = { name: 'Test', category_id: ['cat1'] }
@@ -315,7 +315,7 @@ describe('ProductService', () => {
     });
 
     it('should return products when category_id is a single value', async () => {
-      // Mã: TC011
+      // Mã: TC-PS-011
       // Test case: Tìm kiếm sản phẩm với bộ lọc tên và một danh mục duy nhất
       // Mục tiêu: Đảm bảo hàm searchProducts xử lý đúng khi category_id là một giá trị đơn
       // Input: page = 1, limit = 10, filters = { name: 'Test', category_id: 'cat1' }
@@ -353,7 +353,7 @@ describe('ProductService', () => {
     });
 
     it('should work when no filters are provided', async () => {
-      // Mã: TC012
+      // Mã: TC-PS-012
       // Test case: Tìm kiếm sản phẩm khi không cung cấp bộ lọc
       // Mục tiêu: Đảm bảo hàm searchProducts trả về danh sách sản phẩm khi không có bộ lọc
       // Input: page = 1, limit = 10, filters = {}
@@ -377,7 +377,7 @@ describe('ProductService', () => {
     });
 
     it('should return empty products if getManyAndCount returns empty', async () => {
-      // Mã: TC013
+      // Mã: TC-PS-013
       // Test case: Tìm kiếm sản phẩm khi không có kết quả
       // Mục tiêu: Đảm bảo hàm searchProducts trả về danh sách rỗng khi không tìm thấy sản phẩm
       // Input: page = 1, limit = 10, filters = {}
@@ -403,7 +403,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng create, tạo một sản phẩm mới.
   describe('create', () => {
     it('should create a new product', async () => {
-      // Mã: TC014
+      // Mã: TC-PS-014
       // Test case: Tạo một sản phẩm mới
       // Mục tiêu: Đảm bảo hàm create tạo và lưu sản phẩm mới thành công
       // Input: ProductCreateDTO với các thông tin sản phẩm
@@ -434,7 +434,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng detail, lấy chi tiết một sản phẩm theo ID.
   describe('detail', () => {
     it('should return product details', async () => {
-      // Mã: TC015
+      // Mã: TC-PS-015
       // Test case: Lấy chi tiết sản phẩm theo ID
       // Mục tiêu: Đảm bảo hàm detail trả về chi tiết sản phẩm khi tìm thấy
       // Input: id = '1'
@@ -451,7 +451,7 @@ describe('ProductService', () => {
     });
 
     it('should return null if product not found', async () => {
-      // Mã: TC016
+      // Mã: TC-PS-016
       // Test case: Lấy chi tiết sản phẩm không tồn tại
       // Mục tiêu: Đảm bảo hàm detail trả về null khi không tìm thấy sản phẩm
       // Input: id = 'notfound'
@@ -467,7 +467,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng update, cập nhật thông tin một sản phẩm.
   describe('update', () => {
     it('should update a product', async () => {
-      // Mã: TC017
+      // Mã: TC-PS-017
       // Test case: Cập nhật thông tin sản phẩm
       // Mục tiêu: Đảm bảo hàm update cập nhật sản phẩm thành công khi sản phẩm tồn tại
       // Input: updateDto = { id: '1', name: 'Updated Product' }, id = '1'
@@ -487,7 +487,7 @@ describe('ProductService', () => {
     });
 
     it('should throw error if product to update not found', async () => {
-      // Mã: TC018
+      // Mã: TC-PS-018
       // Test case: Cập nhật sản phẩm không tồn tại
       // Mục tiêu: Đảm bảo hàm update ném lỗi khi sản phẩm không được tìm thấy
       // Input: updateDto = { id: 'notfound', name: 'Updated Product' }, id = 'notfound'
@@ -509,7 +509,7 @@ describe('ProductService', () => {
   // Mô tả: Kiểm tra chức năng delete, xóa một sản phẩm theo ID.
   describe('delete', () => {
     it('should delete a product', async () => {
-      // Mã: TC019
+      // Mã: TC-PS-019
       // Test case: Xóa một sản phẩm
       // Mục tiêu: Đảm bảo hàm delete xóa sản phẩm thành công khi sản phẩm tồn tại
       // Input: id = '1'
@@ -525,7 +525,7 @@ describe('ProductService', () => {
     });
 
     it('should throw error if product to delete not found', async () => {
-      // Mã: TC020
+      // Mã: TC-PS-020
       // Test case: Xóa sản phẩm không tồn tại
       // Mục tiêu: Đảm bảo hàm delete ném lỗi khi sản phẩm không được tìm thấy
       // Input: id = 'notfound'

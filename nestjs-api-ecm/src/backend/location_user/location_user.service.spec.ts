@@ -45,7 +45,7 @@ describe('LocationUserService', () => {
   });
 
   /**
-   * Mã: TC001
+   * Mã: TC-LUs-001
    * Test case: Kiểm tra khởi tạo service
    * Mục tiêu: Đảm bảo service được khởi tạo thành công
    * Input: Không có
@@ -60,7 +60,7 @@ describe('LocationUserService', () => {
    */
   describe('getList', () => {
     /**
-     * Mã: TC002
+     * Mã: TC-LUs-002
      * Test case: Lấy danh sách địa chỉ theo user_id
      * Mục tiêu: Kiểm tra việc lọc địa chỉ theo ID người dùng
      * Input: user_id = '123'
@@ -86,7 +86,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC003
+     * Mã: TC-LUs-003
      * Test case: Lấy danh sách địa chỉ mặc định
      * Mục tiêu: Kiểm tra việc lọc địa chỉ mặc định
      * Input: default_location = true
@@ -112,7 +112,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC004
+     * Mã: TC-LUs-004
      * Test case: Lấy danh sách khi không có địa chỉ nào
      * Mục tiêu: Kiểm tra xử lý lỗi khi không tìm thấy địa chỉ
      * Input: Không có điều kiện lọc
@@ -130,7 +130,7 @@ describe('LocationUserService', () => {
    */
   describe('createLocation', () => {
     /**
-     * Mã: TC005
+     * Mã: TC-LUs-005
      * Test case: Tạo địa chỉ mới không phải địa chỉ mặc định
      * Mục tiêu: Kiểm tra việc tạo địa chỉ thông thường
      * Input: đối tượng CreateLocationUserDto đầy đủ các trường thuộc tính, với default_location = false
@@ -159,7 +159,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC006
+     * Mã: TC-LUs-006
      * Test case: Tạo địa chỉ mặc định mới
      * Mục tiêu: Kiểm tra việc cập nhật địa chỉ mặc định cũ khi tạo địa chỉ mặc định mới
      * Input: đối tượng CreateLocationUserDtođầy đủ các trường thuộc tính, với default_location = true
@@ -208,7 +208,7 @@ describe('LocationUserService', () => {
    */
   describe('detail', () => {
     /**
-     * Mã: TC007
+     * Mã: TC-LUs-007
      * Test case: Lấy thông tin chi tiết địa chỉ
      * Mục tiêu: Kiểm tra việc lấy thông tin một địa chỉ cụ thể
      * Input: ID của địa chỉ
@@ -223,7 +223,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC008
+     * Mã: TC-LUs-008
      * Test case: Lấy thông tin địa chỉ không tồn tại
      * Mục tiêu: Kiểm tra xử lý lỗi khi không tìm thấy địa chỉ
      * Input: ID không tồn tại
@@ -241,7 +241,7 @@ describe('LocationUserService', () => {
    */
   describe('update', () => {
     /**
-     * Mã: TC009
+     * Mã: TC-LUs-009
      * Test case: Cập nhật địa chỉ không thay đổi trạng thái mặc định
      * Mục tiêu: Kiểm tra việc cập nhật thông tin địa chỉ bình thường
      * Input: đối tượng UpdateLocationUserDto đầy đủ các trường thuộc tính, với default_location = false
@@ -264,7 +264,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC010
+     * Mã: TC-LUs-010
      * Test case: Cập nhật địa chỉ thành địa chỉ mặc định
      * Mục tiêu: Kiểm tra việc xử lý khi thay đổi địa chỉ mặc định
      * Input: đối tượng UpdateLocationUserDto đầy đủ các trường thuộc tính, với default_location = true
@@ -299,7 +299,7 @@ describe('LocationUserService', () => {
    */
   describe('delete', () => {
     /**
-     * Mã: TC011
+     * Mã: TC-LUs-011
      * Test case: Xóa địa chỉ
      * Mục tiêu: Kiểm tra chức năng xóa địa chỉ
      * Input: ID của địa chỉ cần xóa
@@ -319,7 +319,7 @@ describe('LocationUserService', () => {
     });
 
     /**
-     * Mã: TC012
+     * Mã: TC-LUs-012
      * Test case: Xóa địa chỉ không tồn tại
      * Mục tiêu: Kiểm tra xử lý lỗi khi xóa địa chỉ không tồn tại trong hệ thống
      * Input: 

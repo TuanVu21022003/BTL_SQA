@@ -101,7 +101,7 @@ describe('OrderService', () => {
   });
 
   /**
-   * Mã: TC001
+   * Mã: TC-OS-001
    * Test case: Kiểm tra khởi tạo service
    * Mục tiêu: Đảm bảo service được khởi tạo thành công
    * Input: Không có
@@ -113,7 +113,7 @@ describe('OrderService', () => {
 
   // Test chức năng createOrder của OrderService
   describe('createOrder', () => {
-    // Mã: TC002
+    // Mã: TC-OS-002
     // Test case: Tạo đơn hàng thành công
     // Mục tiêu: Kiểm tra xem hàm createOrder có tạo và lưu đơn hàng thành công không
     // Input: CreateOrderDto với thông tin hợp lệ
@@ -162,7 +162,7 @@ describe('OrderService', () => {
       expect(queryRunner.release).toHaveBeenCalled();
     });
 
-    // Mã: TC003
+    // Mã: TC-OS-003
     // Test case: Xử lý lỗi khi tạo đơn hàng
     // Mục tiêu: Kiểm tra xem hàm createOrder có rollback transaction và throw lỗi khi xảy ra lỗi không
     // Input: CreateOrderDto hợp lệ nhưng mock lỗi khi lưu vào database
@@ -195,7 +195,7 @@ describe('OrderService', () => {
 
   // Test chức năng createNotificationOrderSuccess của OrderService
   describe('createNotificationOrderSuccess', () => {
-    // Mã: TC004
+    // Mã: TC-OS-004
     // Test case: Tạo thông báo thành công với admin
     // Mục tiêu: Kiểm tra xem hàm createNotificationOrderSuccess có gửi thông báo và email cho admin không
     // Input: OrderEntity với user_id hợp lệ và có admin
@@ -233,7 +233,7 @@ describe('OrderService', () => {
       expect(emailService.sendNotificationEmail).toHaveBeenCalled();
     });
 
-    // Mã: TC005
+    // Mã: TC-OS-005
     // Test case: Tạo thông báo khi không có admin
     // Mục tiêu: Kiểm tra xem hàm createNotificationOrderSuccess có chỉ gửi thông báo mà không gửi email khi không có admin không
     // Input: OrderEntity với user_id hợp lệ nhưng không có admin
@@ -262,7 +262,7 @@ describe('OrderService', () => {
 
   // Test chức năng getAllOrder của OrderService
   describe('getAllOrder', () => {
-    // Mã: TC006
+    // Mã: TC-OS-006
     // Test case: Lấy danh sách đơn hàng phân trang thành công
     // Mục tiêu: Kiểm tra xem hàm getAllOrder có trả về danh sách đơn hàng phân trang đúng không
     // Input: userId và OrderAllOrderDto với page=1, limit=10
@@ -295,7 +295,7 @@ describe('OrderService', () => {
       });
     });
 
-    // Mã: TC007
+    // Mã: TC-OS-007
     // Test case: Lấy danh sách đơn hàng khi không có đơn hàng nào
     // Mục tiêu: Kiểm tra xem hàm getAllOrder có trả về danh sách rỗng khi không có đơn hàng không
     // Input: userId và OrderAllOrderDto với page=1, limit=10
@@ -320,7 +320,7 @@ describe('OrderService', () => {
 
   // Test chức năng getOrderManagement của OrderService
   describe('getOrderManagement', () => {
-    // Mã: TC008
+    // Mã: TC-OS-008
     // Test case: Lấy danh sách đơn hàng với bộ lọc trạng thái
     // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách đơn hàng với bộ lọc trạng thái và tóm tắt trạng thái không
     // Input: page=1, limit=10, filters với orderStatus, paymentStatus và includedStatuses
@@ -392,7 +392,7 @@ describe('OrderService', () => {
       );
     });
 
-    // Mã: TC009
+    // Mã: TC-OS-009
     // Test case: Lấy danh sách đơn hàng với trạng thái bị loại trừ
     // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách đơn hàng với trạng thái bị loại trừ không
     // Input: page=1, limit=10, filters với excludedStatuses
@@ -445,7 +445,7 @@ describe('OrderService', () => {
       );
     });
 
-    // Mã: TC010
+    // Mã: TC-OS-010
     // Test case: Lấy danh sách đơn hàng khi không có đơn hàng nào
     // Mục tiêu: Kiểm tra xem hàm getOrderManagement có trả về danh sách rỗng và bao phủ nhánh trong getQuantityProductInStock và getOrderStatusCount không
     // Input: page=1, limit=10, filters với excludedStatuses
@@ -482,7 +482,7 @@ describe('OrderService', () => {
       });
     });
 
-    // Mã: TC011
+    // Mã: TC-OS-011
     // Test case: Lấy danh sách đơn hàng với employee và location là null
     // Mục tiêu: Kiểm tra xem hàm getOrderManagement có xử lý đúng khi employee và location là null không (bao phủ nhánh trong ordersWithProducts)
     // Input: page=1, limit=10, filters với excludedStatuses
@@ -535,7 +535,7 @@ describe('OrderService', () => {
       expect(result.orders[0].order.location).toBeNull();
     });
 
-    // Mã: TC012
+    // Mã: TC-OS-012
     // Test case: Lấy danh sách đơn hàng với bộ lọc kết hợp orderStatus và includedStatuses
     // Mục tiêu: Kiểm tra xem hàm getOrderManagement có xử lý đúng khi kết hợp nhiều bộ lọc không (bao phủ các nhánh trong điều kiện lọc)
     // Input: page=1, limit=10, filters với orderStatus và includedStatuses
@@ -597,7 +597,7 @@ describe('OrderService', () => {
 
   // Test chức năng getDetail của OrderService
   describe('getDetail', () => {
-    // Mã: TC013
+    // Mã: TC-OS-013
     // Test case: Lấy chi tiết đơn hàng thành công
     // Mục tiêu: Kiểm tra xem hàm getDetail có trả về chi tiết đơn hàng đúng không
     // Input: orderId hợp lệ
@@ -621,7 +621,7 @@ describe('OrderService', () => {
       });
     });
 
-    // Mã: TC014
+    // Mã: TC-OS-014
     // Test case: Lấy chi tiết đơn hàng không tồn tại
     // Mục tiêu: Kiểm tra xem hàm getDetail có throw lỗi khi không tìm thấy đơn hàng không
     // Input: orderId không tồn tại
@@ -634,7 +634,7 @@ describe('OrderService', () => {
       );
     });
 
-    // Mã: TC015
+    // Mã: TC-OS-015
     // Test case: Lấy chi tiết đơn hàng với các quan hệ null
     // Mục tiêu: Kiểm tra xem hàm getDetail có xử lý đúng khi orderProducts và location là null không
     // Input: orderId hợp lệ nhưng orderProducts và location là null
@@ -661,7 +661,7 @@ describe('OrderService', () => {
 
   // Test chức năng getOrderUserDashboard của OrderService
   describe('getOrderUserDashboard', () => {
-    // Mã: TC016
+    // Mã: TC-OS-016
     // Test case: Lấy tóm tắt đơn hàng cho dashboard người dùng
     // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về tóm tắt trạng thái đơn hàng không
     // Input: userId hợp lệ
@@ -695,7 +695,7 @@ describe('OrderService', () => {
       });
     });
 
-    // Mã: TC017
+    // Mã: TC-OS-017
     // Test case: Xử lý lỗi khi lấy tóm tắt đơn hàng
     // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về lỗi khi query thất bại không
     // Input: userId hợp lệ nhưng query thất bại
@@ -716,7 +716,7 @@ describe('OrderService', () => {
       expect(result).toEqual({ error: 'Error: Query failed' });
     });
 
-    // Mã: TC018
+    // Mã: TC-OS-018
     // Test case: Lấy tóm tắt đơn hàng khi không có đơn hàng nào
     // Mục tiêu: Kiểm tra xem hàm getOrderUserDashboard có trả về số 0 khi không có đơn hàng không
     // Input: userId hợp lệ nhưng không có đơn hàng
@@ -748,7 +748,7 @@ describe('OrderService', () => {
 
   // Test chức năng updateOrder của OrderService
   describe('updateOrder', () => {
-    // Mã: TC019
+    // Mã: TC-OS-019
     // Test case: Cập nhật đơn hàng thành công
     // Mục tiêu: Kiểm tra xem hàm updateOrder có cập nhật đơn hàng thành công không
     // Input: UpdateOrderDTO với thông tin hợp lệ
@@ -799,7 +799,7 @@ describe('OrderService', () => {
       expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
     });
 
-    // Mã: TC020
+    // Mã: TC-OS-020
     // Test case: Cập nhật đơn hàng không tồn tại
     // Mục tiêu: Kiểm tra xem hàm updateOrder có throw lỗi khi đơn hàng không tồn tại không
     // Input: UpdateOrderDTO với order_id không tồn tại
@@ -818,7 +818,7 @@ describe('OrderService', () => {
       ).rejects.toThrow('ORDER.OCCUR ERROR WHEN UPDATE TO DATABASE!');
     });
 
-    // Mã: TC021
+    // Mã: TC-OS-021
     // Test case: Xử lý lỗi khi cập nhật đơn hàng
     // Mục tiêu: Kiểm tra xem hàm updateOrder có rollback transaction và throw lỗi khi xảy ra lỗi không
     // Input: UpdateOrderDTO hợp lệ nhưng mock lỗi khi lưu vào database
@@ -855,7 +855,7 @@ describe('OrderService', () => {
       expect(queryRunner.rollbackTransaction).toHaveBeenCalled();
     });
 
-    // Mã: TC022
+    // Mã: TC-OS-022
     // Test case: Cập nhật đơn hàng với paymentStatus là null
     // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật paymentStatus khi nó là null không (bao phủ nhánh tại dòng 276)
     // Input: UpdateOrderDTO với paymentStatus là null
@@ -906,7 +906,7 @@ describe('OrderService', () => {
       expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
     });
 
-    // Mã: TC023
+    // Mã: TC-OS-023
     // Test case: Cập nhật đơn hàng với paymentStatus không hợp lệ
     // Mục tiêu: Kiểm tra xem hàm updateOrder có xử lý đúng khi paymentStatus không thuộc enum PaymentStatus không (bao phủ nhánh tại dòng 276)
     // Input: UpdateOrderDTO với paymentStatus không hợp lệ
@@ -957,7 +957,7 @@ describe('OrderService', () => {
       expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
     });
 
-    // Mã: TC024
+    // Mã: TC-OS-024
     // Test case: Cập nhật đơn hàng với orderStatus là null
     // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật orderStatus khi nó là null không
     // Input: UpdateOrderDTO với orderStatus là null
@@ -1007,7 +1007,7 @@ describe('OrderService', () => {
       expect(orderRepo.save).toHaveBeenCalledWith(mockOrder);
     });
 
-    // Mã: TC025
+    // Mã: TC-OS-025
     // Test case: Cập nhật đơn hàng với employee_id là null
     // Mục tiêu: Kiểm tra xem hàm updateOrder có bỏ qua cập nhật employee_id khi nó là null không
     // Input: UpdateOrderDTO với employee_id là null

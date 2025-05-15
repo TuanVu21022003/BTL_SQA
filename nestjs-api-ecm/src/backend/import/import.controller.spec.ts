@@ -52,7 +52,7 @@ describe('ImportController', () => {
     jest.clearAllMocks();
   });
 
-  // Mã: TC001
+  // Mã: TC-IPC-001
   // Test case: Kiểm tra controller được định nghĩa
   // Mục tiêu: Đảm bảo rằng ImportController được khởi tạo và định nghĩa
   // Input: Không có
@@ -63,7 +63,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến tạo mới bản ghi nhập hàng
   describe('create', () => {
-    // Mã: TC002
+    // Mã: TC-IPC-002
     // Test case: Tạo mới bản ghi nhập hàng
     // Mục tiêu: Kiểm tra controller tạo mới bản ghi nhập hàng thành công thông qua service
     // Input: CreateImportDTO với totalAmount, import_code, user_id, products
@@ -95,7 +95,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC003
+    // Mã: TC-IPC-003
     // Test case: Xử lý lỗi khi tạo bản ghi nhập hàng thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình tạo
     // Input: CreateImportDTO, service throw Error('Creation failed')
@@ -126,7 +126,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC04
+    // Mã: TC-IPC-004
     // Test case: Xử lý lỗi khi tạo bản ghi nhập hàng thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: CreateImportDTO, service throw { msg: 'Non-error object' }
@@ -160,7 +160,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy mã nhập hàng lớn nhất
   describe('getImportCodeMax', () => {
-    // Mã: TC005
+    // Mã: TC-IPC-005
     // Test case: Lấy mã nhập hàng lớn nhất
     // Mục tiêu: Kiểm tra controller trả về mã nhập hàng lớn nhất từ service
     // Input: Không có
@@ -180,7 +180,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC006
+    // Mã: TC-IPC-006
     // Test case: Xử lý lỗi khi lấy mã nhập hàng lớn nhất thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: Service throw Error('Database error')
@@ -199,7 +199,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC007
+    // Mã: TC-IPC-007
     // Test case: Xử lý lỗi khi lấy mã nhập hàng lớn nhất thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: Service throw { msg: 'Non-error object' }
@@ -221,7 +221,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy danh sách bản ghi nhập hàng
   describe('findAll', () => {
-    // Mã: TC008
+    // Mã: TC-IPC-008
     // Test case: Lấy danh sách tất cả bản ghi nhập hàng với phân trang
     // Mục tiêu: Kiểm tra controller trả về danh sách bản ghi nhập hàng từ service
     // Input: page = 1, limit = 10
@@ -246,7 +246,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC009
+    // Mã: TC-IPC-009
     // Test case: Xử lý lỗi khi lấy danh sách bản ghi nhập hàng thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: page = 1, limit = 10, service throw Error('Find all failed')
@@ -267,7 +267,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC010
+    // Mã: TC-IPC-010
     // Test case: Xử lý lỗi khi lấy danh sách bản ghi nhập hàng thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: page = 1, limit = 10, service throw { msg: 'Non-error object' }
@@ -291,7 +291,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến lấy thông tin chi tiết bản ghi nhập hàng
   describe('findOne', () => {
-    // Mã: TC011
+    // Mã: TC-IPC-011
     // Test case: Lấy thông tin chi tiết một bản ghi nhập hàng theo ID
     // Mục tiêu: Kiểm tra controller trả về thông tin chi tiết bản ghi nhập hàng dựa trên ID
     // Input: importId = '1'
@@ -312,7 +312,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC012
+    // Mã: TC-IPC-012
     // Test case: Xử lý lỗi khi lấy chi tiết bản ghi nhập hàng thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error
     // Input: importId = '1', service throw Error('Record not found')
@@ -332,7 +332,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC013
+    // Mã: TC-IPC-013
     // Test case: Xử lý lỗi khi lấy chi tiết bản ghi nhập hàng thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: importId = '1', service throw { msg: 'Non-error object' }
@@ -355,7 +355,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến cập nhật bản ghi nhập hàng
   describe('update', () => {
-    // Mã: TC14
+    // Mã: TC-IPC-014
     // Test case: Cập nhật bản ghi nhập hàng
     // Mục tiêu: Kiểm tra controller cập nhật bản ghi nhập hàng thành công thông qua service
     // Input: UpdateImpotyDTO với import_id, import_code, user_id, totalAmount, products
@@ -400,7 +400,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC015
+    // Mã: TC-IPC-015
     // Test case: Xử lý lỗi khi cập nhật bản ghi nhập hàng thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình cập nhật
     // Input: UpdateImpotyDTO, service throw Error('Update failed')
@@ -432,7 +432,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC16
+    // Mã: TC-IPC-016
     // Test case: Xử lý lỗi khi cập nhật bản ghi nhập hàng thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: UpdateImpotyDTO, service throw { msg: 'Non-error object' }
@@ -467,7 +467,7 @@ describe('ImportController', () => {
 
   // Kiểm tra các chức năng liên quan đến xóa bản ghi nhập hàng
   describe('delete', () => {
-    // Mã: TC017
+    // Mã: TC-IPC-017
     // Test case: Xóa bản ghi nhập hàng
     // Mục tiêu: Kiểm tra controller xóa bản ghi nhập hàng thành công thông qua service
     // Input: importId = '1'
@@ -488,7 +488,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC18
+    // Mã: TC-IPC-018
     // Test case: Xử lý lỗi khi xóa bản ghi nhập hàng thất bại (Error instance)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw Error trong quá trình xóa
     // Input: importId = '1', service throw Error('Delete failed')
@@ -508,7 +508,7 @@ describe('ImportController', () => {
       });
     });
 
-    // Mã: TC19
+    // Mã: TC-IPC-019
     // Test case: Xử lý lỗi khi xóa bản ghi nhập hàng thất bại (non-Error object)
     // Mục tiêu: Kiểm tra controller xử lý đúng khi service throw một object không phải Error
     // Input: importId = '1', service throw { msg: 'Non-error object' }
