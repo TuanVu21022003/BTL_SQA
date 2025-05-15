@@ -49,7 +49,13 @@ describe('OrderController', () => {
     jest.clearAllMocks();
   });
 
+  // Kiểm tra các chức năng liên quan đến lấy danh sách tất cả đơn hàng của người dùng
   describe('getAllOrder', () => {
+    // Mã: TC001
+    // Test case: Lấy danh sách tất cả đơn hàng của người dùng thành công
+    // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng theo user_id
+    // Input: user_id = 'user123', dto với page = 1, limit = 10
+    // Output mong đợi: Response với danh sách đơn hàng và success = true
     it('should return all orders for a user', async () => {
       const user_id = 'user123';
       const dto: OrderAllOrderDto = { page: 1, limit: 10 };
@@ -63,12 +69,23 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC002
+    // Test case: Xử lý lỗi khi lấy danh sách đơn hàng
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: user_id = 'user', dto với page = 1, limit = 1, service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.getAllOrder.mockRejectedValue(new Error('fail'));
       const response = await controller.getAllOrder('user', { page: 1, limit: 1 });
       expect(response.success).toBe(false);
       expect(responseHandler.error).toHaveBeenCalled();
     });
+
+    // Mã: TC003
+    // Test case: Xử lý lỗi với object không phải Error khi lấy danh sách đơn hàng
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: user_id = 'user', dto với page = 1, limit = 1, service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.getAllOrder.mockRejectedValue({ foo: 'bar' });
       const response = await controller.getAllOrder('user', { page: 1, limit: 1 });
@@ -77,7 +94,13 @@ describe('OrderController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến quản lý đơn hàng
   describe('getOrderManagement', () => {
+    // Mã: TC004
+    // Test case: Lấy danh sách đơn hàng được quản lý thành công
+    // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng quản lý với các bộ lọc mặc định
+    // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = false
+    // Output mong đợi: Response với danh sách đơn hàng và success = true
     it('should return managed orders', async () => {
       const page = 1, limit = 10;
       const filters = {
@@ -102,6 +125,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC005
+    // Test case: Xử lý includeExcluded true khi không có orderStatus
+    // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với includeExcluded = true
+    // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = true
+    // Output mong đợi: Response với danh sách đơn hàng và success = true
     it('should handle includeExcluded true and no orderStatus', async () => {
       const page = 1, limit = 10;
       const result = { orders: [], total: 0, orderStatusSummary: {} };
@@ -126,6 +154,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC006
+    // Test case: Xử lý includeExcluded false khi không có orderStatus
+    // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với includeExcluded = false
+    // Input: page = 1, limit = 10, orderStatus và paymentStatus undefined, includeExcluded = false
+    // Output mong đợi: Response với danh sách đơn hàng và success = true
     it('should handle includeExcluded false and no orderStatus', async () => {
       const page = 1, limit = 10;
       const result = { orders: [], total: 0, orderStatusSummary: {} };
@@ -150,6 +183,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC007
+    // Test case: Xử lý khi cung cấp orderStatus (included/excluded nên rỗng)
+    // Mục tiêu: Kiểm tra việc lấy danh sách đơn hàng với orderStatus được cung cấp
+    // Input: page = 1, limit = 10, orderStatus = Checking, includeExcluded = true
+    // Output mong đợi: Response với danh sách đơn hàng và success = true
     it('should handle orderStatus provided (included/excluded should be empty)', async () => {
       const page = 1, limit = 10;
       const result = { orders: [], total: 0, orderStatusSummary: {} };
@@ -175,6 +213,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC008
+    // Test case: Xử lý lỗi với object không phải Error khi lấy danh sách quản lý
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: page = 1, limit = 1, service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.getOrderManagement.mockRejectedValue({ foo: 'bar' });
       const response = await controller.getOrderManagement(1, 1, undefined, undefined, false);
@@ -182,6 +225,11 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
+    // Mã: TC009
+    // Test case: Xử lý lỗi khi lấy danh sách quản lý
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: page = 1, limit = 1, service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.getOrderManagement.mockRejectedValue(new Error('fail'));
       const response = await controller.getOrderManagement(1, 1, undefined, undefined, false);
@@ -190,7 +238,13 @@ describe('OrderController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến tạo đơn hàng
   describe('createOrder', () => {
+    // Mã: TC010
+    // Test case: Tạo đơn hàng thành công
+    // Mục tiêu: Kiểm tra việc tạo đơn hàng với dữ liệu hợp lệ
+    // Input: user_id = 'user123', dto với các trường hợp lệ
+    // Output mong đợi: Response với thông tin đơn hàng mới và success = true
     it('should create an order', async () => {
       const user_id = 'user123';
       const dto: CreateOrderDto = {
@@ -212,6 +266,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC011
+    // Test case: Xử lý lỗi khi tạo đơn hàng
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: user_id = 'user', dto rỗng, service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.createOrder.mockRejectedValue(new Error('fail'));
       const response = await controller.createOrder('user', {} as any);
@@ -219,6 +278,11 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
+    // Mã: TC012
+    // Test case: Xử lý lỗi với object không phải Error khi tạo đơn hàng
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: user_id = 'user', dto rỗng, service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.createOrder.mockRejectedValue({ foo: 'bar' });
       const response = await controller.createOrder('user', {} as any);
@@ -227,7 +291,13 @@ describe('OrderController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến lấy chi tiết đơn hàng
   describe('getDetailOrder', () => {
+    // Mã: TC013
+    // Test case: Lấy chi tiết đơn hàng thành công
+    // Mục tiêu: Kiểm tra việc lấy chi tiết đơn hàng theo id
+    // Input: user_id = 'user123', id = 'order1'
+    // Output mong đợi: Response với thông tin chi tiết đơn hàng và success = true
     it('should return order detail', async () => {
       const user_id = 'user123', id = 'order1';
       const result = { id: 'order1', detail: true };
@@ -240,6 +310,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC014
+    // Test case: Xử lý lỗi khi lấy chi tiết đơn hàng
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: user_id = 'user', id = 'order', service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.getDetail.mockRejectedValue(new Error('fail'));
       const response = await controller.getDetailOrder('user', 'order');
@@ -247,6 +322,11 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
+    // Mã: TC015
+    // Test case: Xử lý lỗi với object không phải Error khi lấy chi tiết đơn hàng
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: user_id = 'user', id = 'order', service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.getDetail.mockRejectedValue({ foo: 'bar' });
       const response = await controller.getDetailOrder('user', 'order');
@@ -255,7 +335,13 @@ describe('OrderController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến cập nhật đơn hàng
   describe('updateOrder', () => {
+    // Mã: TC016
+    // Test case: Cập nhật đơn hàng thành công
+    // Mục tiêu: Kiểm tra việc cập nhật thông tin đơn hàng
+    // Input: user_id = 'user123', dto với các trường hợp lệ
+    // Output mong đợi: Response với thông tin đơn hàng đã cập nhật và success = true
     it('should update an order', async () => {
       const user_id = 'user123';
       const dto: UpdateOrderDTO = {
@@ -275,6 +361,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC017
+    // Test case: Xử lý lỗi khi cập nhật đơn hàng
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: user_id = 'user', dto rỗng, service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.updateOrder.mockRejectedValue(new Error('fail'));
       const response = await controller.updateOrder('user', {} as any);
@@ -282,6 +373,11 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
+    // Mã: TC018
+    // Test case: Xử lý lỗi với object không phải Error khi cập nhật đơn hàng
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: user_id = 'user', dto rỗng, service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.updateOrder.mockRejectedValue({ foo: 'bar' });
       const response = await controller.updateOrder('user', {} as any);
@@ -290,7 +386,13 @@ describe('OrderController', () => {
     });
   });
 
+  // Kiểm tra các chức năng liên quan đến lấy thông tin dashboard người dùng
   describe('getOrderUserDashboard', () => {
+    // Mã: TC019
+    // Test case: Lấy thông tin dashboard người dùng thành công
+    // Mục tiêu: Kiểm tra việc lấy thông tin dashboard theo user_id
+    // Input: user_id = 'user123'
+    // Output mong đợi: Response với thông tin dashboard và success = true
     it('should return user dashboard', async () => {
       const user_id = 'user123';
       const result = { totalOrders: 1, statusSummary: {} };
@@ -303,6 +405,11 @@ describe('OrderController', () => {
       expect(response.success).toBe(true);
     });
 
+    // Mã: TC020
+    // Test case: Xử lý lỗi khi lấy thông tin dashboard
+    // Mục tiêu: Kiểm tra xử lý lỗi khi service throw Error
+    // Input: user_id = 'user', service throw Error('fail')
+    // Output mong đợi: Response với success = false
     it('should handle errors', async () => {
       mockOrderService.getOrderUserDashboard.mockRejectedValue(new Error('fail'));
       const response = await controller.getOrderUserDashboard('user');
@@ -310,6 +417,11 @@ describe('OrderController', () => {
       expect(responseHandler.error).toHaveBeenCalled();
     });
 
+    // Mã: TC021
+    // Test case: Xử lý lỗi với object không phải Error khi lấy thông tin dashboard
+    // Mục tiêu: Kiểm tra xử lý khi service trả về object không phải Error
+    // Input: user_id = 'user', service throw { foo: 'bar' }
+    // Output mong đợi: Response với success = false
     it('should handle errors with non-Error object', async () => {
       mockOrderService.getOrderUserDashboard.mockRejectedValue({ foo: 'bar' });
       const response = await controller.getOrderUserDashboard('user');
