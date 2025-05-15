@@ -55,7 +55,7 @@ describe('UserController.updateByAdmin() updateByAdmin method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Admin cập nhật thông tin user thành công
+     * Test Case TC-UC-UDBA-001: Admin cập nhật thông tin user thành công
      * Mục tiêu: Kiểm tra việc admin cập nhật thông tin user thành công
      * Input: 
      * - mockUserId: '123'
@@ -86,7 +86,7 @@ describe('UserController.updateByAdmin() updateByAdmin method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Xử lý lỗi từ service
+     * Test Case TC-UC-UDBA-002: Xử lý lỗi từ service
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi
      * Input:
      * - mockUserId: '123'
@@ -112,7 +112,7 @@ describe('UserController.updateByAdmin() updateByAdmin method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý lỗi không phải Error object
+     * Test Case TC-UC-UDBA-003: Xử lý lỗi không phải Error object
      * Mục tiêu: Kiểm tra xử lý khi service trả về lỗi không phải Error object
      * Input:
      * - mockUserId: '123'

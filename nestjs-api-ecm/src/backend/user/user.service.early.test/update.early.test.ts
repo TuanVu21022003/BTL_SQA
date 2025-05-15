@@ -68,7 +68,7 @@ describe('UserService.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Cập nhật thông tin user thành công
+     * Test Case TC-SV-UD-001: Cập nhật thông tin user thành công
      * Mục tiêu: Kiểm tra việc cập nhật thông tin user hoạt động đúng
      * Input: 
      * - id: '1' (ID hợp lệ)
@@ -99,7 +99,7 @@ describe('UserService.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Cập nhật thất bại - User không tồn tại
+     * Test Case TC-SV-UD-002: Cập nhật thất bại - User không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user với ID cung cấp
      * Input:
      * - id: 'non-existent-id' (ID không tồn tại)
@@ -120,7 +120,7 @@ describe('UserService.update() update method', () => {
     });
 
     /**
-     * Test Case TC003: Cập nhật thất bại - Lỗi khi lưu
+     * Test Case TC-SV-UD-003: Cập nhật thất bại - Lỗi khi lưu
      * Mục tiêu: Kiểm tra xử lý khi có lỗi trong quá trình lưu thông tin
      * Input:
      * - id: '1'

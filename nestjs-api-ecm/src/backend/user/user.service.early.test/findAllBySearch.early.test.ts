@@ -62,7 +62,7 @@ describe('UserService.findAllBySearch() findAllBySearch method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Tìm kiếm user với phân trang thành công
+     * Test Case TC-SV-FABS-001: Tìm kiếm user với phân trang thành công
      * Mục tiêu: Kiểm tra việc tìm kiếm và phân trang hoạt động đúng
      * Input: 
      * - page: 1 (trang hiện tại)
@@ -94,7 +94,7 @@ describe('UserService.findAllBySearch() findAllBySearch method', () => {
     });
 
     /**
-     * Test Case TC002: Tìm kiếm user với điều kiện lọc
+     * Test Case TC-SV-FABS-002: Tìm kiếm user với điều kiện lọc
      * Mục tiêu: Kiểm tra việc áp dụng các điều kiện lọc hoạt động đúng
      * Input:
      * - page: 1
@@ -128,7 +128,7 @@ describe('UserService.findAllBySearch() findAllBySearch method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC003: Tìm kiếm thất bại - Page không hợp lệ
+     * Test Case TC-SV-FABS-003: Tìm kiếm thất bại - Page không hợp lệ
      * Mục tiêu: Kiểm tra xử lý khi tham số page < 1
      * Input:
      * - page: 0 (không hợp lệ)
@@ -144,7 +144,7 @@ describe('UserService.findAllBySearch() findAllBySearch method', () => {
     });
 
     /**
-     * Test Case TC004: Tìm kiếm thất bại - Limit không hợp lệ
+     * Test Case TC-SV-FABS-004: Tìm kiếm thất bại - Limit không hợp lệ
      * Mục tiêu: Kiểm tra xử lý khi tham số limit < 1
      * Input:
      * - page: 1
@@ -160,7 +160,7 @@ describe('UserService.findAllBySearch() findAllBySearch method', () => {
     });
 
     /**
-     * Test Case TC005: Tìm kiếm thất bại - Không tìm thấy user
+     * Test Case TC-SV-FABS-005: Tìm kiếm thất bại - Không tìm thấy user
      * Mục tiêu: Kiểm tra xử lý khi không có user nào thỏa mãn điều kiện
      * Input:
      * - page: 1

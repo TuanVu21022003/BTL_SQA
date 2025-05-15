@@ -28,7 +28,7 @@ describe('UserController.update() update method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Cập nhật thông tin user thành công
+     * Test Case TC-UC-UD-001: Cập nhật thông tin user thành công
      * Mục tiêu: Kiểm tra việc cập nhật thông tin user thành công
      * Input: 
      * - userId: '123'
@@ -59,7 +59,7 @@ describe('UserController.update() update method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Xử lý lỗi khi service throw Error
+     * Test Case TC-UC-UD-002: Xử lý lỗi khi service throw Error
      * Mục tiêu: Kiểm tra xử lý khi service gặp lỗi và throw Error
      * Input:
      * - userId: '123'
@@ -85,7 +85,7 @@ describe('UserController.update() update method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý lỗi không phải Error object
+     * Test Case TC-UC-UD-003: Xử lý lỗi không phải Error object
      * Mục tiêu: Kiểm tra xử lý khi service trả về lỗi không phải Error object
      * Input:
      * - userId: '123'

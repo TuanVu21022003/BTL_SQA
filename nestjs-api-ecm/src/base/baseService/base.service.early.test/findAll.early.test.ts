@@ -46,7 +46,7 @@ describe('BaseService.findAll() findAll method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Lấy danh sách với limit và page mặc định
+     * Test Case TC-BS-FA-001: Lấy danh sách với limit và page mặc định
      * Mục tiêu: Kiểm tra lấy danh sách khi không chỉ định limit và page
      * Input: Không có tham số đầu vào
      * Expected Output: 
@@ -70,7 +70,7 @@ describe('BaseService.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC002: Lấy danh sách với limit và page được chỉ định
+     * Test Case TC-BS-FA-002: Lấy danh sách với limit và page được chỉ định
      * Mục tiêu: Kiểm tra lấy danh sách với tham số limit và page cụ thể
      * Input: limit = 2, page = 2
      * Expected Output: 
@@ -100,7 +100,7 @@ describe('BaseService.findAll() findAll method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC003: Xử lý kết quả rỗng
+     * Test Case TC-BS-FA-003: Xử lý kết quả rỗng
      * Mục tiêu: Kiểm tra xử lý khi không có dữ liệu
      * Input: Không có tham số đầu vào
      * Expected Output: 
@@ -123,7 +123,7 @@ describe('BaseService.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC004: Xử lý limit và page âm
+     * Test Case TC-BS-FA-004: Xử lý limit và page âm
      * Mục tiêu: Kiểm tra xử lý khi limit và page là số âm
      * Input: limit = -1, page = -1
      * Expected Output: Sử dụng giá trị mặc định (take=10, skip=0)
@@ -144,7 +144,7 @@ describe('BaseService.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC005: Xử lý page lớn
+     * Test Case TC-BS-FA-005: Xử lý page lớn
      * Mục tiêu: Kiểm tra xử lý khi page có giá trị lớn
      * Input: limit = 10, page = 1000
      * Expected Output: Tính toán skip chính xác (skip = 9990)

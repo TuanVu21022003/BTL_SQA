@@ -42,7 +42,7 @@ describe('UserController.findAll() findAll method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case TC001: Lấy danh sách users thành công
+     * Test Case TC-UC-FA-001: Lấy danh sách users thành công
      * Mục tiêu: Kiểm tra việc lấy danh sách users thành công
      * Input: 
      * - page: 1
@@ -73,7 +73,7 @@ describe('UserController.findAll() findAll method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case TC002: Xử lý lỗi từ service
+     * Test Case TC-UC-FA-002: Xử lý lỗi từ service
      * Mục tiêu: Kiểm tra xử lý khi service throw Error
      * Input:
      * - page: 1
@@ -95,7 +95,7 @@ describe('UserController.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý ngoại lệ không phải Error
+     * Test Case TC-UC-FA-003: Xử lý ngoại lệ không phải Error
      * Mục tiêu: Kiểm tra xử lý khi service throw object không phải Error
      * Input:
      * - page: 1

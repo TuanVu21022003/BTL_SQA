@@ -61,7 +61,7 @@ describe('Match() Match method', () => {
   });
 
   /**
-   * Test Case TC001: Kiểm tra validation khi hai trường giá trị trùng khớp
+   * Test Case TC-DC-M-001: Kiểm tra validation khi hai trường giá trị trùng khớp
    * Mục tiêu: Verify decorator xác thực đúng khi giá trị trùng khớp
    * Input: 
    * - password: '123456'
@@ -89,7 +89,7 @@ describe('Match() Match method', () => {
   });
 
   /**
-   * Test Case TC002: Kiểm tra thông báo lỗi tùy chỉnh
+   * Test Case TC-DC-M-002: Kiểm tra thông báo lỗi tùy chỉnh
    * Mục tiêu: Verify thông báo lỗi khi hai trường không khớp
    * Input:
    * - password: 'abc123'
@@ -120,7 +120,7 @@ describe('Match() Match method', () => {
   });
 
   /**
-   * Test Case TC003: Kiểm tra khi trường được so sánh là undefined
+   * Test Case TC-DC-M-003: Kiểm tra khi trường được so sánh là undefined
    * Mục tiêu: Verify xử lý khi trường password là undefined
    * Input:
    * - password: undefined
@@ -148,7 +148,7 @@ describe('Match() Match method', () => {
   });
 
   /**
-   * Test Case TC004: Kiểm tra khi giá trị cần validate là undefined
+   * Test Case TC-DC-M-004: Kiểm tra khi giá trị cần validate là undefined
    * Mục tiêu: Verify xử lý khi trường confirmPassword là undefined
    * Input:
    * - password: 'something'
@@ -176,7 +176,7 @@ describe('Match() Match method', () => {
   });
 
   /**
-   * Test Case TC005: Kiểm tra thông báo mặc định
+   * Test Case TC-DC-M-005: Kiểm tra thông báo mặc định
    * Mục tiêu: Verify thông báo mặc định khi không cung cấp message tùy chỉnh
    * Input:
    * - Decorator không có message tùy chỉnh

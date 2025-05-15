@@ -77,7 +77,7 @@ describe('UserService.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Tạo user mới thành công
+     * Test Case TC-SV-CR-001: Tạo user mới thành công
      * Mục tiêu: Kiểm tra việc tạo user mới khi chưa tồn tại trong hệ thống
      * Input: 
      * - mockCreateUserDto: { email: 'test@example.com', password: 'password123' }
@@ -106,7 +106,7 @@ describe('UserService.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Tạo user thất bại - User đã tồn tại và đang active
+     * Test Case TC-SV-CR-002: Tạo user thất bại - User đã tồn tại và đang active
      * Mục tiêu: Kiểm tra xử lý khi tạo user đã tồn tại và đang active
      * Input:
      * - mockCreateUserDto: { email: 'test@example.com', password: 'password123' }
@@ -127,7 +127,7 @@ describe('UserService.create() create method', () => {
     });
 
     /**
-     * Test Case TC003: Tạo user thất bại - Lỗi lưu database
+     * Test Case TC-SV-CR-003: Tạo user thất bại - Lỗi lưu database
      * Mục tiêu: Kiểm tra xử lý khi không thể lưu user vào database
      * Input:
      * - mockCreateUserDto: { email: 'test@example.com', password: 'password123' }

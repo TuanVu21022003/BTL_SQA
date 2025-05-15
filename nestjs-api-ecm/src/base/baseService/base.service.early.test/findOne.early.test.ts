@@ -33,7 +33,7 @@ describe('BaseService.findOne() findOne method', () => {
   });
 
   /**
-   * Test Case TC001: Tìm bản ghi tồn tại
+   * Test Case TC-BS-FO-001: Tìm bản ghi tồn tại
    * Mục tiêu: Kiểm tra tìm kiếm bản ghi khi bản ghi tồn tại trong DB
    * Input: id = '123'
    * Expected Output: 
@@ -55,7 +55,7 @@ describe('BaseService.findOne() findOne method', () => {
   });
 
   /**
-   * Test Case TC002: Tìm bản ghi không tồn tại
+   * Test Case TC-BS-FO-002: Tìm bản ghi không tồn tại
    * Mục tiêu: Kiểm tra xử lý khi bản ghi không tồn tại trong DB
    * Input: id = '123'
    * Expected Output: 
@@ -73,7 +73,7 @@ describe('BaseService.findOne() findOne method', () => {
   });
 
   /**
-   * Test Case TC003: Tìm bản ghi với ID không hợp lệ
+   * Test Case TC-BS-FO-003: Tìm bản ghi với ID không hợp lệ
    * Mục tiêu: Kiểm tra xử lý khi ID truyền vào là chuỗi rỗng
    * Input: id = ''
    * Expected Output: 

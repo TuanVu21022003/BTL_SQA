@@ -54,7 +54,7 @@ describe('UserService.remove() remove method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Vô hiệu hóa user thành công
+     * Test Case TC-SV-RM-001: Vô hiệu hóa user thành công
      * Mục tiêu: Kiểm tra việc vô hiệu hóa user hoạt động đúng
      * Input: 
      * - id: '1' (ID hợp lệ của user đang hoạt động)
@@ -84,7 +84,7 @@ describe('UserService.remove() remove method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Vô hiệu hóa user thất bại - User không tồn tại
+     * Test Case TC-SV-RM-002: Vô hiệu hóa user thất bại - User không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user với ID cung cấp
      * Input:
      * - id: '2' (ID không tồn tại)
@@ -102,7 +102,7 @@ describe('UserService.remove() remove method', () => {
     });
 
     /**
-     * Test Case TC003: Vô hiệu hóa user thất bại - Lỗi khi lưu
+     * Test Case TC-SV-RM-003: Vô hiệu hóa user thất bại - Lỗi khi lưu
      * Mục tiêu: Kiểm tra xử lý khi có lỗi trong quá trình lưu thông tin
      * Input:
      * - id: '1'

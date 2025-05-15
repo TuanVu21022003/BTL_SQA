@@ -43,7 +43,7 @@ describe('UserController.remove() remove method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Xóa user thành công
+     * Test Case TC-UC-RM-001: Xóa user thành công
      * Mục tiêu: Kiểm tra việc xóa user thành công và trả về response phù hợp
      * Input: 
      * - user_id_user: '123'
@@ -72,7 +72,7 @@ describe('UserController.remove() remove method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Xóa user không tồn tại
+     * Test Case TC-UC-RM-002: Xóa user không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user cần xóa
      * Input:
      * - user_id_user: '123'
@@ -96,7 +96,7 @@ describe('UserController.remove() remove method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý lỗi không phải Error object
+     * Test Case TC-UC-RM-003: Xử lý lỗi không phải Error object
      * Mục tiêu: Kiểm tra xử lý khi service trả về lỗi không phải Error object
      * Input:
      * - user_id_user: '123'

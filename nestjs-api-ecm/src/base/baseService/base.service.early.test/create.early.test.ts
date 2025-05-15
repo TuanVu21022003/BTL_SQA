@@ -46,7 +46,7 @@ describe('BaseService.create() create method', () => {
   });
 
   /**
-   * Test Case TC001: Tạo bản ghi mới thành công
+   * Test Case TC-BS-CR-001: Tạo bản ghi mới thành công
    * Mục tiêu: Kiểm tra tạo bản ghi mới khi chưa tồn tại
    * Input: 
    * - data: { name: 'New Record' }
@@ -75,7 +75,7 @@ describe('BaseService.create() create method', () => {
   });
 
   /**
-   * Test Case TC002: Xử lý trường hợp bản ghi đã tồn tại
+   * Test Case TC-BS-CR-002: Xử lý trường hợp bản ghi đã tồn tại
    * Mục tiêu: Kiểm tra xử lý khi tạo bản ghi đã tồn tại
    * Input:
    * - data: { name: 'Existing Record' }
@@ -98,7 +98,7 @@ describe('BaseService.create() create method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý dữ liệu rỗng
+     * Test Case TC-BS-CR-003: Xử lý dữ liệu rỗng
      * Mục tiêu: Kiểm tra khả năng xử lý khi input là object rỗng
      * Input:
      * - data: {}

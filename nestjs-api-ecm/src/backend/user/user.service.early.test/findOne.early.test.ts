@@ -52,7 +52,7 @@ describe('UserService.findOne() findOne method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case TC001: Tìm user thành công theo ID hợp lệ
+     * Test Case TC-SV-FO-001: Tìm user thành công theo ID hợp lệ
      * Mục tiêu: Kiểm tra việc tìm kiếm user theo ID hoạt động đúng
      * Input: 
      * - id: '123' (ID hợp lệ)
@@ -80,7 +80,7 @@ describe('UserService.findOne() findOne method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case TC002: Tìm user thất bại - Không tìm thấy user
+     * Test Case TC-SV-FO-002: Tìm user thất bại - Không tìm thấy user
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user với ID cung cấp
      * Input:
      * - id: '999' (ID không tồn tại)
@@ -98,7 +98,7 @@ describe('UserService.findOne() findOne method', () => {
     });
 
     /**
-     * Test Case TC003: Tìm user thất bại - Lỗi không mong muốn
+     * Test Case TC-SV-FO-003: Tìm user thất bại - Lỗi không mong muốn
      * Mục tiêu: Kiểm tra xử lý khi có lỗi phát sinh từ repository
      * Input:
      * - id: '123'

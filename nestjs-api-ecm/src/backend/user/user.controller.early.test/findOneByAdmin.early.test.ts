@@ -43,7 +43,7 @@ describe('UserController.findOneByAdmin() findOneByAdmin method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Admin tìm kiếm user với ID hợp lệ
+     * Test Case TC-UC-FOBA-001: Admin tìm kiếm user với ID hợp lệ
      * Mục tiêu: Kiểm tra việc admin tìm kiếm user thành công
      * Input: 
      * - userId: '123'
@@ -71,7 +71,7 @@ describe('UserController.findOneByAdmin() findOneByAdmin method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Admin tìm kiếm user không tồn tại
+     * Test Case TC-UC-FOBA-002: Admin tìm kiếm user không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user
      * Input:
      * - userId: '999' (ID không tồn tại)
@@ -93,7 +93,7 @@ describe('UserController.findOneByAdmin() findOneByAdmin method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý ngoại lệ không phải Error
+     * Test Case TC-UC-FOBA-003: Xử lý ngoại lệ không phải Error
      * Mục tiêu: Kiểm tra xử lý khi service trả về exception không phải Error
      * Input:
      * - userId: '999'

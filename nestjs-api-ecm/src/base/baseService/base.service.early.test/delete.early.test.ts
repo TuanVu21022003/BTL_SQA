@@ -35,7 +35,7 @@ describe('BaseService.delete() delete method', () => {
   });
 
   /**
-   * Test Case TC001: Xóa bản ghi thành công
+   * Test Case TC-BS-DL-001: Xóa bản ghi thành công
    * Mục tiêu: Kiểm tra xóa bản ghi khi bản ghi tồn tại
    * Input: id = '123'
    * Expected Output: Bản ghi được xóa thành công
@@ -57,7 +57,7 @@ describe('BaseService.delete() delete method', () => {
   });
 
   /**
-   * Test Case TC002: Xóa bản ghi không tồn tại
+   * Test Case TC-BS-DL-002: Xóa bản ghi không tồn tại
    * Mục tiêu: Kiểm tra xử lý khi xóa bản ghi không tồn tại
    * Input: id = '123'
    * Expected Output: Throw error với message 'RECORD NOT FOUND!'
@@ -75,7 +75,7 @@ describe('BaseService.delete() delete method', () => {
   });
 
   /**
-   * Test Case TC003: Xử lý lỗi khi xóa bản ghi
+   * Test Case TC-BS-DL-003: Xử lý lỗi khi xóa bản ghi
    * Mục tiêu: Kiểm tra xử lý khi repository.delete gặp lỗi
    * Input: id = '123'
    * Expected Output: Throw error với message 'Delete failed'

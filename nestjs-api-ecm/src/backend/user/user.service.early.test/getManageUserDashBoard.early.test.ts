@@ -46,7 +46,7 @@ describe('UserService.getManageUserDashBoard() getManageUserDashBoard method', (
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Lấy thống kê user thành công
+     * Test Case TC-SV-GMUDB-001: Lấy thống kê user thành công
      * Mục tiêu: Kiểm tra việc lấy số liệu thống kê user hoạt động đúng
      * Input: 
      * - totalUsers: 100
@@ -90,7 +90,7 @@ describe('UserService.getManageUserDashBoard() getManageUserDashBoard method', (
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Xử lý trường hợp không có user nào
+     * Test Case TC-SV-GMUDB-002: Xử lý trường hợp không có user nào
      * Mục tiêu: Kiểm tra xử lý khi hệ thống không có user nào
      * Input:
      * - Tất cả các số liệu đều là 0
@@ -119,7 +119,7 @@ describe('UserService.getManageUserDashBoard() getManageUserDashBoard method', (
     });
 
     /**
-     * Test Case TC003: Xử lý lỗi từ database
+     * Test Case TC-SV-GMUDB-003: Xử lý lỗi từ database
      * Mục tiêu: Kiểm tra xử lý khi có lỗi phát sinh từ database
      * Input:
      * - Repository throw error với message 'Database error'

@@ -43,7 +43,7 @@ describe('BaseService.update() update method', () => {
   });
 
   /**
-   * Test Case TC001: Cập nhật bản ghi thành công
+   * Test Case TC-BS-UD-001: Cập nhật bản ghi thành công
    * Mục tiêu: Kiểm tra cập nhật bản ghi khi bản ghi tồn tại trong DB
    * Input: 
    * - id: '1'
@@ -71,7 +71,7 @@ describe('BaseService.update() update method', () => {
   });
 
   /**
-   * Test Case TC002: Cập nhật bản ghi không tồn tại
+   * Test Case TC-BS-UD-002: Cập nhật bản ghi không tồn tại
    * Mục tiêu: Kiểm tra xử lý khi bản ghi cần cập nhật không tồn tại
    * Input:
    * - id: '1'
@@ -93,7 +93,7 @@ describe('BaseService.update() update method', () => {
   });
 
   /**
-   * Test Case TC003: Cập nhật một phần bản ghi
+   * Test Case TC-BS-UD-003: Cập nhật một phần bản ghi
    * Mục tiêu: Kiểm tra cập nhật một phần thuộc tính của bản ghi
    * Input:
    * - id: '1'

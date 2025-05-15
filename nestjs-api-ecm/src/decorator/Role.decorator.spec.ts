@@ -19,7 +19,7 @@ import { Roles } from './Role.decorator';
 describe('Roles decorator', () => {
 
   /**
-   * Test Case TC001: Kiểm tra định nghĩa metadata roles trên method
+   * Test Case TC-DC-R-001: Kiểm tra định nghĩa metadata roles trên method
    * Mục tiêu: Verify decorator có thể gán roles metadata cho một method
    * Input: 
    * - Decorator @Roles('admin', 'user') được áp dụng cho method
@@ -45,7 +45,7 @@ describe('Roles decorator', () => {
   });
 
   /**
-   * Test Case TC002: Kiểm tra trường hợp không có roles được định nghĩa
+   * Test Case TC-DC-R-002: Kiểm tra trường hợp không có roles được định nghĩa
    * Mục tiêu: Verify hành vi khi method không được trang trí bởi @Roles
    * Input: 
    * - Method không có decorator @Roles

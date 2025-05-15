@@ -60,7 +60,7 @@ describe('UserController.findAllBySearch() findAllBySearch method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case TC001: Tìm kiếm users với tham số hợp lệ
+     * Test Case TC-UC-FABS-001: Tìm kiếm users với tham số hợp lệ
      * Mục tiêu: Kiểm tra việc tìm kiếm users với các tham số tìm kiếm hợp lệ
      * Input: 
      * - page: 1
@@ -95,7 +95,7 @@ describe('UserController.findAllBySearch() findAllBySearch method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case TC002: Xử lý tham số tìm kiếm rỗng
+     * Test Case TC-UC-FABS-002: Xử lý tham số tìm kiếm rỗng
      * Mục tiêu: Kiểm tra xử lý khi không có tham số tìm kiếm
      * Input:
      * - page: 1
@@ -118,7 +118,7 @@ describe('UserController.findAllBySearch() findAllBySearch method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý lỗi từ service
+     * Test Case TC-UC-FABS-003: Xử lý lỗi từ service
      * Mục tiêu: Kiểm tra xử lý khi service throw Error
      * Input:
      * - page: 1
@@ -140,7 +140,7 @@ describe('UserController.findAllBySearch() findAllBySearch method', () => {
     });
 
     /**
-     * Test Case TC004: Xử lý tham số phân trang không hợp lệ
+     * Test Case TC-UC-FABS-004: Xử lý tham số phân trang không hợp lệ
      * Mục tiêu: Kiểm tra xử lý khi page và limit có giá trị không hợp lệ
      * Input:
      * - page: -1

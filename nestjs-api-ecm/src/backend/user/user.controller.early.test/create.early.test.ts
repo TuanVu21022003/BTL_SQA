@@ -56,7 +56,7 @@ describe('UserController.create() create method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC-UC-001: Tạo user thành công
+     * Test Case TC-UC-CR-001: Tạo user thành công
      * Mục tiêu: Kiểm tra việc tạo user mới thành công
      * Input: MockCreateUserDto với dữ liệu hợp lệ
      * Expected Output: responseHandler.ok với thông tin user đã tạo
@@ -83,7 +83,7 @@ describe('UserController.create() create method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC-UC-002: Xử lý lỗi từ service
+     * Test Case TC-UC-CR-002: Xử lý lỗi từ service
      * Mục tiêu: Kiểm tra xử lý khi service throw Error
      * Input: MockCreateUserDto và service ném ra lỗi
      * Expected Output: responseHandler.error với message lỗi
@@ -106,7 +106,7 @@ describe('UserController.create() create method', () => {
     });
 
     /**
-     * Test Case TC-UC-003: Xử lý ngoại lệ không phải Error
+     * Test Case TC-UC-CR-003: Xử lý ngoại lệ không phải Error
      * Mục tiêu: Kiểm tra xử lý khi service throw object không phải Error
      * Input: MockCreateUserDto và service ném ra object
      * Expected Output: responseHandler.error với message được stringify

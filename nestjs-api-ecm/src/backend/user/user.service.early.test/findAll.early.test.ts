@@ -52,7 +52,7 @@ describe('UserService.findAll() findAll method', () => {
    */
   describe('Happy paths', () => {
     /**
-     * Test Case TC001: Lấy danh sách user thành công
+     * Test Case TC-SV-FA-001: Lấy danh sách user thành công
      * Mục tiêu: Kiểm tra việc lấy danh sách user với tham số phân trang hợp lệ
      * Input: 
      * - page: 1 (trang hiện tại)
@@ -92,7 +92,7 @@ describe('UserService.findAll() findAll method', () => {
    */
   describe('Edge cases', () => {
     /**
-     * Test Case TC002: Lấy danh sách user thất bại - Page không hợp lệ
+     * Test Case TC-SV-FA-002: Lấy danh sách user thất bại - Page không hợp lệ
      * Mục tiêu: Kiểm tra xử lý khi tham số page < 1
      * Input:
      * - page: 0 (không hợp lệ)
@@ -112,7 +112,7 @@ describe('UserService.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC003: Lấy danh sách user thất bại - Limit không hợp lệ
+     * Test Case TC-SV-FA-003: Lấy danh sách user thất bại - Limit không hợp lệ
      * Mục tiêu: Kiểm tra xử lý khi tham số limit < 1
      * Input:
      * - page: 1
@@ -132,7 +132,7 @@ describe('UserService.findAll() findAll method', () => {
     });
 
     /**
-     * Test Case TC004: Lấy danh sách user thất bại - Không tìm thấy user
+     * Test Case TC-SV-FA-004: Lấy danh sách user thất bại - Không tìm thấy user
      * Mục tiêu: Kiểm tra xử lý khi không có user nào trong hệ thống
      * Input:
      * - page: 1

@@ -42,7 +42,7 @@ describe('UserController.findOne() findOne method', () => {
    */
   describe('Happy Paths', () => {
     /**
-     * Test Case TC001: Tìm kiếm user với ID hợp lệ
+     * Test Case TC-UC-FO-001: Tìm kiếm user với ID hợp lệ
      * Mục tiêu: Kiểm tra việc tìm kiếm user thành công với ID tồn tại
      * Input: 
      * - mockUserId: '123'
@@ -71,7 +71,7 @@ describe('UserController.findOne() findOne method', () => {
    */
   describe('Edge Cases', () => {
     /**
-     * Test Case TC002: Tìm kiếm user không tồn tại
+     * Test Case TC-UC-FO-002: Tìm kiếm user không tồn tại
      * Mục tiêu: Kiểm tra xử lý khi không tìm thấy user
      * Input:
      * - mockUserId: '999' (ID không tồn tại)
@@ -94,7 +94,7 @@ describe('UserController.findOne() findOne method', () => {
     });
 
     /**
-     * Test Case TC003: Xử lý ngoại lệ không phải Error
+     * Test Case TC-UC-FO-003: Xử lý ngoại lệ không phải Error
      * Mục tiêu: Kiểm tra xử lý khi service trả về exception không phải Error
      * Input:
      * - mockUserId: '999'
